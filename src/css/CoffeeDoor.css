@@ -1,0 +1,211 @@
+html{
+  margin: 0px;
+  padding: 0px;
+}
+body{
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+}
+.el-header, .el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  line-height: 60px;
+}
+.cof-aside{
+  background-color:rgb(255, 255, 255);
+  color: #333;
+  width: 30%;
+  height:100%;
+  position: absolute;
+  left: 0px;
+  overflow: hidden;
+}
+#rightel{
+  height: 100%;
+  width: 70%;
+  position: absolute;
+  right: 0px;
+  overflow-x:  hidden;
+  overflow-y: scroll;
+}
+/* 将滚动条隐藏 */
+/* #rightel::-webkit-scrollbar{
+  width: 0px;
+} */
+.el-container .cof-aside .cof-top{
+  height: 20%;
+  width: 100%;
+  line-height: 100px;
+  text-align: center;
+  font-family: Playlist;
+  font-size: 20px;
+  /* background-color: rebeccapurple; */
+}
+.el-container .cof-aside .cof-top .logo{
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  width: 35px;
+}
+.el-container .cof-aside .cof-top .menu{
+  width: 35px;
+  position: absolute;
+  top: 30px;
+  right: 20px;
+}
+.el-container .cof-aside .cof-top .menu,.el-container .cof-aside .cof-main-right .ul-menu:hover{
+  cursor: pointer;
+}
+.el-container .cof-aside .cof-main-right .ul-menu ul li span{
+  letter-spacing: 0px;
+  font-size: 20px;
+}
+.el-container .cof-aside .cof-main-right .ul-menu ul li span:hover{
+  border-bottom:3px solid #409EFF
+}
+/* .el-container .el-aside .cof-main-left{
+  width: 100%;
+  height: 100%;
+} */
+.el-container .cof-aside .cof-main-right{
+  width: 100%;
+  height: 80%;
+}
+.el-container .cof-aside .cof-main-right ul{
+  list-style-type: none;
+  display: block;
+}
+.el-container .cof-aside .cof-main-right .ul-menu{
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  line-height: 40px;
+  font-family: "正楷";
+  font-weight: bolder;
+  font-size: 20px;
+  letter-spacing: 4px
+}
+.el-container .cof-aside .cof-main-right .ul-menu ul{
+  font-family:"黑体";
+  font-weight: 200;
+  font-size:20px;
+  line-height: 30px;
+}
+.el-container .cof-aside .cof-font{
+  font-family: Yangrendong;
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  height: 60%;
+  line-height: 50px;
+  margin: 0 auto;
+  position: relative;
+  top: 20%;
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+/* #rightel .el-carousel {
+  width: 100%;
+  padding-bottom: 30%;
+  height: 0;
+} */
+#rightel .el-carousel .el-carousel__container{
+  width: 100%;
+  padding-bottom: 35%;
+  height: 0;
+}
+#rightel .cof-main-featured{
+  width: 100%;
+  padding-bottom: 26.6%;
+  height: 0;
+  overflow: hidden;
+  background:  rgb(247, 247, 247);
+}
+#rightel .cof-main-featured div{
+  width: 30%;
+  margin: 1.6%;
+  float: left;
+  padding-bottom: 23.4%;
+  height: 0;
+}
+#rightel .cof-main-Main{
+  width: 100%;
+  height: 300px;
+  text-align: center;
+  margin-top: 40px;
+  font-family: Yangrendong;
+  font-size: 25px;
+  background-color: white;
+  line-height: 40px;
+}
+#rightel .cof-main-Main font{
+  font-family: "正楷";
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+#rightel .cof-main-featured .cof-main-featured-one{
+  background: url(https://i2.tiimg.com/715304/20ba4d2ca2a9d663.jpg) no-repeat  center;
+  background-size: cover;
+}
+#rightel .cof-main-featured .cof-main-featured-two{
+  background: url(https://i1.fuimg.com/715304/3b7837a51efb99f9.png) no-repeat  center;
+  background-size: cover;
+}
+#rightel .cof-main-featured .cof-main-featured-three{
+  background: url(https://i2.tiimg.com/715304/1a77c4b462060a8c.jpg) no-repeat  center;
+  background-size: cover;
+}
+#rightel .cof-main-featured div:hover{
+  box-shadow: 5px 5px 5px #ccc;
+  z-index: 10;
+  position: relative;
+  top:-2px;
+  cursor: pointer;
+}
+.el-drawer{
+  padding-right: 50px;
+  overflow-y: scroll;
+}
+.el-drawer .el-form{
+  margin: auto;
+  margin-top: 20px;
+}
+.el-drawer .el-form .cof-title{
+  text-align: center;
+  display: block;
+  height: 50px;
+  font-family: Playlist;
+}
+/* 将滑轮不显示 */
+.el-drawer::-webkit-scrollbar{
+  width: 0px;
+}
+@font-face{
+  font-family: "Playlist";
+  src: url("../font/Playlist.ttf");
+}
+@font-face{
+  font-family: "Yangrendong";
+  src: url("../font/Zhushiti.ttf");
+}
+@font-face{
+  font-family: "Maoziti";
+  src:url("../font/Mao.ttf");
+}
+@font-face{
+  font-family: "Cukai";
+  src:url("../font/CuKai.ttf");
+}
