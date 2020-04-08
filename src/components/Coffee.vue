@@ -27,7 +27,7 @@
       <transition name="el-fade-in">
       <div class="cof-main-right" v-show="!showldiv">
           <ul class="ul-menu">
-            <li>我的账户</li>
+            <li>{{ this.sessionName }}</li>
             <li>菜单
               <ul>
                   <li><span>咖啡</span></li><li><span>美食</span></li><li><span>饮料</span></li><li><span>商品</span></li>
@@ -140,7 +140,7 @@
   </el-container>
 </template>
 <script>
-// import axios from 'axios'
+import { Message } from 'element-ui'
 export default{
   data () {
     return {
@@ -157,6 +157,7 @@ export default{
       crosspic: require('../picture/Cross.png'),
       logopic: require('../picture/coffeelogo.png'),
       listpic: [],
+      sessionName: '我的账户',
       form: {
         name: '',
         region: '',
@@ -241,15 +242,50 @@ export default{
       };
     },
     onlog () {
-      this.$axios.post('/GsfInit/Login', { // 还可以直接把参数拼接在url后边
-        params: {
-          userid: 'string',
-          pwd: 'string'
+      // eslint-disable-next-line no-unused-vars
+      var that = this
+      var params = {
+        'userid': this.logform.name,
+        'pwd': this.logform.password
+      }
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+        data: params,
+        dataType: 'json',
+        success: function (response) {
+          var i = response.result.items
+          if (i.length === 0) {
+            Message.error('账号或者密码是错误的,请您再思考思考')
+          } else {
+            if (i[0].resource === '男') {
+              Message({
+                message: '欢迎您' + i[0].name + '先生',
+                type: 'success',
+                onClose () {
+                  that.sessionName = i[0].name
+                  that.showldiv = false
+                  that.ltrdrawer = false
+                  that.flag = false
+                }
+              })
+            } else {
+              Message({
+                message: '欢迎您' + i[0].name + '女士',
+                type: 'success',
+                onClose () {
+                  that.sessionName = i[0].name
+                  that.showldiv = false
+                  that.ltrdrawer = false
+                  that.flag = false
+                }
+              })
+            }
+          }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert('XMLHttpRequest:' + XMLHttpRequest.status + ',textStatus:' + XMLHttpRequest.readyState + ',errorThrown:' + textStatus)
         }
-      }).then(function (res) {
-        alert(res.data)
-      }).catch(function (error) {
-        console.log(error)
       })
     }
   },
