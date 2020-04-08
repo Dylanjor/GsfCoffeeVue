@@ -1,5 +1,6 @@
 <style>
 @import url("../css/CoffeeDoor.css");
+
 </style>
 
 <template>
@@ -33,7 +34,6 @@
               </ul>
               </li>
           </ul>
-          <!-- <img :src="coffeeface" width="100%"> -->
       </div>
       </transition>
     </div>
@@ -140,6 +140,7 @@
   </el-container>
 </template>
 <script>
+// import axios from 'axios'
 export default{
   data () {
     return {
@@ -155,7 +156,6 @@ export default{
       menupic: require('../picture/Menu.png'),
       crosspic: require('../picture/Cross.png'),
       logopic: require('../picture/coffeelogo.png'),
-      coffeeface: require('../picture/Coffee-Face.jpg'),
       listpic: [],
       form: {
         name: '',
@@ -241,7 +241,16 @@ export default{
       };
     },
     onlog () {
-    // 登录
+      this.$axios.post('/GsfInit/Login', { // 还可以直接把参数拼接在url后边
+        params: {
+          userid: 'string',
+          pwd: 'string'
+        }
+      }).then(function (res) {
+        alert(res.data)
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   },
   mounted () {
