@@ -9,14 +9,14 @@
     <div width="30%" class="cof-aside">
       <div class="cof-top" id="cof-Top">
         <img class="logo" :src="logopic">
-        G S F
-        <img class="menu" v-on:click= "flag=!flag,showldiv=!showldiv" :src="flag?menupic:crosspic">
+        Coffee
+        <img class="menu" v-on:click= "changeuser" :src="flag?menupic:crosspic">
         <!-- <i class="el-icon-s-operation,menu"></i> -->
       </div>
       <!--最初始的样子 淡入淡出-->
       <transition name="el-fade-in">
         <!-- <div class="cof-main-left" > -->
-        <div class="cof-font" id="cof-Font" v-show="showldiv">
+        <div class="cof-font" id="cof-Font" v-show="showldiv == 0">
           惬意生活，来杯咖啡
           <br>
           <el-button icon="el-icon-user" type="primary" plain @click ="ltrdrawer = true">登录</el-button>
@@ -25,7 +25,17 @@
       <!-- </div> -->
       </transition>
       <transition name="el-fade-in">
-      <div class="cof-main-right" v-show="!showldiv">
+        <!-- <div class="cof-main-left" > -->
+        <div class="cof-font" v-show="showldiv == 1">
+          账  号：{{this.sessionNum}}
+          <br>
+          用户名:{{this.sessionName}}
+          <br>
+        </div>
+      <!-- </div> -->
+      </transition>
+      <transition name="el-fade-in">
+      <div class="cof-main-right" v-show="showldiv == 2">
           <ul class="ul-menu">
             <!-- <li>{{ this.sessionName }}</li> -->
             <li>菜单
@@ -46,16 +56,29 @@
             <img :src='item' width="100%" height="100%">
           </el-carousel-item>
         </el-carousel>
+        <div class="cof-main-Main">
+          Coffee<br>
+          <font>
+            燕子飞回来了秋天是不是要开始了
+          </font>
+        </div>
+        <div class="cof-main-Introduction">
+          <!-- 网站简介 -->
+          <el-steps :active="1" align-center>
+            <el-step title="念头" description="刚开始有一些念头"></el-step>
+            <el-step title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
+            <el-step title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
+            <el-step title="准备" description="确立装修风格与营销风格"></el-step>
+          </el-steps>
+        </div>
         <div class="cof-main-featured">
           <div class="cof-main-featured-one"></div>
           <div class="cof-main-featured-two"></div>
           <div class="cof-main-featured-three"></div>
         </div>
-        <div class="cof-main-Main">
-          秋天的燕子<br>
-          <font>
-            燕子飞回来了秋天是不是要开始了
-          </font>
+        <el-divider content-position="left">Coffee</el-divider>
+        <div class="cof-main-big-img">
+          <!-- <font>活动介绍</font> -->
         </div>
       <!-- </el-main> -->
     </el-main>
@@ -157,7 +180,7 @@ export default{
     return {
       flag: true,
       loading: false,
-      showldiv: true,
+      showldiv: 0,
       showmain: true,
       drawer: false,
       ltrdrawer: false,
@@ -170,6 +193,7 @@ export default{
       logopic: require('../picture/coffeelogo.png'),
       listpic: [],
       sessionName: '',
+      sessionNum: '',
       form: {
         name: '',
         region: '青岛',
@@ -264,9 +288,12 @@ export default{
                         type: 'info',
                         message: `编号: ${response.result}`
                       })
+                      that.sessionName = that.form.name
+                      that.sessionNum = response.result
                       that.$refs['form'].resetFields()
                       that.drawer = false
                       that.loading = false
+                      that.showldiv = 1
                     }
                   })
                 }
@@ -330,8 +357,8 @@ export default{
                 Message.error('账号或者密码是错误的,请您再思考思考')
               } else {
                 that.ltrdrawer = false
-                that.showldiv = false
-                that.flag = false
+                that.showldiv = 1
+                that.sessionNum = i[0].numbering
                 that.sessionName = i[0].name
                 if (i[0].resource === '男') {
                   Message({
@@ -355,6 +382,19 @@ export default{
           return false
         }
       })
+    },
+    // 改变页面信息从登录
+    changeuser () {
+      this.flag = !this.flag
+      if (this.showldiv === 0 && this.sessionName === '') {
+        this.showldiv = 2
+      } else if (this.showldiv === 2 && this.sessionName === '') {
+        this.showldiv = 0
+      } else if (this.showldiv === 2 && this.sessionName !== '') {
+        this.showldiv = 1
+      } else if (this.showldiv === 1) {
+        this.showldiv = 2
+      }
     }
   },
   // 延迟加载
