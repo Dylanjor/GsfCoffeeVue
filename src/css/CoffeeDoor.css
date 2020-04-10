@@ -22,12 +22,12 @@ body{
   left: 0px;
   overflow: hidden;
 }
-#rightel{
+#rightel,#rightcoffee{
   height: 100%;
   width: 70%;
   position: absolute;
   right: 0px;
-  overflow-x:  hidden;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 /* 将滚动条隐藏 */

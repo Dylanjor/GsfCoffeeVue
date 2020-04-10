@@ -5,10 +5,10 @@
 
 <template>
   <el-container>
-    <!--左侧不可滑动-->
+  <!--左侧不可滑动-->
     <div width="30%" class="cof-aside">
       <div class="cof-top" id="cof-Top">
-        <img class="logo" :src="logopic">
+        <img class="logo" :src="logopic" @click="changemainright(0)">
         Coffee
         <img class="menu" v-on:click= "changeuser" :src="flag?menupic:crosspic">
         <!-- <i class="el-icon-s-operation,menu"></i> -->
@@ -27,7 +27,7 @@
       <transition name="el-fade-in">
         <!-- <div class="cof-main-left" > -->
         <div class="cof-font" v-show="showldiv == 1">
-          账  号：{{this.sessionNum}}
+          账  号:{{this.sessionNum}}
           <br>
           用户名:{{this.sessionName}}
           <br>
@@ -40,7 +40,10 @@
             <!-- <li>{{ this.sessionName }}</li> -->
             <li>菜单
               <ul>
-                  <li><span>咖啡</span></li><li><span>美食</span></li><li><span>饮料</span></li><li><span>商品</span></li>
+                  <li><i @click="changemainright(1)">咖啡</i></li>
+                  <li><i @click="changemainright(2)">美食</i></li>
+                  <li><i @click="changemainright(3)">饮料</i></li>
+                  <li><i @click="changemainright(4)">商品</i></li>
               </ul>
               </li>
           </ul>
@@ -48,7 +51,7 @@
       </transition>
     </div>
   <!--右侧可滑动-->
-    <el-main id="rightel" v-show="showmain">
+    <el-main id="rightel" v-show="this.showmain == 0">
       <!-- <el-main v-show="showmain"> -->
         <!--卡片走马灯-->
         <el-carousel :interval="4000" type="card">
@@ -80,9 +83,11 @@
         <div class="cof-main-big-img">
           <!-- <font>活动介绍</font> -->
         </div>
-      <!-- </el-main> -->
     </el-main>
-  <!-- 注册右侧出来 -->
+    <el-main id="rightcoffee" v-show="this.showmain == 1">
+      coffee
+    </el-main>
+  <!-- 注册和登录右侧出来 -->
     <el-drawer
       title="我是标题"
       direction="ltr"
@@ -184,7 +189,7 @@ export default{
       flag: true,
       loading: false,
       showldiv: 0,
-      showmain: true,
+      showmain: 0,
       drawer: false,
       ltrdrawer: false,
       passw: 'password',
@@ -398,6 +403,9 @@ export default{
       } else if (this.showldiv === 1) {
         this.showldiv = 2
       }
+    },
+    changemainright (event) {
+      this.showmain = event
     }
   },
   // 延迟加载
