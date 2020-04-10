@@ -113,8 +113,11 @@
       </el-form-item>
       <el-form-item label="店面" prop="region">
         <el-select v-model="form.region" placeholder="店面选择">
-          <el-option label="青岛" value="qingdao"></el-option>
-          <el-option label="烟台" value="yantai"></el-option>
+          <el-option label="青岛" value="青岛"></el-option>
+          <el-option label="烟台" value="烟台"></el-option>
+          <el-option label="杭州" value="杭州"></el-option>
+          <el-option label="上海" value="上海"></el-option>
+          <el-option label="北京" value="北京"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="VIP" prop="delivery">
