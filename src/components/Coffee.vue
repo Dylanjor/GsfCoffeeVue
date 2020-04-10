@@ -87,6 +87,15 @@
     <el-main id="rightcoffee" v-show="this.showmain == 1">
       coffee
     </el-main>
+    <el-main id="rightmeishi" v-show="this.showmain == 2">
+      meishi
+    </el-main>
+    <el-main id="rightyinliao" v-show="this.showmain == 3">
+      yinliao
+    </el-main>
+    <el-main id="rightshangpin" v-show="this.showmain == 4">
+      shangpin
+    </el-main>
   <!-- 注册和登录右侧出来 -->
     <el-drawer
       title="我是标题"

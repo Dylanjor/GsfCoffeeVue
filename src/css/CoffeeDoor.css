@@ -22,7 +22,7 @@ body{
   left: 0px;
   overflow: hidden;
 }
-#rightel,#rightcoffee{
+#rightel,#rightcoffee,#rightmeishi,#rightyinliao,#rightshangpin{
   height: 100%;
   width: 70%;
   position: absolute;
@@ -58,11 +58,12 @@ body{
 .el-container .cof-aside .cof-top .menu,.el-container .cof-aside .cof-main-right .ul-menu:hover{
   cursor: pointer;
 }
-.el-container .cof-aside .cof-main-right .ul-menu ul li span{
+.el-container .cof-aside .cof-main-right .ul-menu ul li i{
   letter-spacing: 0px;
   font-size: 20px;
+  font-style:normal
 }
-.el-container .cof-aside .cof-main-right .ul-menu ul li span:hover{
+.el-container .cof-aside .cof-main-right .ul-menu ul li i:hover{
   border-bottom:3px solid #409EFF
 }
 /* .el-container .el-aside .cof-main-left{
@@ -80,7 +81,7 @@ body{
 .el-container .cof-aside .cof-main-right .ul-menu{
   position: absolute;
   top: 15%;
-  left: 10%;
+  left: 20%;
   line-height: 40px;
   font-family: "正楷";
   font-weight: bolder;
