@@ -161,7 +161,7 @@
         <el-divider content-position="left">All-Coffee</el-divider>
         <span>所有新品</span>
         <div class="rightcoffee-all-coffee" v-for="fit in urlallcoffee" :key="fit">
-          <span class="demonstration">{{ fit.name }}</span>
+          <!-- <span class="demonstration">{{ fit.name }}</span> -->
           <el-image
             style="width: 100px; height: 100px"
             :src="fit.url"
