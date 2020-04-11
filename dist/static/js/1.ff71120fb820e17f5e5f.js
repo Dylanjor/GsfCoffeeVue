@@ -1,0 +1,2 @@
+webpackJsonp([1],{dIqY:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r={render:function(){this.$createElement;this._self._c;return this._m(0)},staticRenderFns:[function(){var t=this.$createElement,e=this._self._c||t;return e("form",[e("fieldset",[e("legend",[this._v("在边框上的字")]),this._v("\r\n可以输入内容："),e("input",{attrs:{type:"text"}}),this._v("\r\n随便输入内容："),e("input",{attrs:{type:"text"}})])])}]},s=n("VU/8")({name:"Register"},r,!1,null,null,null);e.default=s.exports}});
+//# sourceMappingURL=1.ff71120fb820e17f5e5f.js.map

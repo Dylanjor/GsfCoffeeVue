@@ -51,7 +51,7 @@
       </transition>
     </div>
   <!--右侧可滑动-->
-    <el-main id="rightel" v-show="this.showmain == 0">
+    <el-main id="rightel" v-show="this.showmain == 0" lazy>
       <!-- <el-main v-show="showmain"> -->
         <!--卡片走马灯-->
         <el-carousel :interval="4000" type="card">
@@ -85,7 +85,88 @@
         </div>
     </el-main>
     <el-main id="rightcoffee" v-show="this.showmain == 1">
-      coffee
+      <!-- 加个图片 -->
+        <img :src="coffeelistbigimg" width="100%">
+        <div class="rightcoffee-Cherry-blossoms">
+          <span>早樱初绽</span><br>
+          <font>早樱初绽的美好时节怎能错过。浓醇咖啡交织淡雅樱花般的清香，绵密奶泡与樱花风味酱
+          协奏出丝绒般口感，这一杯饱满而清甜不腻的樱花初绽玛奇朵，带来樱花初绽般的清新典
+          雅。而樱花初绽抹茶拿铁樱花般的清香包裹柔滑白巧克力般甜香搭配纯正抹茶，像初春的
+          新叶陪衬粉嫩的花苞，尽享此刻樱开。</font>
+        </div>
+      <!-- 选择性卡片 -->
+        <div class="block">
+          <div class="block-left">
+            <ul>
+              <!--  -->
+              <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==0">
+                  <font>小燕子系列</font><br>
+                  <font style="font-size:10px;color:gray">Swallow Coffee</font>
+              </li>
+              <li class="block-left-one" @click="changecoffeelistpicf(0)" v-if="changecoffeelistpic!=0">
+                  <font>小燕子系列</font><br>
+                  <font style="font-size:10px;color:gray">Swallow Coffee</font>
+              </li>
+              <!--  -->
+              <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==1">
+                  <font>小松鼠系列</font><br>
+                  <font style="font-size:10px;color:gray">Squirrel Coffee</font>
+              </li>
+              <li class="block-left-one" @click="changecoffeelistpicf(1)" v-if="changecoffeelistpic!=1">
+                  <font>小松鼠系列</font><br>
+                  <font style="font-size:10px;color:gray">Squirrel Coffee</font>
+              </li>
+              <!--  -->
+              <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==2">
+                  <font>老鹰系列</font><br>
+                  <font style="font-size:10px;color:gray">Eagle Coffee</font>
+              </li>
+              <li class="block-left-one" @click="changecoffeelistpicf(2)" v-if="changecoffeelistpic!=2">
+                  <font>老鹰系列</font><br>
+                  <font style="font-size:10px;color:gray">Eagle Coffee</font>
+              </li>
+              <!--  -->
+              <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==3">
+                  <font>老虎系列</font><br>
+                  <font style="font-size:10px;color:gray">Tigle Coffee</font>
+              </li>
+              <li class="block-left-one" @click="changecoffeelistpicf(3)" v-if="changecoffeelistpic!=3">
+                  <font>老虎系列</font><br>
+                  <font style="font-size:10px;color:gray">Tigle Coffee</font>
+              </li>
+            </ul>
+          </div>
+          <el-carousel v-show="changecoffeelistpic==0">
+            <el-carousel-item v-for="item in coffeelistpic" :key="item">
+              <img :src="item" width="100%" height="100%">
+            </el-carousel-item>
+          </el-carousel>
+          <el-carousel v-show="changecoffeelistpic==1">
+            <el-carousel-item v-for="item in coffeelistpictwo" :key="item">
+              <img :src="item" width="100%" height="100%">
+            </el-carousel-item>
+          </el-carousel>
+          <el-carousel v-show="changecoffeelistpic==2">
+            <el-carousel-item v-for="item in coffeelistpicthree" :key="item">
+              <img :src="item" width="100%" height="100%">
+            </el-carousel-item>
+          </el-carousel>
+          <el-carousel v-show="changecoffeelistpic==3">
+            <el-carousel-item v-for="item in coffeelistpicfour" :key="item">
+              <img :src="item" width="100%" height="100%">
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      <!-- allCoffee -->
+        <el-divider content-position="left">All-Coffee</el-divider>
+        <span>所有新品</span>
+        <div class="rightcoffee-all-coffee" v-for="fit in urlallcoffee" :key="fit">
+          <span class="demonstration">{{ fit.name }}</span>
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="fit.url"
+            :fit="'contain'"></el-image>
+        </div>
     </el-main>
     <el-main id="rightmeishi" v-show="this.showmain == 2">
       meishi
@@ -250,7 +331,14 @@ export default{
         password: [
           {validator: this.validatePass, message: '请输入密码', trigger: 'blur'}
         ]
-      }
+      },
+      coffeelistpic: [],
+      coffeelistpictwo: [],
+      coffeelistpicthree: [],
+      coffeelistpicfour: [],
+      urlallcoffee: [],
+      coffeelistbigimg: 'https://i2.tiimg.com/715304/6c23b5c2514c989d.png',
+      changecoffeelistpic: 0
     }
   },
   methods: {
@@ -268,6 +356,51 @@ export default{
          'https://i2.tiimg.com/715304/3d05a666162c5531.jpg',
          'https://i2.tiimg.com/715304/46ca868eb0fa445b.jpg',
          'https://i1.fuimg.com/715304/958f42f82a306944.jpg']
+      this.coffeelistpic = [
+        'https://i2.tiimg.com/715304/9bd7366ed88a3aee.jpg',
+        'https://i2.tiimg.com/715304/479c5aaca7818f49.jpg',
+        'https://i2.tiimg.com/715304/87fb69f67e512da1.jpg'
+      ]
+      this.coffeelistpictwo = [
+        'https://i2.tiimg.com/715304/5dde0fd0b012c5fc.jpg',
+        'https://i2.tiimg.com/715304/e686ac376e496800.jpg',
+        'https://i2.tiimg.com/715304/f6a2acf22b044f58.jpg',
+        'https://i2.tiimg.com/715304/a184eefa1554259b.jpg'
+      ]
+      this.coffeelistpicthree = [
+        'https://i2.tiimg.com/715304/5dde0fd0b012c5fc.jpg',
+        'https://i2.tiimg.com/715304/e686ac376e496800.jpg',
+        'https://i2.tiimg.com/715304/f6a2acf22b044f58.jpg',
+        'https://i2.tiimg.com/715304/479c5aaca7818f49.jpg',
+        'https://i2.tiimg.com/715304/87fb69f67e512da1.jpg'
+      ]
+      this.coffeelistpicfour = [
+        'https://i2.tiimg.com/715304/5dde0fd0b012c5fc.jpg',
+        'https://i2.tiimg.com/715304/e686ac376e496800.jpg',
+        'https://i2.tiimg.com/715304/f6a2acf22b044f58.jpg',
+        'https://i2.tiimg.com/715304/0366cd1b09a68981.jpg',
+        'https://i2.tiimg.com/715304/479c5aaca7818f49.jpg',
+        'https://i2.tiimg.com/715304/87fb69f67e512da1.jpg'
+      ]
+      this.urlallcoffee = [
+        {'name': '樱花初绽玛奇朵', url: 'https://i1.fuimg.com/715304/0e12a7e51b0ee459.png'},
+        {'name': '樱花初绽抹茶拿铁', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
+        {'name': '樱花初绽抹茶拿铁', url: 'https://i1.fuimg.com/715304/f8d739e39d9cdb37.png'},
+        {'name': '落樱飘雪冷萃', url: 'https://i1.fuimg.com/715304/c320a11e081c9c01.png'},
+        {'name': '春茶牛乳蛋糕', url: 'https://i1.fuimg.com/715304/0c86864eb80438ef.png'},
+        {'name': '盛樱蛋糕（树莓风味）', url: 'https://i1.fuimg.com/715304/e7e6a5b12584e041.png'},
+        {'name': '粉樱乳酪卷（草莓味）', url: 'https://i1.fuimg.com/715304/c9622e3260d8596d.png'},
+        {'name': '星巴克®春意礼赞综合咖啡豆', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
+        {'name': '星巴克®单一产地系列苏拉维西托拉贾咖啡豆', url: 'https://i1.fuimg.com/715304/444db2fdad7d3300.png'},
+        {'name': '星巴克臻选™肯尼亚 芭拉吉山 咖啡豆', url: 'https://i1.fuimg.com/715304/abb7438baefaabba.png'},
+        {'name': '星巴克臻选™卢旺达 穆洪多咖啡豆', url: 'https://i1.fuimg.com/715304/37759ffb14ba256f.png'},
+        {'name': '星巴克臻选™巴西 加利福尼亚庄园', url: 'https://i1.fuimg.com/715304/807b21584fd6a8f5.png'},
+        {'name': '星巴克臻选™日晒埃塞俄比亚 耶加雪菲 雪冽图咖啡豆', url: 'https://i1.fuimg.com/715304/e7a768a853da2812.png'},
+        {'name': '17oz樱花小鹿款冷饮玻璃杯', url: 'https://i1.fuimg.com/715304/2473fb44c177c0fe.png'},
+        {'name': '12oz粉色野餐水球造型随行杯', url: 'https://i1.fuimg.com/715304/71f38cc9ebf7bcd7.png'},
+        {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://i1.fuimg.com/715304/1702b61ec95d1f65.png'},
+        {'name': '12oz樱花躲猫猫款双层马克杯', url: 'https://i1.fuimg.com/715304/f2991501d6cdc31f.png'}
+      ]
     },
     // 注册提交
     onSubmit () {
@@ -415,6 +548,9 @@ export default{
     },
     changemainright (event) {
       this.showmain = event
+    },
+    changecoffeelistpicf (event) {
+      this.changecoffeelistpic = event
     }
   },
   // 延迟加载
