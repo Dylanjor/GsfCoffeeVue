@@ -49,6 +49,7 @@
       </transition>
     </div>
   <!--右侧可滑动-->
+    <!-- 主页 -->
     <el-main id="rightel" v-show="this.showmain == 0" lazy>
       <!-- <el-main v-show="showmain"> -->
         <!--卡片走马灯-->
@@ -82,6 +83,7 @@
           <!-- <font>活动介绍</font> -->
         </div>
     </el-main>
+    <!-- 咖啡页 -->
     <el-main id="rightcoffee" v-show="this.showmain == 1">
       <!-- 加个图片 -->
         <img :src="coffeelistbigimg" width="100%">
@@ -168,12 +170,15 @@
           </div>
         </div>
     </el-main>
+    <!-- 美食页 -->
     <el-main id="rightmeishi" v-show="this.showmain == 2">
       meishi
     </el-main>
+    <!-- 饮料页 -->
     <el-main id="rightyinliao" v-show="this.showmain == 3">
       yinliao
     </el-main>
+    <!-- 商品页 -->
     <el-main id="rightshangpin" v-show="this.showmain == 4">
       shangpin
     </el-main>
