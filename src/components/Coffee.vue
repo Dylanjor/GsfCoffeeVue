@@ -1,8 +1,6 @@
 <style>
 @import url("../css/CoffeeDoor.css");
-
 </style>
-
 <template>
   <el-container>
   <!--左侧不可滑动-->
