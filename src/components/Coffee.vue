@@ -159,13 +159,15 @@
         </div>
       <!-- allCoffee -->
         <el-divider content-position="left">All-Coffee</el-divider>
-        <span>所有新品</span>
-        <div class="rightcoffee-all-coffee" v-for="fit in urlallcoffee" :key="fit">
-          <!-- <span class="demonstration">{{ fit.name }}</span> -->
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="fit.url"
-            :fit="'contain'"></el-image>
+        <div class="rightcoffee-all-coffee">
+          <font>所有新品</font>
+          <div class="rightcoffee-all-coffee-block" v-for="fit in urlallcoffee" :key="fit.name">
+            <span class="demonstration">{{ fit.name }}</span>
+            <el-image
+              style="width: 100px; height: 100px"
+              :src="fit.url"
+              :fit="'contain'"></el-image>
+          </div>
         </div>
     </el-main>
     <el-main id="rightmeishi" v-show="this.showmain == 2">
@@ -384,7 +386,7 @@ export default{
       ]
       this.urlallcoffee = [
         {'name': '樱花初绽玛奇朵', url: 'https://i1.fuimg.com/715304/0e12a7e51b0ee459.png'},
-        {'name': '樱花初绽抹茶拿铁', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
+        {'name': '樱花初绽抹茶', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
         {'name': '樱花初绽抹茶拿铁', url: 'https://i1.fuimg.com/715304/f8d739e39d9cdb37.png'},
         {'name': '落樱飘雪冷萃', url: 'https://i1.fuimg.com/715304/c320a11e081c9c01.png'},
         {'name': '春茶牛乳蛋糕', url: 'https://i1.fuimg.com/715304/0c86864eb80438ef.png'},
