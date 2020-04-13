@@ -86,6 +86,7 @@
       </el-main>
     <!-- 咖啡页 -->
       <el-main id="rightcoffee" v-show="this.showmain == 1">
+        <el-backtop target=".page-component__scroll .el-scrollbar__wrap" style="z-index:1000"></el-backtop>
         <!-- 加个图片 -->
           <img :src="coffeelistbigimg" width="100%">
           <div class="rightcoffee-Cherry-blossoms">
@@ -323,12 +324,12 @@
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
-    <span>是否要退出当前:{{this.sessionName}}账号</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="quit">确 定</el-button>
-    </span>
-</el-dialog>
+      <span>是否要退出当前:{{this.sessionName}}账号</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="quit">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-container>
 </template>
 <script>
