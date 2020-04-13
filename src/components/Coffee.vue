@@ -620,6 +620,7 @@ export default{
               var i = response.result.items
               if (i.length === 0) {
                 Message.error('账号或者密码是错误的,请您再思考思考')
+                loadingruntime.close()
               } else {
                 that.ltrdrawer = false
                 that.showldiv = 1
@@ -630,19 +631,21 @@ export default{
                     message: '欢迎您' + i[0].name + '先生',
                     type: 'success'
                   })
+                  loadingruntime.close()
                 } else {
                   Message({
                     message: '欢迎您' + i[0].name + '女士',
                     type: 'success'
                   })
+                  loadingruntime.close()
                 }
               }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+              loadingruntime.close()
               alert('XMLHttpRequest:' + XMLHttpRequest.status + ',textStatus:' + XMLHttpRequest.readyState + ',errorThrown:' + textStatus)
             }
           })
-          loadingruntime.close()
         } else {
           console.log('error submit!!')
           return false
