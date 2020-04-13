@@ -268,8 +268,8 @@ body{
 }
 .rightcoffee-all-coffee{
   width: 100%;
-  background-color: rgb(247, 247, 247);
   text-align: center;
+  background-color: rgb(247, 247, 247);
 }
 .rightcoffee-all-coffee font{
   display: block;
@@ -279,7 +279,7 @@ body{
 }
 .rightcoffee-all-coffee-block{
   display: inline-block;
-  width: 100px;
+  width: 150px;
   margin: 5%;
 }
 .rightcoffee-all-coffee-block .demonstration{
@@ -287,7 +287,46 @@ body{
   color: gray;
   display: block;
   width: 100%;
+  height: 40px;
+  line-height: 40px;
 }
+#rightyinliao,#rightmeishi{
+  background-color: rgb(248, 248, 248);
+}
+#rightyinliao .cof-rightyinliaoul,#rightmeishi .cof-rightyinliaoul{
+  list-style: none;
+}
+#rightyinliao span,#rightmeishi  span{
+  font-family: '微软雅黑';
+  color: gray;
+}
+#rightyinliao ul li,#rightmeishi ul li{
+  display: inline-block;
+  width: 150px;
+  margin-left: 100px;
+  margin-bottom: 50px
+}
+#rightyinliao ul li font,#rightmeishi ul li font{
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+#rightyinliao ul li img,#rightmeishi ul li img{
+  width: 150px;
+  box-shadow: 2px 2px 2px rgb(233,233,235);
+  border-radius: 50%;
+}
+#rightyinliao ul li:hover,#rightmeishi ul li:hover{
+  position: relative;
+  top:-1px;
+  cursor: pointer;
+}
+#rightyinliao ul li img:hover,#rightmeishi ul li img:hover {
+  box-shadow:2px 2px 2px 2px gray;
+}
+
 @font-face{
   font-family: "Playlist";
   src: url("../font/Playlist.ttf");
