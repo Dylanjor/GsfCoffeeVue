@@ -1,54 +1,83 @@
-<style>
-@import url("../css/CoffeeDoor.css");
-</style>
+
 <template>
   <el-table
     :data="tableData"
-    border
     style="width: 100%">
     <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
+      type="index"
+      :index="indexMethod">
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
+      label="注册时间"
+      prop="date">
     </el-table-column>
     <el-table-column
-      prop="address"
-      label="地址">
+      label="用户名"
+      prop="name">
+    </el-table-column>
+     <el-table-column
+      label="爱好"
+      prop="type">
+    </el-table-column>
+    <el-table-column
+      label="是否VIP"
+      prop="delivery">
+    </el-table-column>
+     <el-table-column
+      label="电话"
+      prop="tel">
+    </el-table-column>
+    <el-table-column
+      align="right">
+      <template slot="header" slot-scope="scope">
+        <el-input
+          v-model="search"
+          size="mini"
+          placeholder="输入关键字搜索"/>
+      </template>
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
     </el-table-column>
   </el-table>
 </template>
-
-
 <script>
-// 需要单独引用Message
-import { Message } from 'element-ui'
-
-  export default {
+export default {
     data() {
       return {
         tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        }],
+        search: ''
       }
+    },
+    methods: {
+      insertfun(){
+        var that = this
+        this.$.ajax({
+          type: 'POST',
+          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
+          data: params,
+          success: function (response) {
+            that.tableData = response.result
+          }
+        })
+      },
+      handleEdit(index, row) {
+        console.log(index, row);
+      },
+      handleDelete(index, row) {
+        console.log(index, row);
+      }
+    },
+    mounted(){
+      this.insertfun()
     }
   }
 </script>
+

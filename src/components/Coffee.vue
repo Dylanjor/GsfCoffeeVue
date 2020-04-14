@@ -2,341 +2,407 @@
 @import url("../css/CoffeeDoor.css");
 </style>
 <template>
-<!-- 整整一页 -->
-  <el-container>
-  <!--左侧不可滑动-->
-    <div width="30%" class="cof-aside">
-      <!-- 左侧头 -->
-        <div class="cof-top" id="cof-Top">
-          <img class="logo" :src="logopic" @click="changemainright(0)">
-          Coffee
-          <img class="menu" v-on:click= "changeuser" :src="flag?menupic:crosspic">
-          <!-- <i class="el-icon-s-operation,menu"></i> -->
-        </div>
-      <!-- 登陆注册入口-->
-        <transition name="el-fade-in">
-          <div class="cof-font" id="cof-Font" v-show="showldiv == 0">
-            惬意生活，来杯咖啡
-            <br>
-            <el-button icon="el-icon-user" type="primary" plain @click ="ltrdrawer = true">登录</el-button>
-            <el-button icon="el-icon-edit" type="success" plain @click ="drawer = true">注册</el-button>
+  <div>
+    <transition name="el-fade-in">
+      <el-backtop></el-backtop>
+    </transition>
+  <!-- 整整一页 -->
+    <el-container>
+    <!--左侧不可滑动-->
+      <div width="30%" class="cof-aside">
+        <!-- 左侧头 -->
+          <div class="cof-top" id="cof-Top">
+            <img class="logo" :src="logopic" @click="changemainright(0)">
+            Coffee
+            <img class="menu" v-on:click= "changeuser" :src="flag?menupic:crosspic">
+            <!-- <i class="el-icon-s-operation,menu"></i> -->
           </div>
-        </transition>
-      <!-- 登陆后账号页 -->
-        <transition name="el-fade-in">
-          <div class="cof-font" v-show="showldiv == 1">
-            账  号:{{this.sessionNum}}
-            <br>
-            用户名:{{this.sessionName}}
-            <br>
-            <el-button type="text" @click="dialogVisible=true">退出</el-button>
-            <el-button type="text" @click ="goCoffeeRegister= true">修改</el-button>
-          </div>
-        </transition>
-      <!-- 菜单页 -->
-        <transition name="el-fade-in">
-        <div class="cof-main-right" v-show="showldiv == 2">
-            <ul class="ul-menu">
-              <!-- <li>{{ this.sessionName }}</li> -->
-              <li>菜单
-                <ul>
-                    <li><i @click="changemainright(1)">咖啡</i></li>
-                    <li><i @click="changemainright(2)">美食</i></li>
-                    <li><i @click="changemainright(3)">饮料</i></li>
-                    <!-- <li><i @click="changemainright(4)">商品</i></li> -->
-                </ul>
-                </li>
-            </ul>
-        </div>
-        </transition>
-    </div>
-  <!--右侧可滑动-->
-    <!-- 主界面 -->
-      <el-main id="rightel" v-show="this.showmain == 0" lazy>
-        <!-- <el-main v-show="showmain"> -->
-          <!--卡片走马灯-->
-          <el-carousel :interval="4000" type="card">
-            <el-carousel-item v-for="item in listpic" :key="item">
-              <img :src='item' width="100%" height="100%">
-            </el-carousel-item>
-          </el-carousel>
-          <div class="cof-main-Main">
-            Coffee<br>
-            <font>
-              燕子飞回来了秋天是不是要开始了
-            </font>
-          </div>
-          <div class="cof-main-Introduction">
-            <!-- 网站简介 -->
-            <el-steps :active="1" align-center>
-              <el-step title="念头" description="刚开始有一些念头"></el-step>
-              <el-step title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
-              <el-step title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
-              <el-step title="准备" description="确立装修风格与营销风格"></el-step>
-            </el-steps>
-          </div>
-          <div class="cof-main-featured">
-            <div class="cof-main-featured-one"></div>
-            <div class="cof-main-featured-two"></div>
-            <div class="cof-main-featured-three"></div>
-          </div>
-          <el-divider content-position="left">Coffee</el-divider>
-          <div class="cof-main-big-img">
-            <!-- <font>活动介绍</font> -->
-          </div>
-      </el-main>
-    <!-- 咖啡页 -->
-      <el-main id="rightcoffee" v-show="this.showmain == 1">
-        <!-- 加个图片 -->
-          <img :src="coffeelistbigimg" width="100%">
-          <div class="rightcoffee-Cherry-blossoms">
-            <span>早樱初绽</span><br>
-            <font>早樱初绽的美好时节怎能错过。浓醇咖啡交织淡雅樱花般的清香，绵密奶泡与樱花风味酱
-            协奏出丝绒般口感，这一杯饱满而清甜不腻的樱花初绽玛奇朵，带来樱花初绽般的清新典
-            雅。而樱花初绽抹茶拿铁樱花般的清香包裹柔滑白巧克力般甜香搭配纯正抹茶，像初春的
-            新叶陪衬粉嫩的花苞，尽享此刻樱开。</font>
-          </div>
-        <!-- 选择性卡片 -->
-          <div class="block">
-            <div class="block-left">
-              <ul>
-                <!--  -->
-                <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==0">
-                    <font>小燕子系列</font><br>
-                    <font style="font-size:10px;color:gray">Swallow Coffee</font>
-                </li>
-                <li class="block-left-one" @click="changecoffeelistpicf(0)" v-if="changecoffeelistpic!=0">
-                    <font>小燕子系列</font><br>
-                    <font style="font-size:10px;color:gray">Swallow Coffee</font>
-                </li>
-                <!--  -->
-                <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==1">
-                    <font>小松鼠系列</font><br>
-                    <font style="font-size:10px;color:gray">Squirrel Coffee</font>
-                </li>
-                <li class="block-left-one" @click="changecoffeelistpicf(1)" v-if="changecoffeelistpic!=1">
-                    <font>小松鼠系列</font><br>
-                    <font style="font-size:10px;color:gray">Squirrel Coffee</font>
-                </li>
-                <!--  -->
-                <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==2">
-                    <font>老鹰系列</font><br>
-                    <font style="font-size:10px;color:gray">Eagle Coffee</font>
-                </li>
-                <li class="block-left-one" @click="changecoffeelistpicf(2)" v-if="changecoffeelistpic!=2">
-                    <font>老鹰系列</font><br>
-                    <font style="font-size:10px;color:gray">Eagle Coffee</font>
-                </li>
-                <!--  -->
-                <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==3">
-                    <font>老虎系列</font><br>
-                    <font style="font-size:10px;color:gray">Tigle Coffee</font>
-                </li>
-                <li class="block-left-one" @click="changecoffeelistpicf(3)" v-if="changecoffeelistpic!=3">
-                    <font>老虎系列</font><br>
-                    <font style="font-size:10px;color:gray">Tigle Coffee</font>
-                </li>
+        <!-- 登陆注册入口-->
+          <transition name="el-fade-in">
+            <div class="cof-font" id="cof-Font" v-show="showldiv == 0">
+              惬意生活，来杯咖啡
+              <br>
+              <el-button icon="el-icon-user" type="primary" plain @click ="ltrdrawer = true">登录</el-button>
+              <el-button icon="el-icon-edit" type="success" plain @click ="drawer = true">注册</el-button>
+            </div>
+          </transition>
+        <!-- 登陆后账号页 -->
+          <transition name="el-fade-in">
+            <div class="cof-font" v-show="showldiv == 1">
+              账  号:{{this.sessionNum}}
+              <br>
+              用户名:{{this.sessionName}}
+              <br>
+              <el-button type="text" @click="dialogVisible=true">退出</el-button>
+              <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
+            </div>
+          </transition>
+        <!-- 菜单页 -->
+          <transition name="el-fade-in">
+          <div class="cof-main-right" v-show="showldiv == 2">
+              <ul class="ul-menu">
+                <!-- <li>{{ this.sessionName }}</li> -->
+                <li>菜单
+                  <ul>
+                      <li><i @click="changemainright(1)">咖啡</i></li>
+                      <li><i @click="changemainright(2)">美食</i></li>
+                      <li><i @click="changemainright(3)">饮料</i></li>
+                      <!-- <li><i @click="changemainright(4)">商品</i></li> -->
+                  </ul>
+                  </li>
               </ul>
-            </div>
-            <el-carousel v-show="changecoffeelistpic==0">
-              <el-carousel-item v-for="item in coffeelistpic" :key="item">
-                <img :src="item" width="100%" height="100%">
-              </el-carousel-item>
-            </el-carousel>
-            <el-carousel v-show="changecoffeelistpic==1">
-              <el-carousel-item v-for="item in coffeelistpictwo" :key="item">
-                <img :src="item" width="100%" height="100%">
-              </el-carousel-item>
-            </el-carousel>
-            <el-carousel v-show="changecoffeelistpic==2">
-              <el-carousel-item v-for="item in coffeelistpicthree" :key="item">
-                <img :src="item" width="100%" height="100%">
-              </el-carousel-item>
-            </el-carousel>
-            <el-carousel v-show="changecoffeelistpic==3">
-              <el-carousel-item v-for="item in coffeelistpicfour" :key="item">
-                <img :src="item" width="100%" height="100%">
-              </el-carousel-item>
-            </el-carousel>
           </div>
-        <!-- allCoffee -->
-          <el-divider content-position="left">All-Coffee</el-divider>
-          <div class="rightcoffee-all-coffee">
-            <font>所有新品</font>
-            <div class="rightcoffee-all-coffee-block" v-for="fit in urlallcoffee" :key="fit.name">
-              <span class="demonstration">{{ fit.name }}</span>
-              <el-image
-                style="width: 150px; height: 150px"
-                :src="fit.url"
-                :fit="'contain'"></el-image>
+          </transition>
+      </div>
+    <!--右侧可滑动-->
+      <!-- 主界面 -->
+        <el-main id="rightel" v-show="this.showmain == 0" lazy>
+          <!-- <el-main v-show="showmain"> -->
+            <!--卡片走马灯-->
+            <el-carousel :interval="4000" type="card">
+              <el-carousel-item v-for="item in listpic" :key="item">
+                <img :src='item' width="100%" height="100%">
+              </el-carousel-item>
+            </el-carousel>
+            <div class="cof-main-Main">
+              Coffee<br>
+              <font>
+                燕子飞回来了秋天是不是要开始了
+              </font>
             </div>
+            <div class="cof-main-Introduction">
+              <!-- 网站简介 -->
+              <el-steps :active="1" align-center>
+                <el-step title="念头" description="刚开始有一些念头"></el-step>
+                <el-step title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
+                <el-step title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
+                <el-step title="准备" description="确立装修风格与营销风格"></el-step>
+              </el-steps>
+            </div>
+            <div class="cof-main-featured">
+              <div class="cof-main-featured-one"></div>
+              <div class="cof-main-featured-two"></div>
+              <div class="cof-main-featured-three"></div>
+            </div>
+            <el-divider content-position="left">Coffee</el-divider>
+            <div class="cof-main-big-img">
+              <!-- <font>活动介绍</font> -->
+            </div>
+        </el-main>
+      <!-- 咖啡页 -->
+        <el-main id="rightcoffee" v-show="this.showmain == 1">
+          <!-- 加个图片 -->
+            <img :src="coffeelistbigimg" width="100%">
+            <div class="rightcoffee-Cherry-blossoms">
+              <span>早樱初绽</span><br>
+              <font>早樱初绽的美好时节怎能错过。浓醇咖啡交织淡雅樱花般的清香，绵密奶泡与樱花风味酱
+              协奏出丝绒般口感，这一杯饱满而清甜不腻的樱花初绽玛奇朵，带来樱花初绽般的清新典
+              雅。而樱花初绽抹茶拿铁樱花般的清香包裹柔滑白巧克力般甜香搭配纯正抹茶，像初春的
+              新叶陪衬粉嫩的花苞，尽享此刻樱开。</font>
+            </div>
+          <!-- 选择性卡片 -->
+            <div class="block">
+              <div class="block-left">
+                <ul>
+                  <!--  -->
+                  <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==0">
+                      <font>小燕子系列</font><br>
+                      <font style="font-size:10px;color:gray">Swallow Coffee</font>
+                  </li>
+                  <li class="block-left-one" @click="changecoffeelistpicf(0)" v-if="changecoffeelistpic!=0">
+                      <font>小燕子系列</font><br>
+                      <font style="font-size:10px;color:gray">Swallow Coffee</font>
+                  </li>
+                  <!--  -->
+                  <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==1">
+                      <font>小松鼠系列</font><br>
+                      <font style="font-size:10px;color:gray">Squirrel Coffee</font>
+                  </li>
+                  <li class="block-left-one" @click="changecoffeelistpicf(1)" v-if="changecoffeelistpic!=1">
+                      <font>小松鼠系列</font><br>
+                      <font style="font-size:10px;color:gray">Squirrel Coffee</font>
+                  </li>
+                  <!--  -->
+                  <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==2">
+                      <font>老鹰系列</font><br>
+                      <font style="font-size:10px;color:gray">Eagle Coffee</font>
+                  </li>
+                  <li class="block-left-one" @click="changecoffeelistpicf(2)" v-if="changecoffeelistpic!=2">
+                      <font>老鹰系列</font><br>
+                      <font style="font-size:10px;color:gray">Eagle Coffee</font>
+                  </li>
+                  <!--  -->
+                  <li class="block-left-one" style="background:white" v-if="changecoffeelistpic==3">
+                      <font>老虎系列</font><br>
+                      <font style="font-size:10px;color:gray">Tigle Coffee</font>
+                  </li>
+                  <li class="block-left-one" @click="changecoffeelistpicf(3)" v-if="changecoffeelistpic!=3">
+                      <font>老虎系列</font><br>
+                      <font style="font-size:10px;color:gray">Tigle Coffee</font>
+                  </li>
+                </ul>
+              </div>
+              <el-carousel v-show="changecoffeelistpic==0">
+                <el-carousel-item v-for="item in coffeelistpic" :key="item">
+                  <img :src="item" width="100%" height="100%">
+                </el-carousel-item>
+              </el-carousel>
+              <el-carousel v-show="changecoffeelistpic==1">
+                <el-carousel-item v-for="item in coffeelistpictwo" :key="item">
+                  <img :src="item" width="100%" height="100%">
+                </el-carousel-item>
+              </el-carousel>
+              <el-carousel v-show="changecoffeelistpic==2">
+                <el-carousel-item v-for="item in coffeelistpicthree" :key="item">
+                  <img :src="item" width="100%" height="100%">
+                </el-carousel-item>
+              </el-carousel>
+              <el-carousel v-show="changecoffeelistpic==3">
+                <el-carousel-item v-for="item in coffeelistpicfour" :key="item">
+                  <img :src="item" width="100%" height="100%">
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          <!-- allCoffee -->
+            <el-divider content-position="left">All-Coffee</el-divider>
+            <div class="rightcoffee-all-coffee">
+              <font>所有新品</font>
+              <div class="rightcoffee-all-coffee-block" v-for="fit in urlallcoffee" :key="fit.name">
+                <span class="demonstration">{{ fit.name }}</span>
+                <el-image
+                  style="width: 150px; height: 150px"
+                  :src="fit.url"
+                  :fit="'contain'"></el-image>
+              </div>
+            </div>
+        </el-main>
+      <!-- 美食页 -->
+        <el-main id="rightmeishi" v-show="this.showmain == 2">
+          <div>
+            <span>烘培</span>
+            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+              <li v-for="item in meishihongpei" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
           </div>
-      </el-main>
-    <!-- 美食页 -->
-      <el-main id="rightmeishi" v-show="this.showmain == 2">
-        <div>
-          <span>烘培</span>
-          <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-            <li v-for="item in meishihongpei" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <span>手工调制浓缩咖啡</span>
-          <ul class="cof-rightyinliaoul" >
-            <li v-for="item in coffeenongsuo" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-      </el-main>
-    <!-- 饮料页 -->
-      <el-main id="rightyinliao" v-show="this.showmain == 3">
-        <!-- 想着可循环 -->
-        <div>
-          <span>咖啡融合冰淇淋</span>
-          <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-            <li v-for="item in coffeeronghebingjilin" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <span>经典巧克力饮品</span>
-          <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-            <li v-for="item in coffeeqiaokeli" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <span>星巴克冷萃咖啡系列</span>
-          <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-            <li v-for="item in coffeeronghebingjilin" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <span>手工调制浓缩咖啡</span>
-          <ul class="cof-rightyinliaoul" >
-            <li v-for="item in coffeenongsuo" :key="item">
-              <img :src="item.url">
-              <font>{{item.name}}</font>
-            </li>
-          </ul>
-        </div>
-      </el-main>
-    <!-- 商品页 -->
-      <!-- <el-main id="rightshangpin" v-show="this.showmain == 4">
-      </el-main> -->
-  <!-- 注册和登录右侧出来 -->
-  <!-- 注册 -->
-    <el-drawer
-      title="我是标题"
-      direction="ltr"
-      :visible.sync="drawer"
-      :with-header="false">
-      <el-form ref="form" :model="form" :rules="rules"  label-width="80px">
-        <span class="cof-title">G S F</span>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model.trim="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <!-- <el-input type="textarea" v-model="form.desc"></el-input> -->
-          <el-input :type="passw"  v-model.trim="form.password" autocomplete="off">
-            <!-- input中加图标必须要有slot="suffix"属性，不然无法显示图标 -->
-            <i slot="suffix" :class="icon" @click="showPass" ></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="性别" prop="resource">
-          <el-radio-group v-model="form.resource">
-            <el-radio label="男"></el-radio>
-            <el-radio label="女"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="生日" prop="date">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="生日" v-model="form.date" style="width: 100%;" :editable='false'></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="店面" prop="region">
-          <el-select v-model="form.region" placeholder="店面选择">
-            <el-option label="青岛" value="青岛"></el-option>
-            <el-option label="烟台" value="烟台"></el-option>
-            <el-option label="杭州" value="杭州"></el-option>
-            <el-option label="上海" value="上海"></el-option>
-            <el-option label="北京" value="北京"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="VIP" prop="delivery">
-          <el-switch v-model="form.delivery"></el-switch>
-        </el-form-item>
-        <el-form-item label="爱好" prop="type">
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="咖啡" name="type"></el-checkbox>
-            <el-checkbox label="奶茶" name="type"></el-checkbox>
-            <el-checkbox label="书籍" name="type"></el-checkbox>
-            <el-checkbox label="面包" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit" :loading="loading">立即创建</el-button>
-          <el-button @click="drawer=false">取消</el-button>
-        </el-form-item>
-      </el-form>
-    </el-drawer>
-  <!-- 登录 -->
-    <el-drawer
-    title="我是标题"
-    direction="ltr"
-    :visible.sync="ltrdrawer"
-    :with-header="false">
-      <el-form :model="logform" status-icon :rules="logrules" ref="logform" class="demo-ruleForm" label-width="80px">
-        <span class="cof-title">G S F</span>
-        <el-form-item label="账号" prop="numbering"
-        :rules="[
-          { required: true, message: '账号不能为空'},
-          { type: 'number', message: '账号必须为数字值'}
-        ]">
-          <el-input type='numbering' v-model.number="logform.numbering" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-        <el-input :type="logpassw"  v-model.trim="logform.password" autocomplete="off">
-            <i slot="suffix" :class="logicon" @click="showlogPass" ></i>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onlog" v-loading="loading">登录</el-button>
-        <el-button @click="ltrdrawer=false">取消</el-button>
-      </el-form-item>
-      </el-form>
-    </el-drawer>
-  <!-- 提示框Dialog -->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-    <span>是否要退出当前:{{this.sessionName}}账号</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="quit">确 定</el-button>
-    </span>
-</el-dialog>
-  </el-container>
+          <div>
+            <span>手工调制浓缩咖啡</span>
+            <ul class="cof-rightyinliaoul" >
+              <li v-for="item in coffeenongsuo" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+        </el-main>
+      <!-- 饮料页 -->
+        <el-main id="rightyinliao" v-show="this.showmain == 3">
+          <!-- 想着可循环 -->
+          <div>
+            <span>咖啡融合冰淇淋</span>
+            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <span>经典巧克力饮品</span>
+            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+              <li v-for="item in coffeeqiaokeli" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <span>星巴克冷萃咖啡系列</span>
+            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <span>手工调制浓缩咖啡</span>
+            <ul class="cof-rightyinliaoul" >
+              <li v-for="item in coffeenongsuo" :key="item.name">
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+        </el-main>
+      <!-- 商品页 -->
+        <!-- <el-main id="rightshangpin" v-show="this.showmain == 4">
+        </el-main> -->
+    <!-- 注册、登录、修改账户信息 -->
+      <!-- 注册 -->
+        <el-drawer
+          title="注册"
+          direction="ltr"
+          :visible.sync="drawer"
+          :with-header="false">
+          <el-form ref="form" :model="form" :rules="rules"  label-width="80px">
+            <span class="cof-title">G S F</span>
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model.trim="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <!-- <el-input type="textarea" v-model="form.desc"></el-input> -->
+              <el-input :type="passw"  v-model.trim="form.password" autocomplete="off">
+                <!-- input中加图标必须要有slot="suffix"属性，不然无法显示图标 -->
+                <i slot="suffix" :class="icon" @click="showPass" ></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="性别" prop="resource">
+              <el-radio-group v-model="form.resource">
+                <el-radio label="男"></el-radio>
+                <el-radio label="女"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="tel">
+              <el-input v-model.number="form.tel"></el-input>
+            </el-form-item>
+            <el-form-item label="生日" prop="date">
+              <el-col :span="11">
+                <el-date-picker type="date" placeholder="生日" value-format="yyyy-MM-dd" v-model="form.date" style="width: 100%;" :editable='false'></el-date-picker>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="店面" prop="region">
+              <el-select v-model="form.region" placeholder="店面选择">
+                <el-option label="青岛" value="青岛"></el-option>
+                <el-option label="烟台" value="烟台"></el-option>
+                <el-option label="杭州" value="杭州"></el-option>
+                <el-option label="上海" value="上海"></el-option>
+                <el-option label="北京" value="北京"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="VIP" prop="delivery">
+              <el-switch v-model="form.delivery"></el-switch>
+            </el-form-item>
+            <el-form-item label="爱好" prop="type">
+              <el-checkbox-group v-model="form.type">
+                <el-checkbox label="咖啡" name="type"></el-checkbox>
+                <el-checkbox label="奶茶" name="type"></el-checkbox>
+                <el-checkbox label="书籍" name="type"></el-checkbox>
+                <el-checkbox label="面包" name="type"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit" :loading="loading">立即创建</el-button>
+              <el-button @click="drawer=false">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </el-drawer>
+      <!-- 登录 -->
+        <el-drawer
+        title="登录"
+        direction="ltr"
+        :visible.sync="ltrdrawer"
+        :with-header="false">
+          <el-form :model="logform" status-icon :rules="logrules" ref="logform" class="demo-ruleForm" label-width="80px">
+            <span class="cof-title">G S F</span>
+            <el-form-item label="账号" prop="numbering" placeholder="手机号或者编号"
+            :rules="[
+              { required: true, message: '账号不能为空'},
+              { type: 'number', message: '账号必须为数字值'}
+            ]">
+              <el-input type='numbering' v-model.number="logform.numbering" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+            <el-input :type="logpassw"  v-model.trim="logform.password" autocomplete="off">
+                <i slot="suffix" :class="logicon" @click="showlogPass" ></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onlog" v-loading="loading">登录</el-button>
+            <el-button @click="ltrdrawer=false">取消</el-button>
+          </el-form-item>
+          </el-form>
+        </el-drawer>
+      <!-- 修改 -->
+        <el-drawer
+          title="修改"
+          direction="ltr"
+          :visible.sync="udpatedrawer"
+          :with-header="false">
+          <el-form ref="updateform" :model="updateform" :rules="rules"  label-width="80px">
+            <span class="cof-title">G S F</span>
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model.trim="updateform.name"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <!-- <el-input type="textarea" v-model="form.desc"></el-input> -->
+              <el-input :type="passw"  v-model.trim="updateform.password" autocomplete="off">
+                <!-- input中加图标必须要有slot="suffix"属性，不然无法显示图标 -->
+                <i slot="suffix" :class="icon" @click="showPass" ></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="性别" prop="resource">
+              <el-radio-group v-model="updateform.resource">
+                <el-radio label="男"></el-radio>
+                <el-radio label="女"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="tel">
+              <el-input v-model.number="updateform.tel"></el-input>
+            </el-form-item>
+            <el-form-item label="生日" prop="date">
+              <el-col :span="11">
+                <el-date-picker type="date" placeholder="生日" v-model="updateform.date" value-format="yyyy-MM-dd"  style="width: 100%;" :editable='false'></el-date-picker>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="店面" prop="region">
+              <el-select v-model="updateform.region" placeholder="店面选择">
+                <el-option label="青岛" value="青岛"></el-option>
+                <el-option label="烟台" value="烟台"></el-option>
+                <el-option label="杭州" value="杭州"></el-option>
+                <el-option label="上海" value="上海"></el-option>
+                <el-option label="北京" value="北京"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="VIP" prop="delivery">
+              <el-switch v-model="updateform.delivery"></el-switch>
+            </el-form-item>
+            <el-form-item label="爱好" prop="type">
+              <el-checkbox-group v-model="updateform.type">
+                <el-checkbox label="咖啡" name="type"></el-checkbox>
+                <el-checkbox label="奶茶" name="type"></el-checkbox>
+                <el-checkbox label="书籍" name="type"></el-checkbox>
+                <el-checkbox label="面包" name="type"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="udpate" :loading="loading">修改</el-button>
+              <el-button @click="udpatedrawer=false">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </el-drawer>
+    <!-- 提示框Dialog -->
+      <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%">
+        <span>是否要退出当前:{{this.sessionName}}账号</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="quit">确 定</el-button>
+        </span>
+      </el-dialog>
+    </el-container>
+  </div>
 </template>
 <script>
 // 需要单独引用Message
 import { Message } from 'element-ui'
 export default{
   data () {
+    // 密码的判断
     // eslint-disable-next-line no-unused-vars
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -348,6 +414,21 @@ export default{
         callback()
       }
     }
+    // 手机号的正则表达式
+    // eslint-disable-next-line no-unused-vars
+    var checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('手机号不能为空'))
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+        console.log(reg.test(value))
+        if (reg.test(value)) {
+          callback()
+        } else {
+          return callback(new Error('请输入正确的手机号'))
+        }
+      }
+    }
     return {
       flag: true,
       loading: false,
@@ -355,17 +436,21 @@ export default{
       showmain: 0,
       drawer: false,
       ltrdrawer: false,
+      udpatedrawer: false,
       dialogVisible: false,
       passw: 'password',
       logpassw: 'password',
+      udpatedata: '',
       icon: 'el-input__icon el-icon-view',
       logicon: 'el-input__icon el-icon-view',
       menupic: require('../picture/Menu.png'),
       crosspic: require('../picture/Cross.png'),
       logopic: require('../picture/coffeelogo.png'),
       listpic: [],
+      sessionid: '',
       sessionName: '',
       sessionNum: '',
+      sessionPass: '',
       form: {
         name: '',
         region: '青岛',
@@ -373,12 +458,23 @@ export default{
         delivery: false,
         type: [],
         resource: '男',
-        password: ''
+        password: '',
+        tel: ''
       },
       logform: {
         name: '',
         numbering: '',
         password: ''
+      },
+      updateform: {
+        name: '',
+        region: '',
+        date: '',
+        delivery: false,
+        password: '',
+        type: [],
+        resource: '',
+        tel: ''
       },
       rules: {
         name: [
@@ -399,6 +495,10 @@ export default{
         ],
         password: [
           { required: true, validator: this.validatePass, message: '请输入密码', trigger: 'change' }
+        ],
+        tel: [
+          // eslint-disable-next-line standard/object-curly-even-spacing
+          { required: true, validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur'}
         ]
       },
       logrules: {
@@ -496,20 +596,20 @@ export default{
         {name: '浓缩咖啡6', url: 'https://www.starbucks.com.cn/images/products/flat-white.jpg'}
       ]
       this.meishihongpei = [
-        {name: '浓缩咖啡', url: 'https://www.starbucks.com.cn/images/products/american-style-pancakes.jpg'},
+        {name: '浓缩咖啡7', url: 'https://www.starbucks.com.cn/images/products/american-style-pancakes.jpg'},
         {name: '浓缩咖啡1', url: 'https://www.starbucks.com.cn/images/products/blueberry-muffin.jpg'},
         {name: '浓缩咖啡2', url: 'https://www.starbucks.com.cn/images/products/chocolate-muffin.jpg'},
         {name: '浓缩咖啡3', url: 'https://www.starbucks.com.cn/images/products/cinnamon-swirl.jpg'},
         {name: '浓缩咖啡4', url: 'https://www.starbucks.com.cn/images/products/french-butter-croissant.jpg'},
         {name: '浓缩咖啡5', url: 'https://www.starbucks.com.cn/images/products/french-caramel-bread.jpg'},
         {name: '浓缩咖啡6', url: 'https://www.starbucks.com.cn/images/products/hazelnut-croissant.jpg'},
-        {name: '浓缩咖啡', url: 'https://www.starbucks.com.cn/images/products/honey-raisin-scone.jpg'},
-        {name: '浓缩咖啡1', url: 'https://www.starbucks.com.cn/images/products/oat-caramel-pudding-bread.jpg'},
-        {name: '浓缩咖啡2', url: 'https://www.starbucks.com.cn/images/products/premium-chocolate-croissant.jpg'},
-        {name: '浓缩咖啡3', url: 'https://www.starbucks.com.cn/images/products/raisin-scone.jpg'},
-        {name: '浓缩咖啡4', url: 'https://www.starbucks.com.cn/images/products/raisins-walnut-bread.jpg'},
-        {name: '浓缩咖啡5', url: 'https://www.starbucks.com.cn/images/products/red-bean-oats-scone.jpg'},
-        {name: '浓缩咖啡6', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
+        {name: '浓缩咖啡8', url: 'https://www.starbucks.com.cn/images/products/honey-raisin-scone.jpg'},
+        {name: '浓缩咖啡10', url: 'https://www.starbucks.com.cn/images/products/oat-caramel-pudding-bread.jpg'},
+        {name: '浓缩咖啡20', url: 'https://www.starbucks.com.cn/images/products/premium-chocolate-croissant.jpg'},
+        {name: '浓缩咖啡30', url: 'https://www.starbucks.com.cn/images/products/raisin-scone.jpg'},
+        {name: '浓缩咖啡40', url: 'https://www.starbucks.com.cn/images/products/raisins-walnut-bread.jpg'},
+        {name: '浓缩咖啡50', url: 'https://www.starbucks.com.cn/images/products/red-bean-oats-scone.jpg'},
+        {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
       ]
     },
     // 注册提交
@@ -525,6 +625,7 @@ export default{
         'Type': that.form.type.join(), // 将数组转化为字符串join(),字符串转换为数组split(',')
         'Resource': that.form.resource,
         'PassWord': that.form.password,
+        'tel': that.form.tel,
         'Deprecated': false,
         'DeprecatedTime': ''
       }
@@ -536,6 +637,7 @@ export default{
             data: JSON.stringify(registerParams),
             contentType: 'application/json',
             success: function (response) {
+              that.sessionid = response.result // id
               that.$alert('您注册的ID是' + response.result + '。点击确定获取您登录用的账号', '注册成功', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -548,8 +650,9 @@ export default{
                         type: 'info',
                         message: `编号: ${response.result}`
                       })
-                      that.sessionName = that.form.name
-                      that.sessionNum = response.result
+                      that.sessionName = that.form.name // 名称
+                      that.sessionNum = response.result // 编号
+                      that.sessionPass = that.form.password
                       that.$refs['form'].resetFields()
                       that.drawer = false
                       that.loading = false
@@ -627,6 +730,8 @@ export default{
                 that.showldiv = 1
                 that.sessionNum = i[0].numbering
                 that.sessionName = i[0].name
+                that.sessionid = i[0].id
+                that.sessionPass = i[0].passWord
                 if (i[0].resource === '男') {
                   Message({
                     message: '欢迎您' + i[0].name + '先生',
@@ -640,6 +745,7 @@ export default{
                   })
                   loadingruntime.close()
                 }
+                that.logform.password = ''
               }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -675,11 +781,94 @@ export default{
     quit () {
       this.dialogVisible = false
       this.showldiv = 0
+      this.sessionid = ''
       Message({
         message: `${this.sessionName}欢迎您下次光临`,
         type: 'success'
       })
       this.sessionName = ''
+    },
+    udpatedrawermothod () {
+      this.udpatedrawer = true
+      var params = {
+        'Num': this.sessionNum, // 需要用Numbering来登录了
+        'pwd': this.sessionPass
+      }
+      var that = this
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+        data: params,
+        success: function (response) {
+          var i = response.result.items
+          that.udpatedata = {
+            Id: this.sessionid,
+            numbering: this.sessionNum,
+            name: i[0].name,
+            passWord: i[0].passWord,
+            region: i[0].region,
+            date: i[0].date,
+            delivery: i[0].delivery,
+            type: i[0].type,
+            resource: i[0].resource,
+            tel: i[0].tel
+          }
+          that.updateform.region = i[0].region
+          that.updateform.date = i[0].date
+          that.updateform.delivery = i[0].delivery
+          that.updateform.name = i[0].name
+          that.updateform.password = i[0].passWord
+          that.updateform.type = i[0].type.split(',')
+          that.updateform.resource = i[0].resource
+          that.updateform.tel = i[0].tel
+        }
+      })
+    },
+    // 修改账户信息
+    udpate () {
+      this.loading = true
+      var that = this
+      this.$refs['updateform'].validate((valid) => {
+        if (valid) {
+          var udpatedatapost = {
+            Id: this.sessionid,
+            numbering: this.sessionNum,
+            name: that.updateform.name,
+            passWord: that.updateform.password,
+            region: that.updateform.region,
+            Date: that.updateform.date,
+            delivery: that.updateform.delivery,
+            type: that.updateform.type.join(),
+            resource: that.updateform.resource,
+            tel: that.updateform.tel
+          }
+          that.$.ajax({
+            type: 'POST',
+            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Updateasync',
+            data: JSON.stringify(udpatedatapost),
+            contentType: 'application/json',
+            success: function () {
+              that.$message({
+                type: 'success',
+                message: `修改成功编号: ${that.sessionNum}`
+              })
+              that.loading = false
+              that.sessionPass = that.updateform.password
+              that.sessionName = that.updateform.name
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              alert('XMLHttpRequest:' + XMLHttpRequest.status + ',textStatus:' + XMLHttpRequest.readyState + ',errorThrown:' + textStatus)
+              that.loading = false
+            }
+          })
+          that.udpatedrawer = false
+        } else {
+          console.log('error submit!!')
+          that.loading = false
+          return false
+        }
+        that.loading = false
+      })
     }
   },
   // 延迟加载

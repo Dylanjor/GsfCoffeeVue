@@ -12,15 +12,16 @@ const Register = () => import('../components/Register.vue')
 export default new Router({
   mode: 'history',
   routes: [
+    
     {
       path: '/',
-      name: 'Coffee',
-      component: Coffee
-    },
-    {
-      path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/Coffee',
+      name: 'Coffee',
+      component: Coffee
     }
   ],
   base: '/hot/'
