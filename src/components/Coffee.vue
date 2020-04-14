@@ -30,6 +30,7 @@
             用户名:{{this.sessionName}}
             <br>
             <el-button type="text" @click="dialogVisible=true">退出</el-button>
+            <el-button type="text" @click ="goCoffeeRegister= true">修改</el-button>
           </div>
         </transition>
       <!-- 菜单页 -->
@@ -419,7 +420,7 @@ export default{
     }
   },
   methods: {
-    // 跳转页面
+    // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
     goCoffeeRegister () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
