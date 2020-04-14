@@ -111,7 +111,7 @@ public interface IGsfInitAppService: IApplicationService
 ```c#
 {
   "ConnectionStrings": {
-    "Default": "Server=106.15.75.186; Database=GsfCoffeeDb; User=sa; Password=Dlj0622;"
+    "Default": "Server=*******; Database=GsfCoffeeDb; User=sa; Password=******;"
   },
   "App": {
     "ServerRootAddress": "http://localhost:21021/",
@@ -131,8 +131,8 @@ public interface IGsfInitAppService: IApplicationService
 
 > 将发布后的appsetting.json文件中修改
 "ServerRootAddress": "http://localhost:21021/",
-将"http://localhost:21021/"修改为"http://106.15.75.186:8080/"
-然后网站绑定的是两个网址106.15.75.186:8080/，172.17.24.86:8080/
+将"http://localhost:21021/"修改为"http://外网:8080/"
+然后网站绑定的是两个网址 外网:8080/，内网:8080/
 
 > 数据库创建触发器 修改数据时自动修改updatetime为当前时间
 
