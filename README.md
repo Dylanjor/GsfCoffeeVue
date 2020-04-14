@@ -47,6 +47,7 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using GsfCoffee.CoffeeUser;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,40 +56,91 @@ using System.Threading.Tasks;
 
 namespace GsfCoffee.Coffee
 {
-    public class GsfInitAppService: GsfCoffeeAppServiceBase,IGsfInitAppService
+    public class GsfInitAppService : GsfCoffeeAppServiceBase, IGsfInitAppService
     {
         private readonly IRepository<UserTable> _repository;
+
+        Task IGsfInitAppService.Register { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Task<ListResultDto<UserTable>> IGsfInitAppService.Login { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public GsfInitAppService(IRepository<UserTable> repository) {
             _repository = repository;
         }
-
-        int IGsfInitAppService.Main { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         [HttpPost]
         /// <summary>
         /// 注册信息
         /// </summary>
-        public async Task Register(UserTable _userTable)
+        public int Register(UserTable _userTable)
         {
-            var usertable = ObjectMapper.Map<UserTable>(_userTable);
-            await _repository.InsertAsync(usertable);
+            var ustb = ObjectMapper.Map<UserTable>(_userTable);
+            int id = _repository.InsertAndGetId(ustb);
+            return id;
         }
+        [HttpPost]
         /// <summary>
         /// 查询信息 登录
         /// </summary>
         /// <param name="userid">用户名</param>
         /// <param name="pwd">用户密码</param>
         /// <returns></returns>
-        public async Task<ListResultDto<UserTable>> Login(string userid,string pwd)
+        public async Task<ListResultDto<UserTable>> Login(int Num,string pwd)
         {
-            var usertable = _repository
+            var usertable = await _repository
                 .GetAll()
-                .Where(c=>c.Name == userid && c.PassWord == pwd);
+                .Where(c => c.Numbering == Num && c.PassWord == pwd)
+                .ToListAsync();
             return new ListResultDto<UserTable>(ObjectMapper.Map<List<UserTable>>(usertable));
+        }
+        [HttpGet]
+        /// <summary>
+        /// 用id取编码Numbering
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        public async Task<int?> GetByid(int id)
+        {
+            var usertable = await _repository
+                .GetAll()
+                .Where(c => c.Id == id)
+                .ToListAsync();
+            return new ListResultDto<UserTable>(ObjectMapper.Map<List<UserTable>>(usertable)).Items[0].Numbering;
+        }
+        [HttpPost]
+        /// <summary>
+        /// 查询所有的信息 
+        /// 是否是vip 默认为是 
+        /// 是否弃用 默认是否
+        /// </summary>
+        /// <param name="Delivery">是否是vip 默认为是</param>
+        /// <param name="Deprecated">是否弃用 默认是否</param>
+        /// <returns></returns>
+        public async Task<ListResultDto<UserTable>> GetAllasync( bool Delivery = true,bool Deprecated = false) {
+            var usertable = await _repository
+                .GetAll()
+                .Where(c=>c.Delivery==Delivery && c.Deprecated == Deprecated)
+                .ToListAsync();
+            return new ListResultDto<UserTable>(ObjectMapper.Map<List<UserTable>>(usertable));
+        }
+        [HttpPost]
+        /// <summary>
+        /// 修改账户信息
+        /// </summary>
+        /// <param name="_userTable"></param>
+        public async void Updateasync(UserTable _userTable) {
+            try
+            {
+                if (_userTable != null)
+                {
+                    var task = ObjectMapper.Map<UserTable>(_userTable);
+                    await _repository.UpdateAsync(task);
+                }
+            }
+            catch { 
+                
+            }
         }
     }
 }
-
-    
 
 
 //接口 也需要引用IApplicationService

@@ -237,87 +237,87 @@
       <!-- <el-main id="rightshangpin" v-show="this.showmain == 4">
       </el-main> -->
   <!-- 注册和登录右侧出来 -->
-  <!-- 注册 -->
-    <el-drawer
+    <!-- 注册 -->
+      <el-drawer
+        title="我是标题"
+        direction="ltr"
+        :visible.sync="drawer"
+        :with-header="false">
+        <el-form ref="form" :model="form" :rules="rules"  label-width="80px">
+          <span class="cof-title">G S F</span>
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model.trim="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <!-- <el-input type="textarea" v-model="form.desc"></el-input> -->
+            <el-input :type="passw"  v-model.trim="form.password" autocomplete="off">
+              <!-- input中加图标必须要有slot="suffix"属性，不然无法显示图标 -->
+              <i slot="suffix" :class="icon" @click="showPass" ></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="性别" prop="resource">
+            <el-radio-group v-model="form.resource">
+              <el-radio label="男"></el-radio>
+              <el-radio label="女"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="生日" prop="date">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="生日" v-model="form.date" style="width: 100%;" :editable='false'></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="店面" prop="region">
+            <el-select v-model="form.region" placeholder="店面选择">
+              <el-option label="青岛" value="青岛"></el-option>
+              <el-option label="烟台" value="烟台"></el-option>
+              <el-option label="杭州" value="杭州"></el-option>
+              <el-option label="上海" value="上海"></el-option>
+              <el-option label="北京" value="北京"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="VIP" prop="delivery">
+            <el-switch v-model="form.delivery"></el-switch>
+          </el-form-item>
+          <el-form-item label="爱好" prop="type">
+            <el-checkbox-group v-model="form.type">
+              <el-checkbox label="咖啡" name="type"></el-checkbox>
+              <el-checkbox label="奶茶" name="type"></el-checkbox>
+              <el-checkbox label="书籍" name="type"></el-checkbox>
+              <el-checkbox label="面包" name="type"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit" :loading="loading">立即创建</el-button>
+            <el-button @click="drawer=false">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-drawer>
+    <!-- 登录 -->
+      <el-drawer
       title="我是标题"
       direction="ltr"
-      :visible.sync="drawer"
+      :visible.sync="ltrdrawer"
       :with-header="false">
-      <el-form ref="form" :model="form" :rules="rules"  label-width="80px">
-        <span class="cof-title">G S F</span>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model.trim="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <!-- <el-input type="textarea" v-model="form.desc"></el-input> -->
-          <el-input :type="passw"  v-model.trim="form.password" autocomplete="off">
-            <!-- input中加图标必须要有slot="suffix"属性，不然无法显示图标 -->
-            <i slot="suffix" :class="icon" @click="showPass" ></i>
+        <el-form :model="logform" status-icon :rules="logrules" ref="logform" class="demo-ruleForm" label-width="80px">
+          <span class="cof-title">G S F</span>
+          <el-form-item label="账号" prop="numbering"
+          :rules="[
+            { required: true, message: '账号不能为空'},
+            { type: 'number', message: '账号必须为数字值'}
+          ]">
+            <el-input type='numbering' v-model.number="logform.numbering" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+          <el-input :type="logpassw"  v-model.trim="logform.password" autocomplete="off">
+              <i slot="suffix" :class="logicon" @click="showlogPass" ></i>
           </el-input>
         </el-form-item>
-        <el-form-item label="性别" prop="resource">
-          <el-radio-group v-model="form.resource">
-            <el-radio label="男"></el-radio>
-            <el-radio label="女"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="生日" prop="date">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="生日" v-model="form.date" style="width: 100%;" :editable='false'></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="店面" prop="region">
-          <el-select v-model="form.region" placeholder="店面选择">
-            <el-option label="青岛" value="青岛"></el-option>
-            <el-option label="烟台" value="烟台"></el-option>
-            <el-option label="杭州" value="杭州"></el-option>
-            <el-option label="上海" value="上海"></el-option>
-            <el-option label="北京" value="北京"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="VIP" prop="delivery">
-          <el-switch v-model="form.delivery"></el-switch>
-        </el-form-item>
-        <el-form-item label="爱好" prop="type">
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="咖啡" name="type"></el-checkbox>
-            <el-checkbox label="奶茶" name="type"></el-checkbox>
-            <el-checkbox label="书籍" name="type"></el-checkbox>
-            <el-checkbox label="面包" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" :loading="loading">立即创建</el-button>
-          <el-button @click="drawer=false">取消</el-button>
+          <el-button type="primary" @click="onlog" v-loading="loading">登录</el-button>
+          <el-button @click="ltrdrawer=false">取消</el-button>
         </el-form-item>
-      </el-form>
-    </el-drawer>
-  <!-- 登录 -->
-    <el-drawer
-    title="我是标题"
-    direction="ltr"
-    :visible.sync="ltrdrawer"
-    :with-header="false">
-      <el-form :model="logform" status-icon :rules="logrules" ref="logform" class="demo-ruleForm" label-width="80px">
-        <span class="cof-title">G S F</span>
-        <el-form-item label="账号" prop="numbering"
-        :rules="[
-          { required: true, message: '账号不能为空'},
-          { type: 'number', message: '账号必须为数字值'}
-        ]">
-          <el-input type='numbering' v-model.number="logform.numbering" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-        <el-input :type="logpassw"  v-model.trim="logform.password" autocomplete="off">
-            <i slot="suffix" :class="logicon" @click="showlogPass" ></i>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onlog" v-loading="loading">登录</el-button>
-        <el-button @click="ltrdrawer=false">取消</el-button>
-      </el-form-item>
-      </el-form>
-    </el-drawer>
+        </el-form>
+      </el-drawer>
   <!-- 提示框Dialog -->
     <el-dialog
       title="提示"
