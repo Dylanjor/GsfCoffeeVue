@@ -62,9 +62,8 @@ export default {
         this.$.ajax({
           type: 'POST',
           url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
-          data: params,
           success: function (response) {
-            that.tableData = response.result
+            that.tableData = response.result.items
           }
         })
       },
