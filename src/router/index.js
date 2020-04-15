@@ -23,6 +23,7 @@ export default new Router({
       name: 'Coffee',
       component: Coffee
     }
+    
   ],
   base: '/hot/'
 })
