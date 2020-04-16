@@ -35,6 +35,7 @@
               <br>
               <el-button type="text" @click="dialogVisible=true">退出</el-button>
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
+              <el-button type="text" >购物车</el-button>
             </div>
           </transition>
         <!-- 菜单页 -->
