@@ -201,7 +201,6 @@
 
 <script>
 export default {
-<<<<<<< HEAD
     inject:["reload"],
     data() {
       return {
@@ -268,34 +267,5 @@ export default {
       this.insertfun()
     }
     
-=======
-  data () {
-    return {
-      tableData: [{
-      }],
-      search: ''
-    }
-  },
-  methods: {
-    insertfun () {
-      var that = this
-      this.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
-        success: function (response) {
-          that.tableData = response.result.items
-        }
-      })
-    },
-    handleEdit (index, row) {
-      console.log(index, row)
-    },
-    handleDelete (index, row) {
-      console.log(index, row)
-    }
-  },
-  mounted () {
-    this.insertfun()
->>>>>>> 8af2ccb5bffa071aa1050be8e1f4500182892cc4
   }
 </script>
