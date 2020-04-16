@@ -625,7 +625,7 @@ export default{
         'Type': that.form.type.join(), // 将数组转化为字符串join(),字符串转换为数组split(',')
         'Resource': that.form.resource,
         'PassWord': that.form.password,
-        'tel': that.form.tel,
+        'Tel': that.form.tel,
         'Deprecated': false,
         'DeprecatedTime': ''
       }
@@ -721,6 +721,7 @@ export default{
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
             data: params,
             success: function (response) {
+              // alert(JSON.stringify(response.result.items))
               var i = response.result.items
               if (i.length === 0) {
                 Message.error('账号或者密码是错误的,请您再思考思考')
