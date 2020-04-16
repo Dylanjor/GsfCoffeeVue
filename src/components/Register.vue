@@ -201,32 +201,71 @@
 
 <script>
 export default {
-  data () {
-    return {
-      tableData: [{
-      }],
-      search: ''
-    }
-  },
-  methods: {
-    insertfun () {
-      var that = this
-      this.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
-        success: function (response) {
-          that.tableData = response.result.items
-        }
-      })
+    inject:["reload"],
+    data() {
+      return {
+         gridData: [{   
+          commodityId:'',    
+          qty: '',
+          createTime: '',
+          isBought: '',
+          boughtTime: '',
+          founderId:''
+        }],
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        udpatedrawer:false,
+        tableData: [{
+        }],
+        search: '',
+        updateform: {
+          id:'',
+          name: '',
+          region: '',
+          date: '',
+          delivery: false,
+          password: '',
+          type: [],
+          resource: '',
+          tel: ''
+        },
+      }
     },
-    handleEdit (index, row) {
-      console.log(index, row)
+    methods: {   
+      insertfun(){
+        var that = this
+        this.$.ajax({
+          type: 'POST',
+          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
+          success: function (response) {           
+            that.tableData = response.result.items            
+          }          
+        })        
+      },
+      getshoppingDetails(row) {
+        this.dialogFormVisible=true;
+        var that = this
+        // alert(row.id);
+        this.$.ajax({
+          type: 'GET',
+          url:'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId='+row.id ,
+          success: function (response) {
+            // alert(json.stringify(response))
+            that.gridData = response.result.items 
+          }
+        })
+      },
+      handleDelete(index, row) {
+        console.log(index, row);
+      }
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+     checkDetail(val){
+       console.log(val)
+    },  
+  
+    mounted(){
+      this.insertfun()
     }
-  },
-  mounted () {
-    this.insertfun()
+    
   }
 </script>
