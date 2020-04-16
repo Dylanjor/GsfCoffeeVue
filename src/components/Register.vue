@@ -29,7 +29,7 @@
     </el-table-column>
     <el-table-column
       align="right">
-      <template slot="header" slot-scope="scope">
+      <template slot="header">
         <el-input
           v-model="search"
           size="mini"
@@ -49,34 +49,33 @@
 </template>
 <script>
 export default {
-    data() {
-      return {
-        tableData: [{
-        }],
-        search: ''
-      }
-    },
-    methods: {
-      insertfun(){
-        var that = this
-        this.$.ajax({
-          type: 'POST',
-          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
-          success: function (response) {
-            that.tableData = response.result.items
-          }
-        })
-      },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    },
-    mounted(){
-      this.insertfun()
+  data () {
+    return {
+      tableData: [{
+      }],
+      search: ''
     }
+  },
+  methods: {
+    insertfun () {
+      var that = this
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
+        success: function (response) {
+          that.tableData = response.result.items
+        }
+      })
+    },
+    handleEdit (index, row) {
+      console.log(index, row)
+    },
+    handleDelete (index, row) {
+      console.log(index, row)
+    }
+  },
+  mounted () {
+    this.insertfun()
   }
+}
 </script>
-
