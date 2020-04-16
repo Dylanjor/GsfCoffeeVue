@@ -13,16 +13,15 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/Coffee',
       name: 'Coffee',
       component: Coffee
     },
     {
-      path: '/Register',
+      path: '/',
       name: 'Register',
       component: Register
     }
-    
   ],
   base: '/hot/'
 })
