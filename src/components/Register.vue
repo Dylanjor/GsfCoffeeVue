@@ -63,14 +63,14 @@
         align="center"
       width="120"
       >
-    </el-table-column>    
+    </el-table-column>
     <el-table-column
       label="注册时间"
       prop="createTime"
       sortable
       align="center"
       width="230">
-    </el-table-column> 
+    </el-table-column>
     <el-table-column
       label="最近一次修改时间"
       prop="updateTime"
@@ -78,7 +78,7 @@
       align="center"
       width="240"
        >
-    </el-table-column> 
+    </el-table-column>
      <el-table-column
       label="电话"
       prop="tel"
@@ -87,12 +87,12 @@
       >
     </el-table-column>
     <el-table-column
-      label="账号"    
+      label="账号"
       prop="numbering"
       align="center"
       width="140"
       >
-    </el-table-column>  
+    </el-table-column>
     <el-table-column
       label="是否弃用"
       prop="deprecated"
@@ -111,14 +111,14 @@
      fixed="right"
      width="150"
      align="right">
-      <template slot="header" slot-scope="scope">
+      <template slot="header">
         <el-input
           v-model="search"
           size="mini"
           placeholder="输入关键字搜索"/>
       </template>
-      <template slot-scope="scope">      
-       <el-button 
+      <template slot-scope="scope">
+       <el-button
        size="mini"
         @click="getshoppingDetails(scope.row)">购物</el-button>
        <el-button
@@ -126,7 +126,7 @@
         type="danger"
         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
-    </el-table-column>    
+    </el-table-column>
 
   </el-table>
 
@@ -160,25 +160,25 @@
       prop="createTime"
        width="200"
       align="center">
-    </el-table-column> 
+    </el-table-column>
     <el-table-column
       label="是否已购买"
       prop="isBought"
       width="150"
       align="center">
-    </el-table-column> 
+    </el-table-column>
     <el-table-column
       label="购买时间"
       prop="boughtTime"
       width="200"
       align="center">
-    </el-table-column> 
+    </el-table-column>
      <el-table-column
       label="创建人"
       prop="founderId"
       width="100"
       align="center">
-    </el-table-column> 
+    </el-table-column>
   <el-table-column
       fixed="right"
       width="100"
@@ -192,80 +192,78 @@
     </el-table-column>
   </el-table>
 <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button> 
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
 </div>
-  
+
 </el-dialog>
 </div>
 </template>
 
 <script>
 export default {
-    inject:["reload"],
-    data() {
-      return {
-         gridData: [{   
-          commodityId:'',    
-          qty: '',
-          createTime: '',
-          isBought: '',
-          boughtTime: '',
-          founderId:''
-        }],
-        dialogTableVisible: false,
-        dialogFormVisible: false,
-        udpatedrawer:false,
-        tableData: [{
-        }],
-        search: '',
-        updateform: {
-          id:'',
-          name: '',
-          region: '',
-          date: '',
-          delivery: false,
-          password: '',
-          type: [],
-          resource: '',
-          tel: ''
-        },
+  inject: ['reload'],
+  data () {
+    return {
+      gridData: [{
+        commodityId: '',
+        qty: '',
+        createTime: '',
+        isBought: '',
+        boughtTime: '',
+        founderId: ''
+      }],
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      udpatedrawer: false,
+      tableData: [{
+      }],
+      search: '',
+      updateform: {
+        id: '',
+        name: '',
+        region: '',
+        date: '',
+        delivery: false,
+        password: '',
+        type: [],
+        resource: '',
+        tel: ''
       }
-    },
-    methods: {   
-      insertfun(){
-        var that = this
-        this.$.ajax({
-          type: 'POST',
-          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
-          success: function (response) {           
-            that.tableData = response.result.items            
-          }          
-        })        
-      },
-      getshoppingDetails(row) {
-        this.dialogFormVisible=true;
-        var that = this
-        // alert(row.id);
-        this.$.ajax({
-          type: 'GET',
-          url:'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId='+row.id ,
-          success: function (response) {
-            // alert(json.stringify(response))
-            that.gridData = response.result.items 
-          }
-        })
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    },
-     checkDetail(val){
-       console.log(val)
-    },  
-  
-    mounted(){
-      this.insertfun()
     }
-    
+  },
+  methods: {
+    insertfun () {
+      var that = this
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
+        success: function (response) {
+          that.tableData = response.result.items
+        }
+      })
+    },
+    getshoppingDetails (row) {
+      this.dialogFormVisible = true
+      var that = this
+      // alert(row.id);
+      this.$.ajax({
+        type: 'GET',
+        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + row.id,
+        success: function (response) {
+          // alert(json.stringify(response))
+          that.gridData = response.result.items
+        }
+      })
+    },
+    handleDelete (index, row) {
+      console.log(index, row)
+    }
+  },
+  checkDetail (val) {
+    console.log(val)
+  },
+  mounted () {
+    this.insertfun()
   }
+}
 </script>

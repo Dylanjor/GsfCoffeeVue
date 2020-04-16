@@ -12,22 +12,13 @@ const Register = () => import('../components/Register.vue')
 export default new Router({
   mode: 'history',
   routes: [
-   
     {
-<<<<<<< HEAD
-      path: '/Coffee',
-      name: 'Coffee',
-      component: Coffee
-    },
-    {
-=======
->>>>>>> af8569fbf9e8a7fbdfa15eed0bd3a81042325f13
-      path: '/',
+      path: '/Register',
       name: 'Register',
       component: Register
     },
     {
-      path: '/Coffee',
+      path: '/',
       name: 'Coffee',
       component: Coffee
     }
