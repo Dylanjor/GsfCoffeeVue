@@ -11,12 +11,6 @@
       stripe
       style="width: 100%">
       <el-table-column
-        type="index"
-        label="序号"
-        fixed
-        :index="indexMethod">
-      </el-table-column>
-      <el-table-column
         label="id"
         fixed
         prop="id"
@@ -49,6 +43,7 @@
         prop="date"
         align="center"
         width="200"
+        :formatter="dateFormat"
         >
       </el-table-column>
       <el-table-column
@@ -56,6 +51,7 @@
         prop="delivery"
         align="center"
         width="100"
+        :formatter="formatterColumn"
         >
       </el-table-column>
       <el-table-column
@@ -68,6 +64,7 @@
       <el-table-column
         label="注册时间"
         prop="createTime"
+        :formatter="dateFormat"
         sortable
         align="center"
         width="230">
@@ -76,6 +73,7 @@
         label="最近一次修改时间"
         prop="updateTime"
         sortable
+        :formatter="dateFormat"
         align="center"
         width="240"
         >
@@ -99,6 +97,7 @@
         prop="deprecated"
         align="center"
         width="100"
+        :formatter="formatterColumn"
         >
       </el-table-column>
       <el-table-column
@@ -106,6 +105,7 @@
         prop="deprecatedTime"
         align="center"
         width="100"
+        :formatter="dateFormat"
         >
       </el-table-column>
       <el-table-column
@@ -130,19 +130,12 @@
       </el-table-column>
     </el-table>
   <!-- 弹出个人的购物车信息 -->
-    <el-dialog title="购物车" :visible.sync="dialogFormVisible">
+    <el-dialog :title = this.diloagname :visible.sync="dialogFormVisible">
       <el-table
         :data="this.gridData"
         stripe
-        max-height="300"
+        max-height="400"
         style="width: 100%">
-        <el-table-column
-          type="index"
-          fixed
-          width="50"
-        align="center"
-          :index="indexMethod">
-        </el-table-column>
         <el-table-column
           label="商品ID"
           prop="commodityId"
@@ -159,17 +152,20 @@
           label="创建时间"
           prop="createTime"
           width="200"
+          :formatter="dateFormat"
           align="center">
         </el-table-column>
         <el-table-column
           label="是否已购买"
           prop="isBought"
+          :formatter="formatterColumn"
           width="150"
           align="center">
         </el-table-column>
         <el-table-column
           label="购买时间"
           prop="boughtTime"
+          :formatter="dateFormat"
           width="200"
           align="center">
         </el-table-column>
@@ -197,8 +193,9 @@
     </el-dialog>
 </div>
 </template>
-
 <script>
+
+import moment from 'moment'
 export default {
   inject: ['reload'],
   data () {
@@ -212,6 +209,7 @@ export default {
         founderId: ''
       }],
       dialogTableVisible: false,
+      diloagname: '',
       dialogFormVisible: false,
       udpatedrawer: false,
       tableData: [{
@@ -241,8 +239,18 @@ export default {
         }
       })
     },
+    formatterColumn: function (row, column) {
+      var isdelivry = row[column.property]
+      if (isdelivry === true) { return '是' } else return '否'
+    },
+    dateFormat: function (row, column) {
+      var date = row[column.property]
+      if (date === undefined) { return '' }
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
+    },
     getshoppingDetails (row) {
       this.dialogFormVisible = true
+      this.diloagname = row.name + '的购物车'
       var that = this
       // alert(row.id);
       this.$.ajax({
