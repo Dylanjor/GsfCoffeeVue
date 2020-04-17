@@ -35,7 +35,7 @@
               <br>
               <el-button type="text" @click="dialogVisible=true">退出</el-button>
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
-              <el-button type="text" >购物车</el-button>
+              <el-button type="text" @click="shoppingFormVisible=true">购物车</el-button>
             </div>
           </transition>
         <!-- 菜单页 -->
@@ -182,7 +182,7 @@
           <div>
             <span>烘培</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.name">
+              <li v-for="item in meishihongpei" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -191,7 +191,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name">
+              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -204,7 +204,7 @@
           <div>
             <span>咖啡融合冰淇淋</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -213,7 +213,7 @@
           <div>
             <span>经典巧克力饮品</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.name">
+              <li v-for="item in coffeeqiaokeli" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -222,7 +222,7 @@
           <div>
             <span>星巴克冷萃咖啡系列</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -231,7 +231,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name">
+              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -385,6 +385,7 @@
           </el-form>
         </el-drawer>
     <!-- 提示框Dialog -->
+      <!-- 退出提示 -->
       <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
@@ -395,6 +396,51 @@
           <el-button type="primary" @click="quit">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 商品显示信息 -->
+      <el-dialog
+        :title=this.commName
+        :visible.sync="CommDialogVisible"
+        width="40%"
+        center>
+        <div class="CommDilog">
+          <img :src="commUrl">
+          <div class="CommDilog-Num">
+            <span class="commMain">具体信息</span>
+             <div class="commSpecification">
+              <el-radio-group v-model="radio1" size="small">
+                <el-radio-button label="大杯"></el-radio-button>
+                <el-radio-button label="中杯"></el-radio-button>
+                <el-radio-button label="小杯"></el-radio-button>
+              </el-radio-group>
+              <el-input-number size="small" v-model="Commnum"></el-input-number>
+            </div>
+          </div>
+          <div style="width:100%;text-align:right"><el-button type="text" class="eb-insert">添加至购物车</el-button></div>
+        </div>
+        <!-- <span slot="footer" class="dialog-footer">
+          <el-button @click="CommDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="CommDialogVisible = false">确 定</el-button>
+        </span> -->
+      </el-dialog>
+      <!-- 购物车页 -->
+      <el-dialog title="购物车" :visible.sync="shoppingFormVisible">
+         <div class="CommDilog">
+            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+              <li v-for="item in shoppingxinxi" :key="item.name" >
+                 <el-checkbox v-model="checked"></el-checkbox>
+                <img :src="item.url">
+                <font>{{item.name}}</font>
+                <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                <font>{{item.name}}</font>
+              </li>
+            </ul>
+          </div>
+      <div slot="footer" class="dialog-footer">
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="shoppingFormVisible = false">取 消</el-button>
+      </div>
+     </el-dialog>
     </el-container>
   </div>
 </template>
@@ -431,6 +477,7 @@ export default{
       }
     }
     return {
+      
       flag: true,
       loading: false,
       showldiv: 0,
@@ -439,6 +486,9 @@ export default{
       ltrdrawer: false,
       udpatedrawer: false,
       dialogVisible: false,
+      CommDialogVisible: false,
+      Commnum: 1,
+      radio1: '中杯',
       passw: 'password',
       logpassw: 'password',
       udpatedata: '',
@@ -452,6 +502,8 @@ export default{
       sessionName: '',
       sessionNum: '',
       sessionPass: '',
+      commUrl: '',
+      commName: '',
       form: {
         name: '',
         region: '青岛',
@@ -477,6 +529,18 @@ export default{
         resource: '',
         tel: ''
       },
+      // 购物车页面
+      shoppingData: [{
+        commodityId: '',
+        qty: '',
+        createTime: '',
+        isBought: '',
+        boughtTime: '',
+        founderId: ''
+      }],
+      // 购物车页面计数器
+      num: 1,
+      shoppingFormVisible: false,
       rules: {
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -517,8 +581,9 @@ export default{
       coffeeronghebingjilin: [],
       coffeeqiaokeli: [],
       coffeenongsuo: [],
-      meishihongpei: []
-    }
+      meishihongpei: [],
+      shoppingxinxi: []
+    }  
   },
   methods: {
     // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
@@ -526,6 +591,10 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
     },
+    //计数器
+    handleChange(value){
+      console.log(value);
+      },
     // 初始化
     onload () {
       this.listpic = [
@@ -611,6 +680,11 @@ export default{
         {name: '浓缩咖啡40', url: 'https://www.starbucks.com.cn/images/products/raisins-walnut-bread.jpg'},
         {name: '浓缩咖啡50', url: 'https://www.starbucks.com.cn/images/products/red-bean-oats-scone.jpg'},
         {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
+      ]
+      this.shoppingxinxi = [
+        {'name': '麦芽冷翠', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
+        {'name': '麦芽冷翠1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'name': '麦芽冷翠2', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
     // 注册提交
