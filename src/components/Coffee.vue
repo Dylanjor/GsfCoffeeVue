@@ -477,7 +477,6 @@ export default{
       }
     }
     return {
-      
       flag: true,
       loading: false,
       showldiv: 0,
@@ -583,7 +582,7 @@ export default{
       coffeenongsuo: [],
       meishihongpei: [],
       shoppingxinxi: []
-    }  
+    }
   },
   methods: {
     // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
@@ -591,10 +590,10 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
     },
-    //计数器
-    handleChange(value){
-      console.log(value);
-      },
+    // 计数器
+    handleChange (value) {
+      console.log(value)
+    },
     // 初始化
     onload () {
       this.listpic = [
