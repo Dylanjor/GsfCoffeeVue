@@ -181,7 +181,7 @@
           <div>
             <span>烘培</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.name">
+              <li v-for="item in meishihongpei" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -190,7 +190,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name">
+              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -203,7 +203,7 @@
           <div>
             <span>咖啡融合冰淇淋</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -212,7 +212,7 @@
           <div>
             <span>经典巧克力饮品</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.name">
+              <li v-for="item in coffeeqiaokeli" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -221,7 +221,7 @@
           <div>
             <span>星巴克冷萃咖啡系列</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name">
+              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -230,7 +230,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name">
+              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
                 <img :src="item.url">
                 <font>{{item.name}}</font>
               </li>
@@ -384,6 +384,7 @@
           </el-form>
         </el-drawer>
     <!-- 提示框Dialog -->
+      <!-- 退出提示 -->
       <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
@@ -393,6 +394,32 @@
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="quit">确 定</el-button>
         </span>
+      </el-dialog>
+      <!-- 商品显示信息 -->
+      <el-dialog
+        :title=this.commName
+        :visible.sync="CommDialogVisible"
+        width="40%"
+        center>
+        <div class="CommDilog">
+          <img :src="commUrl">
+          <div class="CommDilog-Num">
+            <span class="commMain">具体信息</span>
+             <div class="commSpecification">
+              <el-radio-group v-model="radio1" size="small">
+                <el-radio-button label="大杯"></el-radio-button>
+                <el-radio-button label="中杯"></el-radio-button>
+                <el-radio-button label="小杯"></el-radio-button>
+              </el-radio-group>
+              <el-input-number size="small" v-model="Commnum"></el-input-number>
+            </div>
+          </div>
+          <div style="width:100%;text-align:right"><el-button type="text" class="eb-insert">添加至购物车</el-button></div>
+        </div>
+        <!-- <span slot="footer" class="dialog-footer">
+          <el-button @click="CommDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="CommDialogVisible = false">确 定</el-button>
+        </span> -->
       </el-dialog>
     </el-container>
   </div>
@@ -438,6 +465,9 @@ export default{
       ltrdrawer: false,
       udpatedrawer: false,
       dialogVisible: false,
+      CommDialogVisible: false,
+      Commnum: 1,
+      radio1: '中杯',
       passw: 'password',
       logpassw: 'password',
       udpatedata: '',
@@ -451,6 +481,8 @@ export default{
       sessionName: '',
       sessionNum: '',
       sessionPass: '',
+      commUrl: '',
+      commName: '',
       form: {
         name: '',
         region: '青岛',

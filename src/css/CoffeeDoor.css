@@ -326,6 +326,26 @@ body{
 #rightyinliao ul li img:hover,#rightmeishi ul li img:hover {
   box-shadow:2px 2px 2px 2px gray;
 }
+.CommDilog{
+  /* float: left; */
+  width: 100%;
+  height: 100%;
+}
+.CommDilog .commMain{
+  display: inline-block;
+}
+.CommDilog img{
+  /* float: left; */
+  width: 20%;
+  display: inline-block;
+}
+.CommDilog .commSpecification{
+  margin-top: 20px;
+}
+.CommDilog .CommDilog-Num{
+  float: right;
+  width: 70%;  
+}
 
 @font-face{
   font-family: "Playlist";
