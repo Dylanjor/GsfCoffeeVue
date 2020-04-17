@@ -200,6 +200,7 @@ export default {
   inject: ['reload'],
   data () {
     return {
+      // 购物车信息
       gridData: [{
         commodityId: '',
         qty: '',
@@ -212,6 +213,7 @@ export default {
       diloagname: '',
       dialogFormVisible: false,
       udpatedrawer: false,
+      // 用户列表信息
       tableData: [{
       }],
       search: '',
@@ -229,6 +231,7 @@ export default {
     }
   },
   methods: {
+    // 获取用户所有信息
     insertfun () {
       var that = this
       this.$.ajax({
@@ -239,6 +242,9 @@ export default {
         }
       })
     },
+<<<<<<< HEAD
+    // 获取本用户购物车信息（点击购买按钮显示）
+=======
     formatterColumn: function (row, column) {
       var isdelivry = row[column.property]
       if (isdelivry === true) { return '是' } else return '否'
@@ -248,6 +254,7 @@ export default {
       if (date === undefined) { return '' }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
+>>>>>>> accbe1245bb5cba7dde614da589b1207c01f6fbc
     getshoppingDetails (row) {
       this.dialogFormVisible = true
       this.diloagname = row.name + '的购物车'
