@@ -73,11 +73,11 @@
             </div>
             <div class="cof-main-Introduction">
               <!-- 网站简介 -->
-              <el-steps :active="1" align-center>
-                <el-step title="念头" description="刚开始有一些念头"></el-step>
-                <el-step title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
-                <el-step title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
-                <el-step title="准备" description="确立装修风格与营销风格"></el-step>
+              <el-steps :active="clickTimeNum" align-center @click="clickniantou">
+                <el-step @click.native="clickTime(1)" title="念头" description="刚开始有一些念头"></el-step>
+                <el-step @click.native="clickTime(2)" title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
+                <el-step @click.native="clickTime(3)" title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
+                <el-step @click.native="clickTime(4)" title="准备" description="确立装修风格与营销风格"></el-step>
               </el-steps>
             </div>
             <div class="cof-main-featured">
@@ -477,6 +477,7 @@ export default{
       }
     }
     return {
+      clickTimeNum: 1,
       flag: true,
       loading: false,
       showldiv: 0,
@@ -493,9 +494,9 @@ export default{
       udpatedata: '',
       icon: 'el-input__icon el-icon-view',
       logicon: 'el-input__icon el-icon-view',
-      menupic: require('../picture/Menu.png'),
-      crosspic: require('../picture/Cross.png'),
-      logopic: require('../picture/coffeelogo.png'),
+      menupic: require ('../picture/Menu.png'),
+      crosspic: require ('../picture/Cross.png'),
+      logopic: require ('../picture/coffeelogo.png'),
       listpic: [],
       sessionid: '',
       sessionName: '',
@@ -593,6 +594,10 @@ export default{
     // 计数器
     handleChange (value) {
       console.log(value)
+    },
+    //点击时间流
+    clickTime(event){
+      this.clickTimeNum = event
     },
     // 初始化
     onload () {
