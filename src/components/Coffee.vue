@@ -407,13 +407,13 @@
           <div class="CommDilog-Num">
             <span class="commMain">具体信息</span>
              <div class="commSpecification">
-              <el-radio-group v-model="radio1" size="small">
-                <el-radio-button label="大杯"></el-radio-button>
-                <el-radio-button label="中杯"></el-radio-button>
-                <el-radio-button label="小杯"></el-radio-button>
-              </el-radio-group>
-              <el-input-number size="small" v-model="Commnum"></el-input-number>
-            </div>
+                  <el-radio-group v-model="radio1" size="small" lable="规格">
+                    <el-radio-button label="大杯"></el-radio-button>
+                    <el-radio-button label="中杯"></el-radio-button>
+                    <el-radio-button label="小杯"></el-radio-button>
+                  </el-radio-group>
+                <el-input-number v-model="Commnum" controls-position="right" @change="CommNumChange" :min="1" size="small"></el-input-number>
+              </div>
           </div>
           <div style="width:100%;text-align:right"><el-button type="text" class="eb-insert">添加至购物车</el-button></div>
         </div>
@@ -425,20 +425,28 @@
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible">
          <div class="CommDilog">
-            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
+           <!-- <el-checkbox :indeterminate="shoppingisIndeterminate" v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox> -->
+              <el-checkbox v-model="checked" @change="spCheckAllChange">全选</el-checkbox>
+              <div style="margin: 15px 0;"></div>
+            <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
-                 <el-checkbox v-model="checked"></el-checkbox>
+                <!-- <el-checkbox class="shoppingchecked" v-model="shoppingchecked"></el-checkbox> -->
+                  <!-- <el-checkbox class="shoppingchecked" v-for="sp in shp" :label="sp" :key="sp" v-model="checkedSHP" @change="sphCheckedChange"></el-checkbox> -->
+                 <el-checkbox class="shoppingchecked" v-model="checkedSHP" :value="item.id"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-                <font>{{item.name}}</font>
+                <font>{{item.danjia}}</font>
+                <el-input-number v-model="shoppingnum" class="shoppingnum" @change="sphandleChange" :min="0" label="数量"></el-input-number>
+                <font>{{item.jiage}}</font>
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
+     <font class="shpzj">总计：110</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
+        <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
       </div>
      </el-dialog>
     </el-container>
@@ -447,6 +455,7 @@
 <script>
 // 需要单独引用Message
 import { Message } from 'element-ui'
+const shpOptions = ['']
 export default{
   data () {
     // 密码的判断
@@ -494,9 +503,9 @@ export default{
       udpatedata: '',
       icon: 'el-input__icon el-icon-view',
       logicon: 'el-input__icon el-icon-view',
-      menupic: require ('../picture/Menu.png'),
-      crosspic: require ('../picture/Cross.png'),
-      logopic: require ('../picture/coffeelogo.png'),
+      menupic: require('../picture/Menu.png'),
+      crosspic: require('../picture/Cross.png'),
+      logopic: require('../picture/coffeelogo.png'),
       listpic: [],
       sessionid: '',
       sessionName: '',
@@ -538,8 +547,13 @@ export default{
         boughtTime: '',
         founderId: ''
       }],
+      // 购物车全选框
+      shoppingcheckAll: false,
+      checkedSHP: [''],
+      shp: shpOptions,
+      // shoppingchecked: true,
       // 购物车页面计数器
-      num: 1,
+      shoppingnum: 1,
       shoppingFormVisible: false,
       rules: {
         name: [
@@ -585,6 +599,16 @@ export default{
       shoppingxinxi: []
     }
   },
+  watch: {
+    checkedSHP () {
+      // eslint-disable-next-line eqeqeq
+      if (this.checkedSHP.length == this.shoppingxinxi.length) {
+        this.checked = true
+      } else {
+        this.checked = false
+      }
+    }
+  },
   methods: {
     // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
     goCoffeeRegister () {
@@ -592,11 +616,11 @@ export default{
       this.$router.push({ name: 'Register'})
     },
     // 计数器
-    handleChange (value) {
+    sphandleChange (value) {
       console.log(value)
     },
-    //点击时间流
-    clickTime(event){
+    // 点击时间流
+    clickTime (event) {
       this.clickTimeNum = event
     },
     // 初始化
@@ -686,9 +710,9 @@ export default{
         {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
       ]
       this.shoppingxinxi = [
-        {'name': '麦芽冷翠', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'name': '麦芽冷翠1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'name': '麦芽冷翠2', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
+        {'id': 1, 'name': '麦芽冷翠', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
+        {'id': 2, 'name': '麦芽冷翠1', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'id': 3, 'name': '麦芽冷翠2', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
     // 注册提交
@@ -949,7 +973,27 @@ export default{
         }
         that.loading = false
       })
+    },
+    // 购物车页面全选
+    spCheckAllChange () {
+      if (this.checked) {
+        this.checkedSHP = []
+      } else {
+        this.shoppingxinxi.forEach((item) => {
+          // eslint-disable-next-line eqeqeq
+          if (this.checkedSHP.indexOf(item.id == 1)) {
+            this.checkedSHP.push(item.id)
+          }
+        })
+      }
+      // this.checkedSHP = val ? shpOptions : []
+      // this.isIndeterminate = false
     }
+    // sphCheckedChange (value) {
+    //   let checkedCount = value.length
+    //   this.shoppingcheckAll = checkedCount === this.shp.length
+    //   this.shoppingisIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
+    // }
   },
   // 延迟加载
   mounted () {
