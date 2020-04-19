@@ -407,13 +407,13 @@
           <div class="CommDilog-Num">
             <span class="commMain">具体信息</span>
              <div class="commSpecification">
-              <el-radio-group v-model="radio1" size="small">
-                <el-radio-button label="大杯"></el-radio-button>
-                <el-radio-button label="中杯"></el-radio-button>
-                <el-radio-button label="小杯"></el-radio-button>
-              </el-radio-group>
-              <el-input-number size="small" v-model="Commnum"></el-input-number>
-            </div>
+                  <el-radio-group v-model="radio1" size="small" lable="规格">
+                    <el-radio-button label="大杯"></el-radio-button>
+                    <el-radio-button label="中杯"></el-radio-button>
+                    <el-radio-button label="小杯"></el-radio-button>
+                  </el-radio-group>
+                <el-input-number v-model="Commnum" controls-position="right" @change="CommNumChange" :min="1" size="small"></el-input-number>
+              </div>
           </div>
           <div style="width:100%;text-align:right"><el-button type="text" class="eb-insert">添加至购物车</el-button></div>
         </div>
