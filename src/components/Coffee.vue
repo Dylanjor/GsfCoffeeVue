@@ -949,12 +949,23 @@ export default{
         }
         that.loading = false
       })
+    },
+    _isMobile() {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag;
     }
   },
   // 延迟加载
   mounted () {
     // 延迟
     this.onload()
+    if (this._isMobile()) {
+      alert("手机端暂不适配");
+      // this.$router.replace('/m_index'); // 跳转至手机端页面
+    } else {
+      // alert("pc端");
+      // this.$router.replace('/pc_index');
+    }
   }
 }
 </script>
