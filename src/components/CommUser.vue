@@ -3,19 +3,22 @@
 </style>
 <template>
     <div>
+        <div class="Title">
+            添加商品
+        </div>
         <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="商品名字">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="商品规格">
-                <el-select v-model="form.specification" placeholder="请选择商品规格">
-                    <el-option label="大杯" value="大杯"></el-option>
-                    <el-option label="中杯" value="中杯"></el-option>
-                    <el-option label="小杯" value="小杯"></el-option>
+                <el-select v-model="form.CommodityTypeId" placeholder="请选择">
+                    <el-option
+                        v-for="item in CommType"
+                        :key="item.id"
+                        :label="item.typeName"
+                        :value="item.id">
+                    </el-option>
                 </el-select>
-            </el-form-item>
-            <el-form-item label="商品类型">
-                <el-input v-model="form.type"></el-input>
             </el-form-item>
             <el-form-item label="是否是成品">
                 <el-switch v-model="form.IsBom"></el-switch>
@@ -26,8 +29,8 @@
             <el-form-item label="商品售价">
                 <el-input v-model="form.sellingPrice" :disabled="!form.IsBom"></el-input>
             </el-form-item>
-            <el-form-item label="商品数量">
-                <el-input v-model="form.qty"></el-input>
+            <el-form-item label="商品描述" prop="desc">
+                <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
             <el-form-item label="商品图片">
                 <el-upload
@@ -58,12 +61,13 @@ export default {
       form: {
         name: '',
         IsBom: true,
-        type: '',
-        specification: '',
+        CommodityTypeId: '',
         purchasePrice: '',
         sellingPrice: '',
-        qty: ''
-      }
+        qty: '',
+        desc: ''
+      },
+      CommType: []
     }
   },
   methods: {
@@ -72,12 +76,12 @@ export default {
         commodityName: this.form.name,
         commImage: this.imageUrl,
         specification: this.form.specification,
-        commodityType: this.form.type,
+        CommodityTypeId: this.form.CommodityTypeId,
         isBom: this.form.isBom,
         purchasePrice: this.form.purchasePrice,
-        qty: this.form.qty,
         sellingPrice: this.form.sellingPrice,
-        isDeleted: false
+        isDeleted: false,
+        Desc: this.form.desc
       }
       this.$.ajax({
         type: 'post',
@@ -118,6 +122,18 @@ export default {
           resolve(imgResult)
         }
       })
+    },
+    CommtypeLoad () {
+      var that = this
+      this.$.ajax({
+        type: 'post',
+        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllList',
+        contentType: 'application/json',
+        success: function (response) {
+        //   alert(response.result.items[0].typeName)
+          that.CommType = response.result.items
+        }
+      })
     }
   },
   computed: {
@@ -133,6 +149,9 @@ export default {
         this.form.purchasePrice = ''
       }
     }
+  },
+  mounted () {
+    this.CommtypeLoad()
   }
 }
 </script>
