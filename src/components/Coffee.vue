@@ -75,7 +75,7 @@
             </div>
             <div class="cof-main-Introduction">
               <!-- 网站简介 -->
-              <el-steps :active="clickTimeNum" align-center @click="clickniantou">
+              <el-steps :active="clickTimeNum" align-center>
                 <el-step @click.native="clickTime(1)" title="念头" description="刚开始有一些念头"></el-step>
                 <el-step @click.native="clickTime(2)" title="看书" description="初始了解咖啡的知识：咖啡豆主要出售阿拉比卡种和罗伯斯塔种"></el-step>
                 <el-step @click.native="clickTime(3)" title="体验" description="准备去往地点：青岛、烟台、上海、杭州、北京"></el-step>
@@ -428,7 +428,7 @@
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible">
          <div class="CommDilog">
            <!-- <el-checkbox :indeterminate="shoppingisIndeterminate" v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox> -->
-              <el-checkbox v-model="checked" @change="spCheckAllChange">全选</el-checkbox>
+              <el-checkbox v-model="allchecked" @change="spCheckAllChange">全选</el-checkbox>
               <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
@@ -488,6 +488,7 @@ export default{
       }
     }
     return {
+      allchecked: false, // 全选
       clickTimeNum: 1,
       flag: true,
       loading: false,
@@ -554,8 +555,6 @@ export default{
       checkedSHP: [''],
       shp: shpOptions,
       // shoppingchecked: true,
-      // 购物车页面计数器
-      shoppingnum: 1,
       shoppingFormVisible: false,
       rules: {
         name: [
@@ -639,6 +638,7 @@ export default{
       if (localStorage.getItem('username')) {
         this.sessionNum = localStorage.getItem('usernum')
         this.sessionName = localStorage.getItem('username')
+        this.sessionid = localStorage.getItem('id')
         this.showldiv = 1
       }
       this.listpic = [
@@ -779,6 +779,7 @@ export default{
                       // 设置localStroage值
                       localStorage.setItem('username', that.form.name)
                       localStorage.setItem('usernum', response.result)
+                      localStorage.setItem('id', that.sessionid)
                     }
                   })
                 }
@@ -851,12 +852,12 @@ export default{
               } else {
                 that.ltrdrawer = false
                 that.showldiv = 1
-                that.sessionNum = i[0].numbering
-                that.sessionName = i[0].name
-                that.sessionid = i[0].id
-                that.sessionPass = i[0].passWord
                 localStorage.setItem('username', i[0].name)
                 localStorage.setItem('usernum', i[0].numbering)
+                localStorage.setItem('id', i[0].id)
+                that.sessionNum = localStorage.getItem('usernum')
+                that.sessionName = localStorage.getItem('username')
+                that.sessionid = localStorage.getItem('id')
                 if (i[0].resource === '男') {
                   Message({
                     message: '欢迎您' + i[0].name + '先生',
@@ -953,16 +954,18 @@ export default{
       this.$refs['updateform'].validate((valid) => {
         if (valid) {
           var udpatedatapost = {
-            Id: this.sessionid,
-            numbering: this.sessionNum,
+            Id: parseInt(localStorage.getItem('id')),
+            numbering: that.sessionNum,
             name: that.updateform.name,
             passWord: that.updateform.password,
             region: that.updateform.region,
-            Date: that.updateform.date,
+            date: that.updateform.date,
             delivery: that.updateform.delivery,
             type: that.updateform.type.join(),
             resource: that.updateform.resource,
-            tel: that.updateform.tel
+            tel: that.updateform.tel,
+            Deprecated: false,
+            DeprecatedTime: ''
           }
           that.$.ajax({
             type: 'POST',
@@ -975,8 +978,8 @@ export default{
                 message: `修改成功编号: ${that.sessionNum}`
               })
               that.loading = false
-              that.sessionPass = that.updateform.password
               that.sessionName = that.updateform.name
+              localStorage.setItem('username', that.updateform.name)
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
               alert('XMLHttpRequest:' + XMLHttpRequest.status + ',textStatus:' + XMLHttpRequest.readyState + ',errorThrown:' + textStatus)
@@ -992,6 +995,9 @@ export default{
         that.loading = false
       })
     },
+    CommNumChange () {
+      console.log(this.Commnum)
+    },
     // 购物车页面全选
     spCheckAllChange () {
       if (this.checked) {
@@ -1006,12 +1012,16 @@ export default{
       }
       // this.checkedSHP = val ? shpOptions : []
       // this.isIndeterminate = false
-    }
+    },
     // sphCheckedChange (value) {
     //   let checkedCount = value.length
     //   this.shoppingcheckAll = checkedCount === this.shp.length
     //   this.shoppingisIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
     // }
+    _isMobile () {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag
+    }
   },
   // 延迟加载
   mounted () {
