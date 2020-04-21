@@ -427,14 +427,11 @@
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible">
          <div class="CommDilog">
-           <!-- <el-checkbox :indeterminate="shoppingisIndeterminate" v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox> -->
-              <el-checkbox v-model="allchecked" @change="spCheckAllChange">全选</el-checkbox>
+              <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
               <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
-                <!-- <el-checkbox class="shoppingchecked" v-model="shoppingchecked"></el-checkbox> -->
-                  <!-- <el-checkbox class="shoppingchecked" v-for="sp in shp" :label="sp" :key="sp" v-model="checkedSHP" @change="sphCheckedChange"></el-checkbox> -->
-                 <el-checkbox class="shoppingchecked" v-model="checkedSHP" :value="item.id"></el-checkbox>
+                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
                 <!-- <font>{{item.danjia}}</font> -->
@@ -600,16 +597,6 @@ export default{
       shoppingxinxi: []
     }
   },
-  watch: {
-    checkedSHP () {
-      // eslint-disable-next-line eqeqeq
-      if (this.checkedSHP.length == this.shoppingxinxi.length) {
-        this.checked = true
-      } else {
-        this.checked = false
-      }
-    }
-  },
   methods: {
     // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
     goCoffeeRegister () {
@@ -726,9 +713,9 @@ export default{
         {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
       ]
       this.shoppingxinxi = [
-        {'id': 1, 'name': '麦芽冷翠', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'id': 2, 'name': '麦芽冷翠1', 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'id': 3, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
+        {'checkModel': false, 'name': '麦芽冷翠', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠1', 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
     // 注册提交
@@ -999,16 +986,17 @@ export default{
       console.log(this.Commnum)
     },
     // 购物车页面全选
-    spCheckAllChange () {
-      if (this.checked) {
-        this.checkedSHP = []
-      } else {
-        this.shoppingxinxi.forEach((item) => {
-          // eslint-disable-next-line eqeqeq
-          if (this.checkedSHP.indexOf(item.id == 1)) {
-            this.checkedSHP.push(item.id)
-          }
-        })
+    spCheckAllChange (val) {
+      this.shoppingxinxi.map((item, i) => {
+        item.checkModel = val
+      })
+    },
+    sphCheckedChange (val) {
+      for (let i = 0, l = this.shoppingxinxi.length; i < l; i++) {
+        if (this.shoppingxinxi[i].checkModel !== val) {
+          this.shoppingcheckAll = false
+          return
+        }
       }
       // this.checkedSHP = val ? shpOptions : []
       // this.isIndeterminate = false
