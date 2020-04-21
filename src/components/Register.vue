@@ -194,7 +194,8 @@
 </div>
 </template>
 <script>
-
+// eslint-disable-next-line no-unused-vars
+import { Message } from 'element-ui'
 import moment from 'moment'
 export default {
   inject: ['reload'],
@@ -266,7 +267,27 @@ export default {
       })
     },
     handleDelete (index, row) {
-      console.log(index, row)
+      var that = this
+      this.$confirm('此操作将永久删除此信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$.ajax({
+          type: 'GET',
+          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Delete?id=' + row.id,
+          success: function () {
+            // alert(json.stringify(response))
+            that.$message({
+              type: 'success',
+              message: '删除成功!',
+              function () {
+                that.reload()
+              }
+            })
+          }
+        })
+      })
     }
   },
   checkDetail (val) {

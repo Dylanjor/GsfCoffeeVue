@@ -36,6 +36,8 @@
               <el-button type="text" @click="dialogVisible=true">退出</el-button>
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
               <el-button type="text" @click="shoppingFormVisible=true">购物车</el-button>
+              <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
+              <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
             </div>
           </transition>
         <!-- 菜单页 -->
@@ -613,7 +615,15 @@ export default{
     // 跳转页面 这个方法没有按钮来实现 直接加个按钮就可以跳转了Register对应router下index.js的router路径
     goCoffeeRegister () {
       // eslint-disable-next-line standard/object-curly-even-spacing
+      // this.$router.push({ name: 'Register'})
+    },
+    showRegister () {
+      // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
+    },
+    showComm () {
+      // eslint-disable-next-line standard/object-curly-even-spacing
+      this.$router.push({ name: 'CommUser'})
     },
     // 计数器
     sphandleChange (value) {
@@ -625,6 +635,12 @@ export default{
     },
     // 初始化
     onload () {
+      // alert(localStorage.getItem('username'))
+      if (localStorage.getItem('username')) {
+        this.sessionNum = localStorage.getItem('usernum')
+        this.sessionName = localStorage.getItem('username')
+        this.showldiv = 1
+      }
       this.listpic = [
         'https://i1.fuimg.com/715304/395e39fc6dd0330a.png',
         'https://i1.fuimg.com/715304/a598958f4083fc17.jpg',
@@ -760,6 +776,9 @@ export default{
                       that.drawer = false
                       that.loading = false
                       that.showldiv = 1
+                      // 设置localStroage值
+                      localStorage.setItem('username', that.form.name)
+                      localStorage.setItem('usernum', response.result)
                     }
                   })
                 }
@@ -836,6 +855,8 @@ export default{
                 that.sessionName = i[0].name
                 that.sessionid = i[0].id
                 that.sessionPass = i[0].passWord
+                localStorage.setItem('username', i[0].name)
+                localStorage.setItem('usernum', i[0].numbering)
                 if (i[0].resource === '男') {
                   Message({
                     message: '欢迎您' + i[0].name + '先生',
@@ -891,18 +912,15 @@ export default{
         type: 'success'
       })
       this.sessionName = ''
+      localStorage.setItem('username', '')
+      localStorage.setItem('usernum', '')
     },
     udpatedrawermothod () {
       this.udpatedrawer = true
-      var params = {
-        'Num': this.sessionNum, // 需要用Numbering来登录了
-        'pwd': this.sessionPass
-      }
       var that = this
       this.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
-        data: params,
+        type: 'Get',
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + this.sessionNum,
         success: function (response) {
           var i = response.result.items
           that.udpatedata = {
@@ -999,6 +1017,13 @@ export default{
   mounted () {
     // 延迟
     this.onload()
+    if (this._isMobile()) {
+      alert('手机端暂不适配')
+      // this.$router.replace('/m_index'); // 跳转至手机端页面
+    } else {
+      // alert("pc端");
+      // this.$router.replace('/pc_index');
+    }
   }
 }
 </script>
