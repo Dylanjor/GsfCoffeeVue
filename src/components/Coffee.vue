@@ -437,9 +437,9 @@
                  <el-checkbox class="shoppingchecked" v-model="checkedSHP" :value="item.id"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <font>{{item.danjia}}</font>
-                <el-input-number v-model="shoppingnum" class="shoppingnum" @change="sphandleChange" :min="0" label="数量"></el-input-number>
-                <font>{{item.jiage}}</font>
+                <!-- <font>{{item.danjia}}</font> -->
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" label="数量"></el-input-number>
+                <!-- <font>{{item.jiage}}</font> -->
               </li>
             </ul>
           </div>
@@ -726,9 +726,9 @@ export default{
         {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
       ]
       this.shoppingxinxi = [
-        {'id': 1, 'name': '麦芽冷翠', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'id': 2, 'name': '麦芽冷翠1', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'id': 3, 'name': '麦芽冷翠2', 'jiage': '共:25', 'danjia': '单价:15', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
+        {'id': 1, 'name': '麦芽冷翠', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
+        {'id': 2, 'name': '麦芽冷翠1', 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'id': 3, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
     // 注册提交
