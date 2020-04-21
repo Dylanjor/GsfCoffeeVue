@@ -429,10 +429,10 @@
          <div class="CommDilog">
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
-                 <el-checkbox v-model="checked"></el-checkbox>
+                <el-checkbox v-model="checked"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                <el-input-number v-model="item.qty" @change="ShopNumChange(item.qty)" :min="1" label="描述文字"></el-input-number>
                 <font>{{item.name}}</font>
               </li>
             </ul>
@@ -702,9 +702,9 @@ export default{
         {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
       ]
       this.shoppingxinxi = [
-        {'name': '麦芽冷翠', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'name': '麦芽冷翠1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'name': '麦芽冷翠2', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
+        {'name': '麦芽冷翠', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg', qty: '1'},
+        {'name': '麦芽冷翠1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg', qty: '1'},
+        {'name': '麦芽冷翠2', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg', qty: '1'}
       ]
     },
     // 注册提交
@@ -968,9 +968,12 @@ export default{
         that.loading = false
       })
     },
-    _isMobile() {
+    ShopNumChange (event) {
+      alert(event)
+    },
+    _isMobile () {
       let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-      return flag;
+      return flag
     }
   },
   // 延迟加载
@@ -978,7 +981,7 @@ export default{
     // 延迟
     this.onload()
     if (this._isMobile()) {
-      alert("手机端暂不适配");
+      alert('手机端暂不适配')
       // this.$router.replace('/m_index'); // 跳转至手机端页面
     } else {
       // alert("pc端");
