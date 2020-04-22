@@ -425,18 +425,20 @@
         </span> -->
       </el-dialog>
       <!-- 购物车页 -->
-      <el-dialog title="购物车" :visible.sync="shoppingFormVisible">
-         <div class="CommDilog">
-              <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
+      <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
+      width="40%"
+      :before-close="handleClose">
+         <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
+         <div class="gwcCommDilog" id="root">
               <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
                  <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <!-- <font>{{item.danjia}}</font> -->
-                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" label="数量"></el-input-number>
-                <!-- <font>{{item.jiage}}</font> -->
+                <font v-model="danjia"></font>
+                <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
+                <font v-model="spzong">总：</font>
               </li>
             </ul>
           </div>
@@ -545,7 +547,9 @@ export default{
         createTime: '',
         isBought: '',
         boughtTime: '',
-        founderId: ''
+        founderId: '',
+        spzong: '',
+        danjia: '123'
       }],
       // 购物车全选框
       shoppingcheckAll: false,

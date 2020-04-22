@@ -366,9 +366,8 @@ body{
 .shopping-rightyinliaoul li{
   list-style: none; 
   width: 100%;
-  height: 4rem;
-  padding-bottom: 4rem;
-  line-height: 9rem;
+  height: 6rem;
+  line-height:6rem;
  margin-bottom: 2%;
  border: #ccc 1px solid;
  border-radius: 10px;
@@ -377,24 +376,52 @@ body{
 }
 .shopping-rightyinliaoul li img {
  position: relative;
- top: 38%;
+ top: 20%;
  left: 3%;
  width: 11%;
 }
 .shopping-rightyinliaoul li font{
- margin-left: 8%;
+ margin-left: 7%;
  }
  .shoppingnum{
-   width: 20%;
-   margin-left: 11%;
-   margin-bottom: 2%;
+   width: 18%;
+   margin-left: 10%;
+   
  }
  .shoppingchecked{
    margin-left: 3%;
-  
- 
  }
  .shpzj{
    margin-left: 85%;
    color: red;
  }
+ .gwcCommDilog{
+  /* float: left; */
+  width: 100%;
+  height: 350px;
+  overflow: auto;
+}
+/* 将滑轮不显示 */
+/* .gwcCommDilog::-webkit-scrollbar{
+  width: 2px;
+} */
+
+.gwcCommDilog .commMain{
+  display: inline-block;
+}
+.gwcCommDilog img{
+  /* float: left; */
+  width: 20%;
+  display: inline-block;
+}
+.gwcCommDilog .commSpecification{
+  margin-top: 20px;
+}
+/* .el-input-number__increase{
+  width: 30%;
+  height: auto;
+}
+.el-input-number__decrease{
+  width: 30%;
+  height: auto;
+} */
