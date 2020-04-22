@@ -293,7 +293,7 @@ export default {
   checkDetail (val) {
     console.log(val)
   },
-  mounted () {
+  created () {
     this.insertfun()
   }
 }
