@@ -175,7 +175,7 @@
                 <el-image
                   style="width: 150px; height: 150px"
                   :src="fit.url"
-                  :fit="'contain'"></el-image>
+                  :fit="'contain'" @click="CommDialogVisible = true,commUrl = fit.url,commName = fit.name"></el-image>
               </div>
             </div>
         </el-main>
@@ -184,18 +184,18 @@
           <div>
             <span>烘培</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in meishihongpei" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
@@ -206,36 +206,36 @@
           <div>
             <span>咖啡融合冰淇淋</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
           <div>
             <span>经典巧克力饮品</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in coffeeqiaokeli" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
           <div>
             <span>星巴克冷萃咖啡系列</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.name" @click="CommDialogVisible = true,commUrl = item.url,commName = item.name">
-                <img :src="item.url">
-                <font>{{item.name}}</font>
+              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+                <img :src="item.commImage">
+                <font>{{item.commodityName}}</font>
               </li>
             </ul>
           </div>
@@ -629,12 +629,12 @@ export default{
         this.showldiv = 1
       }
       this.listpic = [
-        'https://i1.fuimg.com/715304/395e39fc6dd0330a.png',
-        'https://i1.fuimg.com/715304/a598958f4083fc17.jpg',
-        'https://i1.fuimg.com/715304/40405d692956cfea.jpg',
-        'https://i2.tiimg.com/715304/3d05a666162c5531.jpg',
-        'https://i2.tiimg.com/715304/46ca868eb0fa445b.jpg',
-        'https://i1.fuimg.com/715304/958f42f82a306944.jpg']
+        'https://s1.ax1x.com/2020/04/22/JYrMaF.jpg',
+        'https://s1.ax1x.com/2020/04/22/JYrKVU.jpg',
+        'https://s1.ax1x.com/2020/04/22/JYrnbT.jpg',
+        'https://s1.ax1x.com/2020/04/22/JYrE2n.jpg',
+        'https://s1.ax1x.com/2020/04/22/JYrA8s.jpg',
+        'https://s1.ax1x.com/2020/04/22/JYrkCj.jpg']
       this.coffeelistpic = [
         'https://i2.tiimg.com/715304/9bd7366ed88a3aee.jpg',
         'https://i2.tiimg.com/715304/479c5aaca7818f49.jpg',
@@ -657,64 +657,67 @@ export default{
         'https://i2.tiimg.com/715304/5dde0fd0b012c5fc.jpg',
         'https://i2.tiimg.com/715304/e686ac376e496800.jpg',
         'https://i2.tiimg.com/715304/f6a2acf22b044f58.jpg',
-        'https://i2.tiimg.com/715304/0366cd1b09a68981.jpg',
+        'https://i2.tiimg.com/715304/a184eefa1554259b.jpg',
         'https://i2.tiimg.com/715304/479c5aaca7818f49.jpg',
         'https://i2.tiimg.com/715304/87fb69f67e512da1.jpg'
       ]
       this.urlallcoffee = [
-        {'name': '樱花初绽玛奇朵', url: 'https://i1.fuimg.com/715304/0e12a7e51b0ee459.png'},
-        {'name': '樱花初绽抹茶', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
-        {'name': '樱花初绽抹茶拿铁', url: 'https://i1.fuimg.com/715304/f8d739e39d9cdb37.png'},
-        {'name': '落樱飘雪冷萃', url: 'https://i1.fuimg.com/715304/c320a11e081c9c01.png'},
-        {'name': '春茶牛乳蛋糕', url: 'https://i1.fuimg.com/715304/0c86864eb80438ef.png'},
-        {'name': '盛樱蛋糕（树莓风味）', url: 'https://i1.fuimg.com/715304/e7e6a5b12584e041.png'},
-        {'name': '粉樱乳酪卷（草莓味）', url: 'https://i1.fuimg.com/715304/c9622e3260d8596d.png'},
-        {'name': '星巴克®春意礼赞综合咖啡豆', url: 'https://i1.fuimg.com/715304/c3b1f360654e969b.png'},
-        {'name': '星巴克®单一产地系列苏拉维西托拉贾咖啡豆', url: 'https://i1.fuimg.com/715304/444db2fdad7d3300.png'},
-        {'name': '星巴克臻选™肯尼亚 芭拉吉山 咖啡豆', url: 'https://i1.fuimg.com/715304/abb7438baefaabba.png'},
-        {'name': '星巴克臻选™卢旺达 穆洪多咖啡豆', url: 'https://i1.fuimg.com/715304/37759ffb14ba256f.png'},
-        {'name': '星巴克臻选™巴西 加利福尼亚庄园', url: 'https://i1.fuimg.com/715304/807b21584fd6a8f5.png'},
-        {'name': '星巴克臻选™日晒埃塞俄比亚 耶加雪菲 雪冽图咖啡豆', url: 'https://i1.fuimg.com/715304/e7a768a853da2812.png'},
-        {'name': '17oz樱花小鹿款冷饮玻璃杯', url: 'https://i1.fuimg.com/715304/2473fb44c177c0fe.png'},
-        {'name': '12oz粉色野餐水球造型随行杯', url: 'https://i1.fuimg.com/715304/71f38cc9ebf7bcd7.png'},
-        {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://i1.fuimg.com/715304/1702b61ec95d1f65.png'}
+        {'name': '樱花初绽玛奇朵', url: 'https://s1.ax1x.com/2020/04/22/JY6SDx.png'},
+        {'name': '樱花初绽抹茶', url: 'https://s1.ax1x.com/2020/04/22/JYyzK1.png'},
+        {'name': '樱花初绽抹茶拿铁', url: 'https://s1.ax1x.com/2020/04/22/JYyj29.png'},
+        {'name': '落樱飘雪冷萃', url: 'https://s1.ax1x.com/2020/04/22/JYyX8J.png'},
+        {'name': '春茶牛乳蛋糕', url: 'https://s1.ax1x.com/2020/04/22/JYyvvR.png'},
+        {'name': '盛樱蛋糕（树莓风味）', url: 'https://s1.ax1x.com/2020/04/22/JY6pb6.png'},
+        {'name': '粉樱乳酪卷（草莓味）', url: 'https://s1.ax1x.com/2020/04/22/JY6CVK.png'},
+        {'name': '星巴克®春意礼赞综合咖啡豆', url: 'https://s1.ax1x.com/2020/04/22/JY6PUO.png'},
+        {'name': '星巴克®单一产地系列苏拉维西托拉贾咖啡豆', url: 'https://s1.ax1x.com/2020/04/22/JY6i5D.png'},
+        {'name': '星巴克臻选™肯尼亚 芭拉吉山 咖啡豆', url: 'https://s1.ax1x.com/2020/04/22/JY6kPe.jpg'},
+        {'name': '星巴克臻选™卢旺达 穆洪多咖啡豆', url: 'https://s1.ax1x.com/2020/04/22/JY6A8H.jpg'},
+        {'name': '星巴克臻选™巴西 加利福尼亚庄园', url: 'https://s1.ax1x.com/2020/04/22/JY6E2d.png'},
+        {'name': '星巴克臻选™日晒埃塞俄比亚 耶加雪菲 雪冽图咖啡豆', url: 'https://s1.ax1x.com/2020/04/22/JY6VxA.png'},
+        {'name': '17oz樱花小鹿款冷饮玻璃杯', url: 'https://s1.ax1x.com/2020/04/22/JY6eKI.png'},
+        {'name': '12oz粉色野餐水球造型随行杯', url: 'https://s1.ax1x.com/2020/04/22/JY6nqP.jpg'},
+        {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://s1.ax1x.com/2020/04/22/JY6KVf.jpg'}
       ]
-      this.coffeeronghebingjilin = [
-        {'name': '麦芽冷翠', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'name': '麦芽冷翠1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'name': '麦芽冷翠2', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
-      ]
-      this.coffeeqiaokeli = [
-        {name: '巧克力热饮品', url: 'https://www.starbucks.com.cn/images/products/signature-chocolate-beverage.jpg'}
-      ]
-      this.coffeenongsuo = [
-        {name: '浓缩咖啡', url: 'https://www.starbucks.com.cn/images/products/caffe-americano.jpg'},
-        {name: '浓缩咖啡1', url: 'https://www.starbucks.com.cn/images/products/caffe-latte.jpg'},
-        {name: '浓缩咖啡2', url: 'https://www.starbucks.com.cn/images/products/caffe-mocha.jpg'},
-        {name: '浓缩咖啡3', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {name: '浓缩咖啡4', url: 'https://www.starbucks.com.cn/images/products/caramel-macchiato.jpg'},
-        {name: '浓缩咖啡5', url: 'https://www.starbucks.com.cn/images/products/espresso.jpg'},
-        {name: '浓缩咖啡6', url: 'https://www.starbucks.com.cn/images/products/flat-white.jpg'}
-      ]
-      this.meishihongpei = [
-        {name: '浓缩咖啡7', url: 'https://www.starbucks.com.cn/images/products/american-style-pancakes.jpg'},
-        {name: '浓缩咖啡1', url: 'https://www.starbucks.com.cn/images/products/blueberry-muffin.jpg'},
-        {name: '浓缩咖啡2', url: 'https://www.starbucks.com.cn/images/products/chocolate-muffin.jpg'},
-        {name: '浓缩咖啡3', url: 'https://www.starbucks.com.cn/images/products/cinnamon-swirl.jpg'},
-        {name: '浓缩咖啡4', url: 'https://www.starbucks.com.cn/images/products/french-butter-croissant.jpg'},
-        {name: '浓缩咖啡5', url: 'https://www.starbucks.com.cn/images/products/french-caramel-bread.jpg'},
-        {name: '浓缩咖啡6', url: 'https://www.starbucks.com.cn/images/products/hazelnut-croissant.jpg'},
-        {name: '浓缩咖啡8', url: 'https://www.starbucks.com.cn/images/products/honey-raisin-scone.jpg'},
-        {name: '浓缩咖啡10', url: 'https://www.starbucks.com.cn/images/products/oat-caramel-pudding-bread.jpg'},
-        {name: '浓缩咖啡20', url: 'https://www.starbucks.com.cn/images/products/premium-chocolate-croissant.jpg'},
-        {name: '浓缩咖啡30', url: 'https://www.starbucks.com.cn/images/products/raisin-scone.jpg'},
-        {name: '浓缩咖啡40', url: 'https://www.starbucks.com.cn/images/products/raisins-walnut-bread.jpg'},
-        {name: '浓缩咖啡50', url: 'https://www.starbucks.com.cn/images/products/red-bean-oats-scone.jpg'},
-        {name: '浓缩咖啡60', url: 'https://www.starbucks.com.cn/images/products/whole-wheat-walnut-muffin.jpg'}
-      ]
+      var that = this
+      that.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        data: {ProdSpec: 1},
+        success: function (response) {
+          that.meishihongpei = response.result.items
+        }
+      })
+      that.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        data: {ProdSpec: 3},
+        success: function (response) {
+          that.coffeeronghebingjilin = response.result.items
+        }
+      })
+      that.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        data: {ProdSpec: 2},
+        success: function (response) {
+          that.coffeenongsuo = response.result.items
+        }
+      })
+      that.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        data: {ProdSpec: 4},
+        success: function (response) {
+          that.coffeeqiaokeli = response.result.items
+        }
+      })
+      // 购物车
       this.shoppingxinxi = [
         {'checkModel': false, 'name': '麦芽冷翠', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
         {'checkModel': false, 'name': '麦芽冷翠1', 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
         {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
@@ -908,12 +911,12 @@ export default{
       var that = this
       this.$.ajax({
         type: 'Get',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + this.sessionNum,
+        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + that.sessionNum,
         success: function (response) {
           var i = response.result.items
           that.udpatedata = {
-            Id: this.sessionid,
-            numbering: this.sessionNum,
+            Id: that.sessionid,
+            numbering: that.sessionNum,
             name: i[0].name,
             passWord: i[0].passWord,
             region: i[0].region,
@@ -1012,7 +1015,7 @@ export default{
     }
   },
   // 延迟加载
-  mounted () {
+  created () {
     // 延迟
     this.onload()
     if (this._isMobile()) {
