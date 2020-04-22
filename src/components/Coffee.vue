@@ -436,9 +436,9 @@
                  <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <font v-model="danjia"></font>
+                <font v-text="danjia"></font>
                 <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font v-model="spzong">总：</font>
+                <font v-text="spzong" v-model="item.qty"></font>
               </li>
             </ul>
           </div>
@@ -458,6 +458,7 @@
 import { Message } from 'element-ui'
 const shpOptions = ['']
 export default{
+  // template: '<div @click="gwchandleClick">{{number}}</div>',
   data () {
     // 密码的判断
     // eslint-disable-next-line no-unused-vars
@@ -547,10 +548,10 @@ export default{
         createTime: '',
         isBought: '',
         boughtTime: '',
-        founderId: '',
-        spzong: '',
-        danjia: '123'
+        founderId: ''
       }],
+      spzong: 0,
+      danjia: 1,
       // 购物车全选框
       shoppingcheckAll: false,
       checkedSHP: [''],
@@ -615,10 +616,18 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
     },
+    // gwchandleClick: function () {
+    //   this.number++
+    //   this.$emit('change')
+    // },
     // 计数器
     sphandleChange (value) {
-      console.log(value)
+      this.spzong = parseInt(value) + parseInt(this.danjia)
+      // console.log(value)
     },
+    // sphandleChange: function () {
+    //   this.spzong = this.$refs.one.number + parseInt(this.danjia)
+    // },
     // 点击时间流
     clickTime (event) {
       this.clickTimeNum = event
