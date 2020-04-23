@@ -63,7 +63,7 @@ body{
   font-size: 20px;
   font-style:normal
 }
-.el-container .cof-aside .cof-main-right .ul-menu ul li i:hover{
+.el-container .cof-aside .cof-main-right .ul-menu ul li i.Hover{
   border-bottom:3px solid #409EFF
 }
 /* .el-container .el-aside .cof-main-left{

@@ -47,9 +47,9 @@
                 <!-- <li>{{ this.sessionName }}</li> -->
                 <li>菜单
                   <ul>
-                      <li><i @click="changemainright(1)">咖啡</i></li>
-                      <li><i @click="changemainright(2)">美食</i></li>
-                      <li><i @click="changemainright(3)">饮料</i></li>
+                      <li><i :class="showmain == 1?'Hover':''" @click="changemainright(1)">咖啡</i></li>
+                      <li><i :class="showmain == 2?'Hover':''" @click="changemainright(2)">美食</i></li>
+                      <li><i :class="showmain == 3?'Hover':''" @click="changemainright(3)">饮料</i></li>
                       <!-- <li><i @click="changemainright(4)">商品</i></li> -->
                   </ul>
                   </li>
@@ -181,19 +181,10 @@
         </el-main>
       <!-- 美食页 -->
         <el-main id="rightmeishi" v-show="this.showmain == 2">
-          <div>
-            <span>烘培</span>
+          <div v-for="(items,index) in TopCommMeiShi" :key="index">
+            <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>手工调制浓缩咖啡</span>
-            <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -202,38 +193,11 @@
         </el-main>
       <!-- 饮料页 -->
         <el-main id="rightyinliao" v-show="this.showmain == 3">
-          <!-- 想着可循环 -->
-          <div>
-            <span>咖啡融合冰淇淋</span>
+          <!-- 循环 -->
+          <div v-for="(items,index) in TopCommYinPin" :key="index">
+            <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>经典巧克力饮品</span>
-            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>星巴克冷萃咖啡系列</span>
-            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>手工调制浓缩咖啡</span>
-            <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -428,29 +392,19 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-<<<<<<< HEAD
       width="40%">
-=======
-        width="40%">
->>>>>>> 7820f1b1f36f9e534187612d0b1b1f6b7e984926
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
-              <div style="margin: 15px 0;"></div>
+            <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-<<<<<<< HEAD
                 <font>{{item.danjia}}</font>
                 <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{item.danjia*item.qty}}</font>
-                <font>总：{{allnum = allnum + item.danjia*item.qty}}</font>
-=======
-                <font v-model="shoppingData.danjia"></font>
-                <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font v-model="shoppingData.spzong">总：</font>
->>>>>>> 7820f1b1f36f9e534187612d0b1b1f6b7e984926
+                <font>总：{{item.danjia * item.qty}}</font>
+                <!-- <font>总：{{allnum = allnum + item.danjia*item.qty}}</font> -->
               </li>
             </ul>
           </div>
@@ -502,6 +456,8 @@ export default{
     return {
       allchecked: false, // 全选
       clickTimeNum: 1,
+      TopCommMeiShi: [],
+      TopCommYinPin: [],
       allnum: 0,
       flag: true,
       loading: false,
@@ -651,8 +607,48 @@ export default{
     clickTime (event) {
       this.clickTimeNum = event
     },
+    GetCommByType: function (event) {
+      // var that = this
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        data: {ProdSpec: event},
+        success: function (response) {
+          // alert(JSON.stringify(response.result.items))
+          return response.result.items
+        }
+      })
+    },
+    GetTop (Typename, id) {
+      var that = this
+      that.$.ajax({
+        type: 'GET',
+        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllListByTypeTop?top=' + id,
+        success: function (response) {
+          // alert(response.result.items[0].typeName)
+          // that.Top0 = response.result.items
+          response.result.items.forEach(element => {
+            var name = element.typeName
+            var id = element.id
+            that.$.ajax({
+              type: 'POST',
+              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+              data: {ProdSpec: id},
+              success: function (responseNext) {
+                // alert(JSON.stringify(response.result.items))
+                // return responseNext.result.items
+                // that.TopComm[name] = responseNext.result.items
+                Typename.push({'TypeName': name, 'List': responseNext.result.items})
+              }
+            })
+          })
+        }
+      })
+    },
     // 初始化
     onload () {
+      this.GetTop(this.TopCommYinPin, 1)
+      this.GetTop(this.TopCommMeiShi, 2)
       // alert(localStorage.getItem('username'))
       if (localStorage.getItem('username')) {
         this.sessionNum = localStorage.getItem('usernum')
@@ -711,39 +707,6 @@ export default{
         {'name': '12oz粉色野餐水球造型随行杯', url: 'https://s1.ax1x.com/2020/04/22/JY6nqP.jpg'},
         {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://s1.ax1x.com/2020/04/22/JY6KVf.jpg'}
       ]
-      var that = this
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 1},
-        success: function (response) {
-          that.meishihongpei = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 3},
-        success: function (response) {
-          that.coffeeronghebingjilin = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 2},
-        success: function (response) {
-          that.coffeenongsuo = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 4},
-        success: function (response) {
-          that.coffeeqiaokeli = response.result.items
-        }
-      })
       // 购物车
       this.shoppingxinxi = [
         {'checkModel': false, 'name': '麦芽冷翠', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
@@ -926,6 +889,14 @@ export default{
     },
     changemainright (event) {
       this.showmain = event
+      if (event === 0) {
+        this.flag = true
+        if (localStorage.getItem('id')) {
+          this.showldiv = 1
+        } else {
+          this.showldiv = 0
+        }
+      }
     },
     changecoffeelistpicf (event) {
       this.changecoffeelistpic = event
@@ -940,9 +911,6 @@ export default{
       })
       this.sessionName = ''
       localStorage.clear()
-      // localStorage.setItem('username', '')
-      // localStorage.setItem('usernum', '')
-      // localStorage.setItem('id', '')
     },
     udpatedrawermothod () {
       this.udpatedrawer = true
