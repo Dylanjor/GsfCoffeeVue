@@ -426,25 +426,25 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-      width="40%"
-      :before-close="handleClose">
+      width="40%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
               <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
-                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
+                <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <font v-text="danjia"></font>
-                <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font v-text="spzong" v-model="item.qty"></font>
+                <font>{{item.danjia}}</font>
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
+                <font>总：{{item.danjia*item.qty}}</font>
+                <font>总：{{allnum = allnum + item.danjia*item.qty}}</font>
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
-     <font class="shpzj">总计：110</font>
+     <font class="shpzj">总计:</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
         <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
@@ -490,6 +490,7 @@ export default{
     return {
       allchecked: false, // 全选
       clickTimeNum: 1,
+      allnum: 0,
       flag: true,
       loading: false,
       showldiv: 0,
@@ -550,8 +551,6 @@ export default{
         boughtTime: '',
         founderId: ''
       }],
-      spzong: 0,
-      danjia: 1,
       // 购物车全选框
       shoppingcheckAll: false,
       checkedSHP: [''],
@@ -616,18 +615,23 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
     },
-    // gwchandleClick: function () {
-    //   this.number++
-    //   this.$emit('change')
+    // zongji () {
+    //   // let sum = 0
+    //   // this.shoppingxinxi.forEach((item) => {
+    //   //   sum += item.danjia
+    //   // })
+    //   // // 返回
+    //   // this.sum = sum
+    //   var sum = 0
+    //   for (var i = 0; i < this.shoppingxinxi.length; i++) {
+    //     sum += parseInt(this.danjia[i])
+    //   }
+    //   this.sum = sum
     // },
     // 计数器
     sphandleChange (value) {
-      this.spzong = parseInt(value) + parseInt(this.danjia)
-      // console.log(value)
+      console.log(value)
     },
-    // sphandleChange: function () {
-    //   this.spzong = this.$refs.one.number + parseInt(this.danjia)
-    // },
     // 点击时间流
     clickTime (event) {
       this.clickTimeNum = event
@@ -727,11 +731,11 @@ export default{
       })
       // 购物车
       this.shoppingxinxi = [
-        {'checkModel': false, 'name': '麦芽冷翠', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠1', 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
+        {'checkModel': false, 'name': '麦芽冷翠', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠1', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 3, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
+        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
     },
     // 注册提交
@@ -1014,14 +1018,7 @@ export default{
           return
         }
       }
-      // this.checkedSHP = val ? shpOptions : []
-      // this.isIndeterminate = false
     },
-    // sphCheckedChange (value) {
-    //   let checkedCount = value.length
-    //   this.shoppingcheckAll = checkedCount === this.shp.length
-    //   this.shoppingisIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
-    // }
     _isMobile () {
       let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
       return flag
