@@ -175,7 +175,7 @@
                 <el-image
                   style="width: 150px; height: 150px"
                   :src="fit.url"
-                  :fit="'contain'" @click="CommDialogVisible = true,commUrl = fit.url,commName = fit.name"></el-image>
+                  :fit="'contain'" @click="CommDialogVisible = true,CommId = fit.id,commUrl = fit.url,commMessage = fit.desc,CommUnitPrice = fit.sellingPrice,commName = fit.name"></el-image>
               </div>
             </div>
         </el-main>
@@ -184,7 +184,7 @@
           <div>
             <span>烘培</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in meishihongpei" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -193,7 +193,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -206,7 +206,7 @@
           <div>
             <span>咖啡融合冰淇淋</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -215,7 +215,7 @@
           <div>
             <span>经典巧克力饮品</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in coffeeqiaokeli" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -224,7 +224,7 @@
           <div>
             <span>星巴克冷萃咖啡系列</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -233,7 +233,7 @@
           <div>
             <span>手工调制浓缩咖啡</span>
             <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -403,13 +403,15 @@
         :title=this.commName
         :visible.sync="CommDialogVisible"
         width="40%"
+        :before-close="ShoppingClose"
         center>
         <div class="CommDilog">
           <img :src="commUrl">
           <div class="CommDilog-Num">
-            <span class="commMain">具体信息</span>
+            <span class="commMain">{{this.commMessage}}</span><br><br>
+            <span class="commMain">单价:{{this.CommUnitPrice}}</span>
              <div class="commSpecification">
-                  <el-radio-group v-model="radio1" size="small" lable="规格">
+                  <el-radio-group v-model="Commspe" size="small" lable="规格">
                     <el-radio-button label="大杯"></el-radio-button>
                     <el-radio-button label="中杯"></el-radio-button>
                     <el-radio-button label="小杯"></el-radio-button>
@@ -417,7 +419,7 @@
                 <el-input-number v-model="Commnum" controls-position="right" @change="CommNumChange" :min="1" size="small"></el-input-number>
               </div>
           </div>
-          <div style="width:100%;text-align:right"><el-button type="text" class="eb-insert">添加至购物车</el-button></div>
+          <div style="width:100%;text-align:right">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
         </div>
         <!-- <span slot="footer" class="dialog-footer">
           <el-button @click="CommDialogVisible = false">取 消</el-button>
@@ -426,8 +428,7 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-      width="40%"
-      :before-close="handleClose">
+        width="40%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
               <div style="margin: 15px 0;"></div>
@@ -436,9 +437,9 @@
                  <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-                <font v-model="danjia"></font>
+                <font v-model="shoppingData.danjia"></font>
                 <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font v-model="spzong">总：</font>
+                <font v-model="shoppingData.spzong">总：</font>
               </li>
             </ul>
           </div>
@@ -497,9 +498,6 @@ export default{
       ltrdrawer: false,
       udpatedrawer: false,
       dialogVisible: false,
-      CommDialogVisible: false,
-      Commnum: 1,
-      radio1: '中杯',
       passw: 'password',
       logpassw: 'password',
       udpatedata: '',
@@ -514,7 +512,13 @@ export default{
       sessionNum: '',
       sessionPass: '',
       commUrl: '',
+      commMessage: '',
       commName: '',
+      CommId: '',
+      CommUnitPrice: '',
+      CommDialogVisible: false,
+      Commnum: 1,
+      Commspe: '中杯',
       form: {
         name: '',
         region: '青岛',
@@ -817,6 +821,10 @@ export default{
         this.logicon = 'el-input__icon el-icon-loading'
       };
     },
+    ShoppingClose () {
+      this.CommDialogVisible = false
+      this.Commnum = 1
+    },
     // 登录
     onlog () {
       // eslint-disable-next-line no-unused-vars
@@ -907,8 +915,10 @@ export default{
         type: 'success'
       })
       this.sessionName = ''
-      localStorage.setItem('username', '')
-      localStorage.setItem('usernum', '')
+      localStorage.clear()
+      // localStorage.setItem('username', '')
+      // localStorage.setItem('usernum', '')
+      // localStorage.setItem('id', '')
     },
     udpatedrawermothod () {
       this.udpatedrawer = true
@@ -991,6 +1001,39 @@ export default{
     },
     CommNumChange () {
       console.log(this.Commnum)
+    },
+    // 添加至购物车
+    InsertShopping () {
+      if (!localStorage.getItem('id')) {
+        this.$message({
+          type: 'info',
+          message: '请先登录账号'
+        })
+      } else {
+        var shoppingCartTable = {
+          commodityId: this.CommId,
+          qty: this.Commnum,
+          founderId: localStorage.getItem('id'),
+          totalCost: 0,
+          specification: this.Commspe,
+          unitPrice: this.CommUnitPrice,
+          isBought: false,
+          desc: ''
+        }
+        var that = this
+        this.$.ajax({
+          type: 'POST',
+          url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/UpdateShoppingQty',
+          data: JSON.stringify(shoppingCartTable),
+          contentType: 'application/json',
+          success: function () {
+            that.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+          }
+        })
+      }
     },
     // 购物车页面全选
     spCheckAllChange (val) {
