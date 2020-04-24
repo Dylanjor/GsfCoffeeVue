@@ -601,6 +601,7 @@ export default{
     clickTime (event) {
       this.clickTimeNum = event
     },
+    // 获取小标题下面的商品
     GetCommByType: function (event) {
       // var that = this
       this.$.ajax({
@@ -614,6 +615,7 @@ export default{
         }
       })
     },
+    // 获取小标题
     GetTop (Typename, id) {
       var that = this
       that.$.ajax({
@@ -641,7 +643,9 @@ export default{
     },
     // 初始化
     onload () {
+      // 动态加载商品信息（饮品页面）
       this.GetTop(this.TopCommYinPin, 1)
+      // 动态加载商品信息（美食页面）
       this.GetTop(this.TopCommMeiShi, 2)
       // alert(localStorage.getItem('username'))
       if (localStorage.getItem('username')) {
@@ -1050,7 +1054,7 @@ export default{
       return flag
     }
   },
-  // 延迟加载
+  // 初始化
   created () {
     // 延迟
     this.onload()
