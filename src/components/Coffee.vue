@@ -383,7 +383,7 @@
                 <el-input-number v-model="Commnum" controls-position="right" @change="CommNumChange" :min="1" size="small"></el-input-number>
               </div>
           </div>
-          <div style="width:100%;text-align:right">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
+          <div style="width:100%;text-align:right;margin-top:20px;">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
         </div>
         <!-- <span slot="footer" class="dialog-footer">
           <el-button @click="CommDialogVisible = false">取 消</el-button>
@@ -402,15 +402,15 @@
                 <img :src="item.url">
                 <font>{{item.name}}</font>
                 <font>{{item.danjia}}</font>
-                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{item.danjia * item.qty}}</font>
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
+                <font>总：{{Totalprice(item.danjia , item.qty)}}</font>
                 <!-- <font>总：{{allnum = allnum + item.danjia*item.qty}}</font> -->
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
-     <font class="shpzj">总计:</font>
+     <font class="shpzj">总计:{{allnum}}</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
         <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
@@ -586,22 +586,16 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
     },
-    // zongji () {
-    //   // let sum = 0
-    //   // this.shoppingxinxi.forEach((item) => {
-    //   //   sum += item.danjia
-    //   // })
-    //   // // 返回
-    //   // this.sum = sum
-    //   var sum = 0
-    //   for (var i = 0; i < this.shoppingxinxi.length; i++) {
-    //     sum += parseInt(this.danjia[i])
-    //   }
-    //   this.sum = sum
-    // },
+    Totalprice: function (qty, price) {
+      return qty * price
+    },
     // 计数器
-    sphandleChange (value) {
-      console.log(value)
+    sphandleChange () {
+      var that = this
+      that.allnum = 0
+      this.shoppingxinxi.forEach(element => {
+        that.allnum = that.allnum + (element.danjia * element.qty)
+      })
     },
     // 点击时间流
     clickTime (event) {
@@ -612,6 +606,7 @@ export default{
       this.$.ajax({
         type: 'POST',
         url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        async: true,
         data: {ProdSpec: event},
         success: function (response) {
           // alert(JSON.stringify(response.result.items))
@@ -624,6 +619,7 @@ export default{
       that.$.ajax({
         type: 'GET',
         url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllListByTypeTop?top=' + id,
+        async: true,
         success: function (response) {
           // alert(response.result.items[0].typeName)
           // that.Top0 = response.result.items
@@ -634,10 +630,8 @@ export default{
               type: 'POST',
               url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
               data: {ProdSpec: id},
+              async: true,
               success: function (responseNext) {
-                // alert(JSON.stringify(response.result.items))
-                // return responseNext.result.items
-                // that.TopComm[name] = responseNext.result.items
                 Typename.push({'TypeName': name, 'List': responseNext.result.items})
               }
             })
@@ -715,6 +709,10 @@ export default{
         {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
         {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
       ]
+      var that = this
+      this.shoppingxinxi.forEach(element => {
+        that.allnum = that.allnum + (element.danjia * element.qty)
+      })
     },
     // 注册提交
     onSubmit () {
@@ -739,6 +737,7 @@ export default{
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Register',
             data: JSON.stringify(registerParams),
+            async: true,
             contentType: 'application/json',
             success: function (response) {
               that.sessionid = response.result // id
@@ -749,6 +748,7 @@ export default{
                   that.$.ajax({
                     type: 'GET',
                     url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetByid?id=' + parseInt(response.result),
+                    async: true,
                     success: function (response) {
                       that.$message({
                         type: 'info',
@@ -831,6 +831,7 @@ export default{
           this.$.ajax({
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+            async: true,
             data: params,
             success: function (response) {
               // alert(JSON.stringify(response.result.items))
@@ -918,6 +919,7 @@ export default{
       this.$.ajax({
         type: 'Get',
         url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + that.sessionNum,
+        async: true,
         success: function (response) {
           var i = response.result.items
           that.udpatedata = {
@@ -966,6 +968,7 @@ export default{
           that.$.ajax({
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Updateasync',
+            async: true,
             data: JSON.stringify(udpatedatapost),
             contentType: 'application/json',
             success: function () {
@@ -1016,6 +1019,7 @@ export default{
         this.$.ajax({
           type: 'POST',
           url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/UpdateShoppingQty',
+          async: true,
           data: JSON.stringify(shoppingCartTable),
           contentType: 'application/json',
           success: function () {
