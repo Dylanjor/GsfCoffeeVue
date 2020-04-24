@@ -428,11 +428,7 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-<<<<<<< HEAD
-      width="40%">
-=======
         width="40%">
->>>>>>> 7820f1b1f36f9e534187612d0b1b1f6b7e984926
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
               <div style="margin: 15px 0;"></div>
@@ -441,22 +437,16 @@
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <img :src="item.url">
                 <font>{{item.name}}</font>
-<<<<<<< HEAD
-                <font>{{item.danjia}}</font>
-                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{item.danjia*item.qty}}</font>
-                <font>总：{{allnum = allnum + item.danjia*item.qty}}</font>
-=======
                 <font v-model="shoppingData.danjia"></font>
+                {{allnum = allnum+item.qty*item.sellingPrice}}
                 <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
                 <font v-model="shoppingData.spzong">总：</font>
->>>>>>> 7820f1b1f36f9e534187612d0b1b1f6b7e984926
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
-     <font class="shpzj">总计:</font>
+     <font class="shpzj">总计:{{allnum}}</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
         <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
