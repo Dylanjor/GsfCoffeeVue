@@ -35,7 +35,7 @@
               <br>
               <el-button type="text" @click="dialogVisible=true">退出</el-button>
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
-              <el-button type="text" @click="shoppingFormVisible=true">购物车</el-button>
+              <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
             </div>
@@ -385,26 +385,28 @@
           </div>
           <div style="width:100%;text-align:right;margin-top:20px;">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
         </div>
-        <!-- <span slot="footer" class="dialog-footer">
-          <el-button @click="CommDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="CommDialogVisible = false">确 定</el-button>
-        </span> -->
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-      width="40%">
+        width="50%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
             <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
-                <img :src="item.url">
+                <!-- <img :src="item.url"> -->
+                <img :src="item.commImage">
                 <font>{{item.name}}</font>
-                <font>{{item.danjia}}</font>
+                  <el-radio-group v-model="item.specification" size="mini" lable="规格" class="Commspe">
+                    <el-radio-button label="大杯"></el-radio-button>
+                    <el-radio-button label="中杯"></el-radio-button>
+                    <el-radio-button label="小杯"></el-radio-button>
+                  </el-radio-group>
+                <font>{{item.totalCost}}</font>
+
                 <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{Totalprice(item.danjia , item.qty)}}</font>
-                <!-- <font>总：{{allnum = allnum + item.danjia*item.qty}}</font> -->
+                <font>总：{{Totalprice(item.totalCost , item.qty)}}</font>
               </li>
             </ul>
           </div>
@@ -582,19 +584,33 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
     },
+    openShoppingCar () {
+      var that = this
+      that.shoppingFormVisible = true
+      this.$.ajax({
+        type: 'GET',
+        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
+        success: function (response) {
+          that.shoppingxinxi = response.result.items
+          that.shoppingxinxi.forEach(element => {
+            that.allnum += element.totalCost * element.qty
+          })
+        }
+      })
+    },
     showComm () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
     },
     Totalprice: function (qty, price) {
-      return qty * price
+      return parseInt(qty) * parseInt(price)
     },
     // 计数器
     sphandleChange () {
       var that = this
       that.allnum = 0
-      this.shoppingxinxi.forEach(element => {
-        that.allnum = that.allnum + (element.danjia * element.qty)
+      that.shoppingxinxi.forEach(element => {
+        that.allnum = that.allnum + (element.totalCost * element.qty)
       })
     },
     // 点击时间流
@@ -705,18 +721,6 @@ export default{
         {'name': '12oz粉色野餐水球造型随行杯', url: 'https://s1.ax1x.com/2020/04/22/JY6nqP.jpg'},
         {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://s1.ax1x.com/2020/04/22/JY6KVf.jpg'}
       ]
-      // 购物车
-      this.shoppingxinxi = [
-        {'checkModel': false, 'name': '麦芽冷翠', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠1', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 3, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
-      ]
-      var that = this
-      this.shoppingxinxi.forEach(element => {
-        that.allnum = that.allnum + (element.danjia * element.qty)
-      })
     },
     // 注册提交
     onSubmit () {
