@@ -63,7 +63,7 @@ body{
   font-size: 20px;
   font-style:normal
 }
-.el-container .cof-aside .cof-main-right .ul-menu ul li i:hover{
+.el-container .cof-aside .cof-main-right .ul-menu ul li i.Hover{
   border-bottom:3px solid #409EFF
 }
 /* .el-container .el-aside .cof-main-left{
@@ -366,8 +366,8 @@ body{
 .shopping-rightyinliaoul li{
   list-style: none; 
   width: 100%;
-  height: 6rem;
-  line-height:6rem;
+  height: 6.2rem;
+  line-height:6.2rem;
  margin-bottom: 2%;
  border: #ccc 1px solid;
  border-radius: 10px;
@@ -381,11 +381,11 @@ body{
  width: 11%;
 }
 .shopping-rightyinliaoul li font{
- margin-left: 7%;
+ margin-left: 3%;
  }
  .shoppingnum{
-   width: 18%;
-   margin-left: 10%;
+   width: 16%;
+   margin-left: 4%;
    
  }
  .shoppingchecked{
@@ -393,7 +393,7 @@ body{
  }
  .shpzj{
    margin-left: 85%;
-   color: red;
+   
  }
  .gwcCommDilog{
   /* float: left; */
@@ -425,3 +425,7 @@ body{
   width: 30%;
   height: auto;
 } */
+.Commspe {
+  margin-left: 10%;
+
+}

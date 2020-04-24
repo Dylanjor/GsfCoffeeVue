@@ -35,7 +35,7 @@
               <br>
               <el-button type="text" @click="dialogVisible=true">退出</el-button>
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
-              <el-button type="text" @click="shoppingFormVisible=true">购物车</el-button>
+              <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
             </div>
@@ -47,9 +47,9 @@
                 <!-- <li>{{ this.sessionName }}</li> -->
                 <li>菜单
                   <ul>
-                      <li><i @click="changemainright(1)">咖啡</i></li>
-                      <li><i @click="changemainright(2)">美食</i></li>
-                      <li><i @click="changemainright(3)">饮料</i></li>
+                      <li><i :class="showmain == 1?'Hover':''" @click="changemainright(1)">咖啡</i></li>
+                      <li><i :class="showmain == 2?'Hover':''" @click="changemainright(2)">美食</i></li>
+                      <li><i :class="showmain == 3?'Hover':''" @click="changemainright(3)">饮料</i></li>
                       <!-- <li><i @click="changemainright(4)">商品</i></li> -->
                   </ul>
                   </li>
@@ -181,19 +181,10 @@
         </el-main>
       <!-- 美食页 -->
         <el-main id="rightmeishi" v-show="this.showmain == 2">
-          <div>
-            <span>烘培</span>
+          <div v-for="(items,index) in TopCommMeiShi" :key="index">
+            <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in meishihongpei" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>手工调制浓缩咖啡</span>
-            <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -202,38 +193,11 @@
         </el-main>
       <!-- 饮料页 -->
         <el-main id="rightyinliao" v-show="this.showmain == 3">
-          <!-- 想着可循环 -->
-          <div>
-            <span>咖啡融合冰淇淋</span>
+          <!-- 循环 -->
+          <div v-for="(items,index) in TopCommYinPin" :key="index">
+            <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>经典巧克力饮品</span>
-            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeqiaokeli" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>星巴克冷萃咖啡系列</span>
-            <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in coffeeronghebingjilin" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
-                <font>{{item.commodityName}}</font>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span>手工调制浓缩咖啡</span>
-            <ul class="cof-rightyinliaoul" >
-              <li v-for="item in coffeenongsuo" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
+              <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
                 <img :src="item.commImage">
                 <font>{{item.commodityName}}</font>
               </li>
@@ -419,28 +383,30 @@
                 <el-input-number v-model="Commnum" controls-position="right" @change="CommNumChange" :min="1" size="small"></el-input-number>
               </div>
           </div>
-          <div style="width:100%;text-align:right">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
+          <div style="width:100%;text-align:right;margin-top:20px;">总价格:{{this.CommUnitPrice * this.Commnum}}  <el-button type="text" class="eb-insert" @click="InsertShopping">添加至购物车</el-button></div>
         </div>
-        <!-- <span slot="footer" class="dialog-footer">
-          <el-button @click="CommDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="CommDialogVisible = false">确 定</el-button>
-        </span> -->
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-        width="40%">
+        width="50%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
-              <div style="margin: 15px 0;"></div>
+            <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.name" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
-                <img :src="item.url">
+                <!-- <img :src="item.url"> -->
+                <img :src="item.commImage">
                 <font>{{item.name}}</font>
-                <font v-model="shoppingData.danjia"></font>
-                {{allnum = allnum+item.qty*item.sellingPrice}}
-                <el-input-number v-model="item.qty" ref="one" class="shoppingnum" @change="sphandleChange(item.qty)" :min="0" size="mini" label="数量"></el-input-number>
-                <font v-model="shoppingData.spzong">总：</font>
+                  <el-radio-group v-model="item.specification" size="mini" lable="规格" class="Commspe">
+                    <el-radio-button label="大杯"></el-radio-button>
+                    <el-radio-button label="中杯"></el-radio-button>
+                    <el-radio-button label="小杯"></el-radio-button>
+                  </el-radio-group>
+                <font>{{item.totalCost}}</font>
+
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
+                <font>总：{{Totalprice(item.totalCost , item.qty)}}</font>
               </li>
             </ul>
           </div>
@@ -492,6 +458,8 @@ export default{
     return {
       allchecked: false, // 全选
       clickTimeNum: 1,
+      TopCommMeiShi: [],
+      TopCommYinPin: [],
       allnum: 0,
       flag: true,
       loading: false,
@@ -616,33 +584,81 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
     },
+    openShoppingCar () {
+      var that = this
+      that.shoppingFormVisible = true
+      this.$.ajax({
+        type: 'GET',
+        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
+        success: function (response) {
+          that.shoppingxinxi = response.result.items
+          that.shoppingxinxi.forEach(element => {
+            that.allnum += element.totalCost * element.qty
+          })
+        }
+      })
+    },
     showComm () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
     },
-    // zongji () {
-    //   // let sum = 0
-    //   // this.shoppingxinxi.forEach((item) => {
-    //   //   sum += item.danjia
-    //   // })
-    //   // // 返回
-    //   // this.sum = sum
-    //   var sum = 0
-    //   for (var i = 0; i < this.shoppingxinxi.length; i++) {
-    //     sum += parseInt(this.danjia[i])
-    //   }
-    //   this.sum = sum
-    // },
+    Totalprice: function (qty, price) {
+      return parseInt(qty) * parseInt(price)
+    },
     // 计数器
-    sphandleChange (value) {
-      console.log(value)
+    sphandleChange () {
+      var that = this
+      that.allnum = 0
+      that.shoppingxinxi.forEach(element => {
+        that.allnum = that.allnum + (element.totalCost * element.qty)
+      })
     },
     // 点击时间流
     clickTime (event) {
       this.clickTimeNum = event
     },
+    GetCommByType: function (event) {
+      // var that = this
+      this.$.ajax({
+        type: 'POST',
+        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        async: true,
+        data: {ProdSpec: event},
+        success: function (response) {
+          // alert(JSON.stringify(response.result.items))
+          return response.result.items
+        }
+      })
+    },
+    GetTop (Typename, id) {
+      var that = this
+      that.$.ajax({
+        type: 'GET',
+        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllListByTypeTop?top=' + id,
+        async: true,
+        success: function (response) {
+          // alert(response.result.items[0].typeName)
+          // that.Top0 = response.result.items
+          response.result.items.forEach(element => {
+            var name = element.typeName
+            var id = element.id
+            that.$.ajax({
+              type: 'POST',
+              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+              data: {ProdSpec: id},
+              async: true,
+              success: function (responseNext) {
+                Typename.push({'TypeName': name, 'List': responseNext.result.items})
+              }
+            })
+          })
+        }
+      })
+    },
     // 初始化
     onload () {
+      this.GetTop(this.TopCommYinPin, 1)
+      this.GetTop(this.TopCommMeiShi, 2)
       // alert(localStorage.getItem('username'))
       if (localStorage.getItem('username')) {
         this.sessionNum = localStorage.getItem('usernum')
@@ -701,47 +717,6 @@ export default{
         {'name': '12oz粉色野餐水球造型随行杯', url: 'https://s1.ax1x.com/2020/04/22/JY6nqP.jpg'},
         {'name': '14oz萌猫樱花款茶漏配玻璃杯', url: 'https://s1.ax1x.com/2020/04/22/JY6KVf.jpg'}
       ]
-      var that = this
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 1},
-        success: function (response) {
-          that.meishihongpei = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 3},
-        success: function (response) {
-          that.coffeeronghebingjilin = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 2},
-        success: function (response) {
-          that.coffeenongsuo = response.result.items
-        }
-      })
-      that.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        data: {ProdSpec: 4},
-        success: function (response) {
-          that.coffeeqiaokeli = response.result.items
-        }
-      })
-      // 购物车
-      this.shoppingxinxi = [
-        {'checkModel': false, 'name': '麦芽冷翠', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cappuccino.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠1', 'danjia': 2, 'qty': '1', url: 'https://www.starbucks.com.cn//images/products/vanilla-flavored-cream-frappuccino-blended-beverage.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 3, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'},
-        {'checkModel': false, 'name': '麦芽冷翠2', 'danjia': 4, 'qty': '1', url: 'https://www.starbucks.com.cn/images/products/cold-foam-cold-brew.jpg'}
-      ]
     },
     // 注册提交
     onSubmit () {
@@ -766,6 +741,7 @@ export default{
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Register',
             data: JSON.stringify(registerParams),
+            async: true,
             contentType: 'application/json',
             success: function (response) {
               that.sessionid = response.result // id
@@ -776,6 +752,7 @@ export default{
                   that.$.ajax({
                     type: 'GET',
                     url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetByid?id=' + parseInt(response.result),
+                    async: true,
                     success: function (response) {
                       that.$message({
                         type: 'info',
@@ -858,6 +835,7 @@ export default{
           this.$.ajax({
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+            async: true,
             data: params,
             success: function (response) {
               // alert(JSON.stringify(response.result.items))
@@ -916,6 +894,14 @@ export default{
     },
     changemainright (event) {
       this.showmain = event
+      if (event === 0) {
+        this.flag = true
+        if (localStorage.getItem('id')) {
+          this.showldiv = 1
+        } else {
+          this.showldiv = 0
+        }
+      }
     },
     changecoffeelistpicf (event) {
       this.changecoffeelistpic = event
@@ -930,9 +916,6 @@ export default{
       })
       this.sessionName = ''
       localStorage.clear()
-      // localStorage.setItem('username', '')
-      // localStorage.setItem('usernum', '')
-      // localStorage.setItem('id', '')
     },
     udpatedrawermothod () {
       this.udpatedrawer = true
@@ -940,6 +923,7 @@ export default{
       this.$.ajax({
         type: 'Get',
         url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + that.sessionNum,
+        async: true,
         success: function (response) {
           var i = response.result.items
           that.udpatedata = {
@@ -988,6 +972,7 @@ export default{
           that.$.ajax({
             type: 'POST',
             url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Updateasync',
+            async: true,
             data: JSON.stringify(udpatedatapost),
             contentType: 'application/json',
             success: function () {
@@ -1038,6 +1023,7 @@ export default{
         this.$.ajax({
           type: 'POST',
           url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/UpdateShoppingQty',
+          async: true,
           data: JSON.stringify(shoppingCartTable),
           contentType: 'application/json',
           success: function () {
