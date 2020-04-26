@@ -8,15 +8,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import Vuex from 'Vuex'
 import $ from 'jquery'
+import configapi from './config/config'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(Vuex)
 
+Vue.prototype.api = configapi
 Vue.prototype.$ = $
 Vue.prototype.$axios = axios
-
 /* eslint-disable no-new */
 new Vue({
   // el是index.html的div id

@@ -43,7 +43,7 @@
         prop="date"
         align="center"
         width="200"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
         >
       </el-table-column>
       <el-table-column
@@ -237,7 +237,7 @@ export default {
       var that = this
       this.$.ajax({
         type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetAllasync',
+        url: that.api.baseURL + 'GsfInit/GetAllasync',
         success: function (response) {
           that.tableData = response.result.items
         }
@@ -252,6 +252,11 @@ export default {
       if (date === undefined) { return '' }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
+    dateFormat2: function (row, column) {
+      var date = row[column.property]
+      if (date === undefined) { return '' }
+      return moment(date).format('YYYY-MM-DD')
+    },
     getshoppingDetails (row) {
       this.dialogFormVisible = true
       this.diloagname = row.name + '的购物车'
@@ -259,7 +264,7 @@ export default {
       // alert(row.id);
       this.$.ajax({
         type: 'GET',
-        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + row.id,
+        url: that.api.baseURL + 'ShoppingCart/GetShoppingByUserId?_UserId=' + row.id,
         success: function (response) {
           // alert(json.stringify(response))
           that.gridData = response.result.items
@@ -275,7 +280,7 @@ export default {
       }).then(() => {
         this.$.ajax({
           type: 'GET',
-          url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Delete?id=' + row.id,
+          url: that.api.baseURL + 'GsfInit/Delete?id=' + row.id,
           success: function () {
             // alert(json.stringify(response))
             that.$message({

@@ -584,30 +584,42 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
     },
+    // 打开购物车
     openShoppingCar () {
       var that = this
-      that.shoppingxinxi = []
-      that.shoppingFormVisible = true
       this.$.ajax({
         type: 'GET',
-        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
+        url: that.api.baseURL + 'ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
         success: function (response) {
           // that.shoppingxinxi = response.result.items
-          response.result.items.forEach(element => {
-            // that.allnum += element.totalCost * element.qty
-            that.$.ajax({
-              type: 'GET',
-              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetCommByCommId?Id=' + element.commodityId,
-              success: function (response) {
-                var rep = response.result.items[0]
-                that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
-                that.allnum = 0
-                that.shoppingxinxi.forEach(element => {
-                  that.allnum += element.totalCost * element.qty
-                })
-              }
+          if (response.result.items.length === 0) {
+            that.$message({
+              type: 'info',
+              message: '购物车里空空如也'
             })
-          })
+          } else {
+            that.$message({
+              type: 'success',
+              message: '图片加载有些慢，请耐心等待'
+            })
+            that.shoppingxinxi = []
+            that.shoppingFormVisible = true
+            response.result.items.forEach(element => {
+              // that.allnum += element.totalCost * element.qty
+              that.$.ajax({
+                type: 'GET',
+                url: that.api.baseURL + 'Commodity/GetCommByCommId?Id=' + element.commodityId,
+                success: function (response) {
+                  var rep = response.result.items[0]
+                  that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
+                  that.allnum = 0
+                  that.shoppingxinxi.forEach(element => {
+                    that.allnum += element.totalCost * element.qty
+                  })
+                }
+              })
+            })
+          }
         }
       })
     },
@@ -632,10 +644,10 @@ export default{
     },
     // 获取小标题下面的商品
     GetCommByType: function (event) {
-      // var that = this
+      var that = this
       this.$.ajax({
         type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+        url: that.api.baseURL + 'Commodity/GetAllComm',
         async: true,
         data: {ProdSpec: event},
         success: function (response) {
@@ -649,7 +661,7 @@ export default{
       var that = this
       that.$.ajax({
         type: 'GET',
-        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllListByTypeTop?top=' + id,
+        url: that.api.baseURL + 'ProdSpec/GetAllListByTypeTop?top=' + id,
         async: true,
         success: function (response) {
           // alert(response.result.items[0].typeName)
@@ -659,7 +671,7 @@ export default{
             var id = element.id
             that.$.ajax({
               type: 'POST',
-              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+              url: that.api.baseURL + 'Commodity/GetAllComm',
               data: {ProdSpec: id},
               async: true,
               success: function (responseNext) {
@@ -756,7 +768,7 @@ export default{
         if (valid) {
           this.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Register',
+            url: that.api.baseURL + 'GsfInit/Register',
             data: JSON.stringify(registerParams),
             async: true,
             contentType: 'application/json',
@@ -768,7 +780,7 @@ export default{
                   // eslint-disable-next-line no-unused-vars
                   that.$.ajax({
                     type: 'GET',
-                    url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetByid?id=' + parseInt(response.result),
+                    url: that.api.baseURL + 'GsfInit/GetByid?id=' + parseInt(response.result),
                     async: true,
                     success: function (response) {
                       that.$message({
@@ -851,7 +863,7 @@ export default{
           })
           this.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+            url: that.api.baseURL + 'GsfInit/Login',
             async: true,
             data: params,
             success: function (response) {
@@ -939,7 +951,7 @@ export default{
       var that = this
       this.$.ajax({
         type: 'Get',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + that.sessionNum,
+        url: that.api.baseURL + 'GsfInit/UpdateLogin?Num=' + that.sessionNum,
         async: true,
         success: function (response) {
           var i = response.result.items
@@ -988,7 +1000,7 @@ export default{
           }
           that.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Updateasync',
+            url: that.api.baseURL + 'GsfInit/Updateasync',
             async: true,
             data: JSON.stringify(udpatedatapost),
             contentType: 'application/json',
@@ -1039,7 +1051,7 @@ export default{
         var that = this
         this.$.ajax({
           type: 'POST',
-          url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/UpdateShoppingQty',
+          url: that.api.baseURL + 'ShoppingCart/UpdateShoppingQty',
           async: true,
           data: JSON.stringify(shoppingCartTable),
           contentType: 'application/json',
