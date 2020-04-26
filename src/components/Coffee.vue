@@ -393,17 +393,17 @@
          <div class="gwcCommDilog" id="root">
             <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in shoppingxinxi" :key="item.name" >
+              <li v-for="item in shoppingxinxi" :key="item.id" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
                 <!-- <img :src="item.url"> -->
                 <img :src="item.commImage">
-                <font>{{item.name}}</font>
+                <font class="CommName">{{item.name}}</font>
                   <el-radio-group v-model="item.specification" size="mini" lable="规格" class="Commspe">
                     <el-radio-button label="大杯"></el-radio-button>
                     <el-radio-button label="中杯"></el-radio-button>
                     <el-radio-button label="小杯"></el-radio-button>
                   </el-radio-group>
-                <font>{{item.totalCost}}</font>
+                <font>单价：{{item.totalCost}}</font>
 
                 <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
                 <font>总：{{Totalprice(item.totalCost , item.qty)}}</font>
@@ -565,7 +565,7 @@ export default{
       coffeelistpicthree: [],
       coffeelistpicfour: [],
       urlallcoffee: [],
-      coffeelistbigimg: 'https://i2.tiimg.com/715304/6c23b5c2514c989d.png',
+      coffeelistbigimg: 'https://s1.ax1x.com/2020/04/26/J6s3ZT.png',
       changecoffeelistpic: 0,
       coffeeronghebingjilin: [],
       coffeeqiaokeli: [],
@@ -586,14 +586,27 @@ export default{
     },
     openShoppingCar () {
       var that = this
+      that.shoppingxinxi = []
       that.shoppingFormVisible = true
       this.$.ajax({
         type: 'GET',
         url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
         success: function (response) {
-          that.shoppingxinxi = response.result.items
-          that.shoppingxinxi.forEach(element => {
-            that.allnum += element.totalCost * element.qty
+          // that.shoppingxinxi = response.result.items
+          response.result.items.forEach(element => {
+            // that.allnum += element.totalCost * element.qty
+            that.$.ajax({
+              type: 'GET',
+              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetCommByCommId?Id=' + element.commodityId,
+              success: function (response) {
+                var rep = response.result.items[0]
+                that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
+                that.allnum = 0
+                that.shoppingxinxi.forEach(element => {
+                  that.allnum += element.totalCost * element.qty
+                })
+              }
+            })
           })
         }
       })
