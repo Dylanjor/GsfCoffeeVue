@@ -490,6 +490,8 @@ export default{
       CommDialogVisible: false,
       Commnum: 1,
       Commspe: '中杯',
+      beforeUnload_time: 0,
+      gap_time: 0,
       form: {
         name: '',
         region: '青岛',
@@ -587,6 +589,7 @@ export default{
     // 打开购物车
     openShoppingCar () {
       var that = this
+      that.allnum = 0
       this.$.ajax({
         type: 'GET',
         url: that.api.baseURL + 'ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
@@ -612,7 +615,6 @@ export default{
                 success: function (response) {
                   var rep = response.result.items[0]
                   that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
-                  that.allnum = 0
                   that.shoppingxinxi.forEach(element => {
                     that.allnum += element.totalCost * element.qty
                   })
@@ -1093,6 +1095,18 @@ export default{
     } else {
       // alert("pc端");
       // this.$router.replace('/pc_index');
+    }
+  },
+  mounted () {
+    // 关闭浏览器清楚缓存
+    window.onunload = function () {
+      this.gap_time = new Date().getTime() - this.beforeUnload_time
+      if (this.gap_time <= 5) {
+        localStorage.clear()
+      }
+    }
+    window.onbeforeunload = function () {
+      this.beforeUnload_time = new Date().getTime()
     }
   }
 }
