@@ -394,7 +394,7 @@
             <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in shoppingxinxi" :key="item.id" >
-                <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
+                <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange(item.checkModel,item.totalCost , item.qty)"></el-checkbox>
                 <!-- <img :src="item.url"> -->
                 <img :src="item.commImage">
                 <font class="CommName">{{item.name}}</font>
@@ -404,15 +404,14 @@
                     <el-radio-button label="小杯"></el-radio-button>
                   </el-radio-group>
                 <font>单价：{{item.totalCost}}</font>
-
-                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{Totalprice(item.totalCost , item.qty)}}</font>
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.checkModel,item.totalCost , item.qty)" :min="0" size="mini" label="数量"></el-input-number>
+                <font>商品总价：{{Totalprice(item.totalCost , item.qty)}}</font>
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
-     <font class="shpzj">总计:{{allnum}}</font>
+     <font class="shpzj">总花费:{{allnum}}</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
         <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
@@ -582,6 +581,7 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       // this.$router.push({ name: 'Register'})
     },
+    // 跳转至用户管理页
     showRegister () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'Register'})
@@ -589,7 +589,8 @@ export default{
     // 打开购物车
     openShoppingCar () {
       var that = this
-      that.allnum = 0
+      // that.allnum = 0
+      that.shoppingFormVisible = true
       this.$.ajax({
         type: 'GET',
         url: that.api.baseURL + 'ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
@@ -606,7 +607,6 @@ export default{
               message: '图片加载有些慢，请耐心等待'
             })
             that.shoppingxinxi = []
-            that.shoppingFormVisible = true
             response.result.items.forEach(element => {
               // that.allnum += element.totalCost * element.qty
               that.$.ajax({
@@ -615,9 +615,9 @@ export default{
                 success: function (response) {
                   var rep = response.result.items[0]
                   that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
-                  that.shoppingxinxi.forEach(element => {
-                    that.allnum += element.totalCost * element.qty
-                  })
+                  // that.shoppingxinxi.forEach(element => {
+                  //   that.allnum += element.totalCost * element.qty
+                  // })
                 }
               })
             })
@@ -625,6 +625,7 @@ export default{
         }
       })
     },
+    // 跳转至管理商品页
     showComm () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
@@ -637,7 +638,9 @@ export default{
       var that = this
       that.allnum = 0
       that.shoppingxinxi.forEach(element => {
-        that.allnum = that.allnum + (element.totalCost * element.qty)
+        if (element.checkModel === true) {
+          that.allnum = that.allnum + parseInt(element.qty) * parseInt(element.totalCost)
+        }
       })
     },
     // 点击时间流
@@ -1068,16 +1071,24 @@ export default{
     },
     // 购物车页面全选
     spCheckAllChange (val) {
+      var that = this
+      if (val === true) {
+        this.shoppingxinxi.map((item, i) => {
+          that.allnum = that.allnum + parseInt(item.qty) * parseInt(item.totalCost)
+        })
+      } else {
+        this.allnum = 0
+      }
       this.shoppingxinxi.map((item, i) => {
         item.checkModel = val
       })
     },
-    sphCheckedChange (val) {
-      for (let i = 0, l = this.shoppingxinxi.length; i < l; i++) {
-        if (this.shoppingxinxi[i].checkModel !== val) {
-          this.shoppingcheckAll = false
-          return
-        }
+    // 购物车界面中的选框点击方法
+    sphCheckedChange (checkModel, qty, price) {
+      if (checkModel === true) {
+        this.allnum = this.allnum + parseInt(qty) * parseInt(price)
+      } else {
+        this.allnum = this.allnum - parseInt(qty) * parseInt(price)
       }
     },
     _isMobile () {
