@@ -388,12 +388,12 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-        width="50%">
+        width="80%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
             <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in shoppingxinxi" :key="item.id" >
+              <li v-for="item in shoppingxinxi" :key="'Shopping'+item.id" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange(item.checkModel,item.totalCost , item.qty)"></el-checkbox>
                 <!-- <img :src="item.url"> -->
                 <img :src="item.commImage">

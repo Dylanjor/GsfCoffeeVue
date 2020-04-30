@@ -404,10 +404,9 @@ body{
   overflow: auto;
 }
 /* 将滑轮不显示 */
-/* .gwcCommDilog::-webkit-scrollbar{
-  width: 2px;
-} */
-
+.gwcCommDilog::-webkit-scrollbar{
+  width: 0px;
+}
 .gwcCommDilog .commMain{
   display: inline-block;
 }
@@ -419,14 +418,6 @@ body{
 .gwcCommDilog .commSpecification{
   margin-top: 20px;
 }
-/* .el-input-number__increase{
-  width: 30%;
-  height: auto;
-}
-.el-input-number__decrease{
-  width: 30%;
-  height: auto;
-} */
 .Commspe {
   margin-left: 10%;
 
