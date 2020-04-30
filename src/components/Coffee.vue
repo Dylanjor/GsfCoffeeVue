@@ -388,7 +388,7 @@
       </el-dialog>
       <!-- 购物车页 -->
       <el-dialog title="购物车" :visible.sync="shoppingFormVisible"
-        width="80%">
+        width="50%">
          <el-checkbox v-model="shoppingcheckAll" @change="spCheckAllChange">全选</el-checkbox>
          <div class="gwcCommDilog" id="root">
             <div style="margin: 15px 0;"></div>
