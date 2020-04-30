@@ -375,19 +375,20 @@ body{
   margin-left: -3%;
 }
 .shopping-rightyinliaoul li img {
- /* position: relative; */
- /* top: 20%;
- left: 3%; */
- width: 11%;
+  position: relative; 
+  top: 20%;
+ left: 1%; 
+ width: 9%;
 }
 .shopping-rightyinliaoul li .CommName{
   display: inline-block;
   width: 100px;
   height: 100%;
+  margin-left: 2%;
  }
  .shoppingnum{
    width: 16%;
-   margin-left: 4%;
+   margin-left: 1%;
    
  }
  .shoppingchecked{
@@ -404,9 +405,9 @@ body{
   overflow: auto;
 }
 /* 将滑轮不显示 */
-.gwcCommDilog::-webkit-scrollbar{
+/* .gwcCommDilog::-webkit-scrollbar{
   width: 0px;
-}
+} */
 .gwcCommDilog .commMain{
   display: inline-block;
 }
@@ -417,8 +418,4 @@ body{
 }
 .gwcCommDilog .commSpecification{
   margin-top: 20px;
-}
-.Commspe {
-  margin-left: 10%;
-
 }
