@@ -9,6 +9,7 @@ Router.prototype.push = function push (location) {
 const Coffee = () => import('../components/Coffee.vue')
 const Register = () => import('../components/Register.vue')
 const CommUser = () => import('../components/CommUser.vue')
+const CommModity = () => import('../components/Commodity.vue')
 
 export default new Router({
   mode: 'history',
@@ -27,6 +28,11 @@ export default new Router({
       path: '/CommUser',
       name: 'CommUser',
       component: CommUser
+    },
+    {
+      path: '/CommModity',
+      name: 'CommModity',
+      component: CommModity
     }
   ],
   base: '/hot/'
