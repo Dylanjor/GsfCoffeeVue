@@ -118,7 +118,7 @@ export default({
           url: that.api.baseURL + 'Commodity/DeleteComm?CommId=' + row.id
         }).then((response) => { // 这里使用了ES6的语法
           that.$message({
-            type: 'success',
+            type: 'warning',
             message: '删除成功'
           })
           that.reload()
