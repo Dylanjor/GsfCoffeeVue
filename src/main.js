@@ -18,6 +18,7 @@ Vue.use(Vuex)
 Vue.prototype.api = configapi
 Vue.prototype.$ = $
 Vue.prototype.$axios = axios
+
 /* eslint-disable no-new */
 new Vue({
   // el是index.html的div id

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <!-- 总的用户table -->
+  类别：
   <el-select v-model="SelectValue" placeholder="请选择类别" @change ='parmTableData'>
     <el-option
       v-for="item in Options"
@@ -9,18 +9,18 @@
       :value="item.id" >
     </el-option>
   </el-select>
-   <el-table :fit='true' :data="tableData" border stripe style="width: 100%">
-      <el-table-column label="id" fixed prop="id" align="center" width="100"></el-table-column>
-      <el-table-column label="名字" fixed prop="commodityName" align="center" width="250"></el-table-column>
-      <el-table-column label="图片" prop="" align="center" width="200">
+   <el-table  :data="tableData" border stripe style="width: 100%">
+      <el-table-column label="id" fixed prop="id" align="center" ></el-table-column>
+      <el-table-column label="名字" fixed prop="commodityName" align="center"></el-table-column>
+      <el-table-column label="图片" prop="" align="center" >
         <template slot-scope="scope">
-          <img :src="scope.row.commImage" alt="" width="80%">
+          <img :src="scope.row.commImage" alt="" width="50%">
         </template>
       </el-table-column>
-      <el-table-column label="售价" prop="sellingPrice" align="center" width="100" ></el-table-column>
-      <el-table-column label="描述" prop="desc" align="center" width="250" > </el-table-column>
-      <el-table-column label="注册时间" prop="createTime" align="center" :formatter="dateFormat" sortablealign="center" width="230"></el-table-column>
-      <el-table-column fixed="right" width="150" align="center">
+      <el-table-column label="售价" prop="sellingPrice" align="center" :formatter="dateFormatSelling"></el-table-column>
+      <el-table-column label="描述" prop="desc" align="center"> </el-table-column>
+      <el-table-column label="注册时间" prop="createTime" align="center" :formatter="dateFormat" sortablealign="center"></el-table-column>
+      <el-table-column fixed="right"  align="center">
           <el-button size="mini">修改</el-button>
           <el-button size="mini" type="danger">删除</el-button>
       </el-table-column>
@@ -28,72 +28,39 @@
 </div>
 </template>
 <script lang="js">
-import moment from 'element-ui'
-import { Loading } from 'element-ui'
-let loading;//loading的实例对象
-let loadingCount = 0;
-function start(){
-　　loading = Loading.service({
-　　　　lock:true,
-　　　　text:'加载中..',
-       target: document.querySelector('.el-table'),
-　　　　background:'rgba(255,255,255,.4)'
-　　})
-};
-function end(){
-　　laoding.close();
-}
-function showLoaing(){
-　　if( loadingCount==0){
-　　　　start();
-　　};
-　　loadingCount++
-};
-function hideLoading(){
-　　loadingCount--;
-　　if(loadingCount==0){
-      end()
-　　}
-}
+// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line standard/object-curly-even-spacing
+import {Loading } from 'element-ui'
+import moment from 'moment'
+
 export default({
   name: 'CommModity',
   data: function () {
     return {
       tableData: [],
       Options: [],
-      SelectValue: '',
+      SelectValue: ''
     }
   },
   methods: {
-    startLoading (targetdq,isOpen) {
-      let load
-      if(isOpen == true)
-        {
-            load = Loading.service({
-              lock: true,
-              text: '努力加载中...',
-              background: 'rgba(255,255,255,.4)',
-              target: document.querySelector(targetdq) // 设置加载动画区域
-          })
-        }
-        else{
-          this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-            load.close()
-          });
-        }
-    },
     parmTableData () {
       var that = this
-      // this.startLoading('.el-table',true)
-      showLoaing()
+      let loadingInstance = Loading.service({
+        lock: true,
+        text: '加载中...',
+        background: 'rgba(0,0,0,0.1)',
+        targt: '.el-table'
+      })
       this.$.ajax({
         type: 'POST',
         url: that.api.baseURL + 'Commodity/GetAllComm',
-        data:{ProdSpec:that.SelectValue},
+        data: {ProdSpec: that.SelectValue},
         success: function (response) {
           that.tableData = response.result.items
-          // that.startLoading('.el-table',false)
-          hideLoading()
+          that.$nextTick(() => {
+            that.tableData = response.result.items
+            loadingInstance.close()
+          })
         }
       })
     },
@@ -105,23 +72,40 @@ export default({
         success: function (response) {
           that.Options = response.result.items
           that.SelectValue = that.Options[0].id
+          let loadingInstance = Loading.service({
+            lock: true,
+            text: '加载中...',
+            background: 'rgba(0,0,0,0.1)',
+            targt: '.el-table'
+          })
+          that.$.ajax({
+            type: 'POST',
+            url: that.api.baseURL + 'Commodity/GetAllComm',
+            data: {ProdSpec: that.Options[0].id},
+            success: function (response) {
+              that.tableData = response.result.items
+              that.$nextTick(() => {
+                that.tableData = response.result.items
+                loadingInstance.close()
+              })
+            }
+          })
         }
       })
     },
     dateFormat: function (row, column) {
-      var date = row[column.property]
-      if (date === undefined) { return '' }
-      return moment(date).format('YYYY-MM-DD HH:mm:ss')
-    },
-    dateFormat2: function (row, column) {
-      var date = row[column.property]
+      const date = new Date(row[column.property])
       if (date === undefined) { return '' }
       return moment(date).format('YYYY-MM-DD')
+    },
+    dateFormatSelling: function (row, column) {
+      const Selling = row[column.property]
+      return Selling + '元'
     }
   },
   created () {
     this.parmOptions()
-  },
+  }
 
 })
 </script>
