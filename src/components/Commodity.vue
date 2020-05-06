@@ -9,7 +9,7 @@
       :value="item.id" >
     </el-option>
   </el-select>
-   <el-table  :data="tableData" border stripe style="width: 100%">
+   <el-table :data="tableData" border stripe style="width: 100%">
       <el-table-column label="id" fixed prop="id" align="center" ></el-table-column>
       <el-table-column label="名字" fixed prop="commodityName" align="center"></el-table-column>
       <el-table-column label="图片" prop="" align="center" >
@@ -51,9 +51,9 @@ export default({
       var that = this
       let loadingInstance = Loading.service({
         lock: true,
-        text: '加载中...',
+        text: 'Loading...',
         background: 'rgba(0,0,0,0.1)',
-        targt: '.el-table'
+        target: document.querySelector('.el-table')
       })
       this.$.ajax({
         type: 'POST',
@@ -80,7 +80,7 @@ export default({
             lock: true,
             text: '加载中...',
             background: 'rgba(0,0,0,0.1)',
-            targt: '.el-table'
+            target: document.querySelector('.el-table')
           })
           that.$.ajax({
             type: 'POST',
