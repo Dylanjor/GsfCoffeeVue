@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column label="售价" prop="sellingPrice" align="center" :formatter="dateFormatSelling"></el-table-column>
       <el-table-column label="描述" prop="desc" align="center"> </el-table-column>
-      <el-table-column label="注册时间" prop="createTime" align="center" :formatter="dateFormat" sortablealign="center"></el-table-column>
+      <el-table-column label="创建时间" prop="createTime" align="center" :formatter="dateFormat" sortablealign="center"></el-table-column>
         <el-table-column fixed="right"  align="center">
           <template slot-scope="scope">
             <el-button size="mini">修改</el-button>
@@ -27,6 +27,7 @@
             </template>
         </el-table-column>
     </el-table>
+    <canvas width="1920" height="937"></canvas>
 </div>
 </template>
 <script lang="js">
@@ -43,7 +44,8 @@ export default({
     return {
       tableData: [],
       Options: [],
-      SelectValue: ''
+      SelectValue: '',
+      needLoadingRequestCount: 0
     }
   },
   methods: {
@@ -53,7 +55,7 @@ export default({
         lock: true,
         text: 'Loading...',
         background: 'rgba(0,0,0,0.1)',
-        target: document.querySelector('.el-table')
+        target: document.querySelector('#app div')
       })
       this.$.ajax({
         type: 'POST',
@@ -78,9 +80,9 @@ export default({
           that.SelectValue = that.Options[0].id
           let loadingInstance = Loading.service({
             lock: true,
-            text: '加载中...',
+            text: 'Loading...',
             background: 'rgba(0,0,0,0.1)',
-            target: document.querySelector('.el-table')
+            target: document.querySelector('#app div')
           })
           that.$.ajax({
             type: 'POST',
