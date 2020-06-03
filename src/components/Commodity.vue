@@ -36,7 +36,6 @@
 // eslint-disable-next-line no-unused-vars
 import { Loading, Message } from 'element-ui'
 import moment from 'moment'
-
 export default({
   inject: ['reload'],
   name: 'CommModity',
