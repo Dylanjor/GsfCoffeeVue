@@ -22,6 +22,18 @@
             <i class="el-icon-location-outline "></i><span>山东</span><br>
             <i class="el-icon-ice-cream-round "></i><span>20</span><br>
         </div>
+        <div id="F-Top-Main">
+            <el-link><i class="el-icon-sort-up "></i>每日感想</el-link>
+            <el-link><i class="el-icon-sort-up "></i>伤感语句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>愉悦语句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>小说短句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>优美短语</el-link>
+            <el-link><i class="el-icon-sort-up "></i>心情伴奏</el-link>
+            <el-link><i class="el-icon-sort-up "></i>英文短句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>日漫短句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>电影短句</el-link>
+            <el-link><i class="el-icon-sort-up "></i>诗文短篇</el-link>
+        </div>
     </div>
 </div>
 </template>

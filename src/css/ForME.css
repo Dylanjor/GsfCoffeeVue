@@ -13,6 +13,20 @@
     float: left;
     border-right: 1px solid gainsboro;
 }
+#F-Top-Left-Second span{
+    display: inline-block;
+    margin-left: 10px;
+}
+#F-Top-Main{
+    height: 100%;
+    float: left;
+    line-height: 25px;
+    min-width: 20px;
+    max-width: 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid gainsboro;
+}
 .Clock{
     height: 30px;
     line-height: 30px;
