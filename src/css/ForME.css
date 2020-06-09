@@ -1,0 +1,38 @@
+#F-Top{
+    width: 98%;
+    height: 150px;
+    border: 1px solid gainsboro;
+    box-shadow: 1px 1px 1px 1px gainsboro;
+    border-radius: 4px;
+    margin: auto;
+}
+#F-Top-Left{
+    width: 200px;
+    height: 100%;
+    line-height: 150px;
+    float: left;
+    border-right: 1px solid gainsboro;
+}
+.Clock{
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    margin-left: 3px;
+    font-family: Yangrendong;
+    padding-left: 2px;
+    padding-right: 2px;
+    box-shadow: 1px 1px 1px 1px gainsboro;
+}
+#F-Top-Left-Second{
+    width: 200px;
+    height: 100%;
+    float: left;
+    line-height: 25px;
+    font-size: 13px;
+    padding-left: 10px;
+    border-right: 1px solid gainsboro;
+}
+@font-face{
+    font-family: "Yangrendong";
+    src: url("../font/Zhushiti.ttf");
+  }

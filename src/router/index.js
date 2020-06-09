@@ -10,7 +10,7 @@ const Coffee = () => import('../components/Coffee.vue')
 const Register = () => import('../components/Register.vue')
 const CommUser = () => import('../components/CommUser.vue')
 const CommModity = () => import('../components/Commodity.vue')
-
+const ForME = () => import('../components/ForME.vue')
 export default new Router({
   mode: 'history',
   routes: [
@@ -33,6 +33,11 @@ export default new Router({
       path: '/CommModity',
       name: 'CommModity',
       component: CommModity
+    },
+    {
+      path: '/ForME',
+      name: 'ForME',
+      component: ForME
     }
   ],
   base: '/hot/'

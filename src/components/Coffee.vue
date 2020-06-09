@@ -37,6 +37,7 @@
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
               <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
+              <el-button type="text" @click="showForMe" v-show="sessionName === 'admin'">用户日记</el-button>
               <el-button type="text" @click="showCommModity" v-show="sessionName === 'admin'">商品管理信息</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
             </div>
@@ -582,14 +583,15 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       // this.$router.push({ name: 'Register'})
     },
+    showForMe () {
+      this.$router.push({name: 'ForME'})
+    },
     // 跳转至用户管理页
     showRegister () {
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      this.$router.push({ name: 'Register'})
+      this.$router.push({name: 'Register'})
     },
     showCommModity () {
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      this.$router.push({ name: 'CommModity'})
+      this.$router.push({name: 'CommModity'})
     },
     // 打开购物车
     openShoppingCar () {
