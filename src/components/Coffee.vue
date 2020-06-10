@@ -40,6 +40,7 @@
               <el-button type="text" @click="showForMe" v-show="sessionName === 'admin'">用户日记</el-button>
               <el-button type="text" @click="showCommModity" v-show="sessionName === 'admin'">商品管理信息</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
+              <el-button type="text" @click="showImport" v-show="sessionName === 'admin'">导入导出</el-button>
             </div>
           </transition>
         <!-- 菜单页 -->
@@ -589,6 +590,9 @@ export default{
     // 跳转至用户管理页
     showRegister () {
       this.$router.push({name: 'Register'})
+    },
+    showImport () {
+      this.$router.push({name: 'Import'})
     },
     showCommModity () {
       this.$router.push({name: 'CommModity'})

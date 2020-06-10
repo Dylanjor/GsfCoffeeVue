@@ -11,6 +11,7 @@ const Register = () => import('../components/Register.vue')
 const CommUser = () => import('../components/CommUser.vue')
 const CommModity = () => import('../components/Commodity.vue')
 const ForME = () => import('../components/ForME.vue')
+const Import = () => import('../components/Import.vue')
 export default new Router({
   mode: 'history',
   routes: [
@@ -38,6 +39,11 @@ export default new Router({
       path: '/ForME',
       name: 'ForME',
       component: ForME
+    },
+    {
+      path: '/Import',
+      name: 'Import',
+      component: Import
     }
   ],
   base: '/hot/'
