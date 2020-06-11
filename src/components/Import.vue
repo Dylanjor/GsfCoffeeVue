@@ -1,9 +1,11 @@
 <style>
+@import url(../css/Import.css);
 </style>
 <template>
 <div>
+  <el-row class="padding-10-0">
     <el-upload
-        class="upload-demo"
+        class="upload-demo float inline-block"
         action=""
         :on-change="handleChange"
         :on-exceed="handleExceed"
@@ -15,41 +17,70 @@
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只 能 上 传 xlsx / xls 文 件</div>
     </el-upload>
+    <el-button size="small" class="float" type="success" @click="InsertDataTable">保存到数据库</el-button>
+    <el-button size="small" class="float" type="success" @click="GetDataTable">数据库获取所有数据</el-button>
+  </el-row>
     <el-table
       :data="tableData"
       @cell-click="open"
       :cell-class-name='getCellIndex'
       style="width: 100%">
       <el-table-column
-        prop="date"
-        width="100px"
+        prop="datetime"
+        max-width="200"
         column-key="date"
         label="日期">
       </el-table-column>
       <el-table-column
-        prop="changdi"
+        prop="Shift"
+        label="班次"
+        max-width="120">
+      </el-table-column>
+      <el-table-column
+        prop="Onduty"
+        label="值班"
+        max-width="120">
+      </el-table-column>
+      <el-table-column
+        prop="Site"
         label="场地"
-        width="180">
+        max-width="200">
       </el-table-column>
       <el-table-column
-        prop="chuanming"
+        prop="Shipname"
         label="船名"
-        width="180">
+        max-width="200">
       </el-table-column>
       <el-table-column
-        prop="huozhu"
+        prop="Consignor"
         label="货主"
-        width="180">
+        max-width="200">
       </el-table-column>
       <el-table-column
-        prop="zuoye"
+        prop="Jobtype"
         label="作业类型"
         max-width="200">
       </el-table-column>
-      <!-- <el-table-column
-        prop="address"
-        label="地址">
-      </el-table-column> -->
+      <el-table-column
+        prop="Team"
+        label="班组"
+        max-width="120">
+      </el-table-column>
+      <el-table-column
+        prop="Workload"
+        label="作业量"
+        max-width="120">
+      </el-table-column>
+      <el-table-column
+        prop="PlanQty"
+        label="计划量"
+        max-width="200">
+      </el-table-column>
+      <el-table-column
+        prop="Remarks"
+        label="备注"
+        max-width="200">
+      </el-table-column>
     </el-table>
 </div>
 </template>
@@ -130,7 +161,6 @@ export default {
           outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])// outdata就是你想要的东西
           //   console.log(JSON.stringify(outdata))
           this.da = [...outdata]
-          let arr = []
           var zuoye = ''
           this.da.map(v => {
             // eslint-disable-next-line no-unused-vars
@@ -142,17 +172,22 @@ export default {
             }
             if (v['__EMPTY_1'] && v['__EMPTY_1'] !== '垛位号' && v['__EMPTY_1'] !== '作业内容' && v['__EMPTY_1'] !== '项目') {
               let obj = {
-                'date': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1),
-                'changdi': v['__EMPTY_1'],
-                'chuanming': v['__EMPTY_2'],
-                'huozhu': v['__EMPTY_4'],
-                'zuoye': v['__EMPTY_3'] + zuoye
+                'datetime': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1),
+                'Site': v['__EMPTY_1'],
+                'Shipname': v['__EMPTY_2'] ? v['__EMPTY_2'] : '无',
+                'Consignor': v['__EMPTY_4'] ? v['__EMPTY_4'] : '无',
+                'Jobtype': v['__EMPTY_3'] + zuoye,
+                'Shift': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1) + '白班',
+                'Onduty': '李宁',
+                'Team': '一班',
+                'Workload': 0,
+                'PlanQty': 0,
+                'Remarks': '无'
               }
               _this.tableData.push(obj)
             }
             // console.log(JSON.stringify(v))
           })
-          return arr
         }
         reader.readAsArrayBuffer(f)
       }
@@ -189,6 +224,50 @@ export default {
           type: 'info',
           message: '取消输入'
         })
+      })
+    },
+    InsertDataTable () {
+      var that = this
+      // console.log(JSON.stringify(that.tableData))
+      if (that.tableData.length !== 0) {
+        that.$.ajax({
+          type: 'POST',
+          url: that.api.baseURL + 'Import/Insert',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(that.tableData),
+          dataType: 'JSON',
+          success: function (response) {
+            if (response.result === '导入成功') {
+              that.$message({
+                type: 'success',
+                message: response.result
+              })
+            } else {
+              that.$message({
+                type: 'error',
+                message: response.result
+              })
+            }
+          }
+        })
+      } else {
+        that.$message({
+          type: 'warning',
+          message: '当前暂无数据'
+        })
+      }
+    },
+    GetDataTable () {
+      this.tableData = []
+      var that = this
+      that.$.ajax({
+        type: 'POST',
+        url: that.api.baseURL + 'Import/GetAll',
+        async: true,
+        data: that.tableData,
+        success: function (response) {
+          alert(response.result.item)
+        }
       })
     }
   },
