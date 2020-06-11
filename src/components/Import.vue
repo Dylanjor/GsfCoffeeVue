@@ -18,6 +18,7 @@
     <el-table
       :data="tableData"
       @cell-click="open"
+      :cell-class-name='getCellIndex'
       style="width: 100%">
       <el-table-column
         prop="date"
@@ -66,6 +67,10 @@ export default {
     }
   },
   methods: {
+    getCellIndex: function ({ row, column, rowIndex, columnIndex }) {
+      row.index = rowIndex
+      column.index = columnIndex
+    },
     handleChange (file, fileList) {
       this.fileTemp = file.raw
       if (this.fileTemp) {
@@ -165,27 +170,26 @@ export default {
       })
     },
     open (row, column, event, cell) {
-      console.log(JSON.stringify(row))
-    //   console.log(row[column['property']])
-    //   console.log(JSON.stringify(column))
-    //   console.log(JSON.stringify(cell))
-    //   console.log(JSON.stringify(event))
-    //   this.$prompt('请修改', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消'
-    //     // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-    //     // inputErrorMessage: '邮箱格式不正确'
-    //   }).then(({ value }) => {
-    //     // this.$message({
-    //     //   type: 'success',
-    //     //   message: '你的邮箱是: ' + value
-    //     // })
-    //   }).catch(() => {
-    //     // this.$message({
-    //     //   type: 'info',
-    //     //   message: '取消输入'
-    //     // })
-    //   })
+      // eslint-disable-next-line no-unused-vars
+      var Data = this.tableData[row.index][column.property]
+      console.log(column)
+      // console.log(this.tableData[row.index][column.property])
+      // console.log(row[column['property']])
+      // console.log(JSON.stringify(column))
+      // console.log(JSON.stringify(cell))
+      // console.log(JSON.stringify(event))
+      this.$prompt(column.label, {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: this.tableData[row.index][column.property]
+      }).then(({ value }) => {
+        this.tableData[row.index][column.property] = value
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
     }
   },
   mounted () {
