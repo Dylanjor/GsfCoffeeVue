@@ -114,6 +114,7 @@ export default {
     },
     handleChange (file, fileList) {
       this.fileTemp = file.raw
+      this.tableData = []
       if (this.fileTemp) {
         if ((this.fileTemp.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || (this.fileTemp.type === 'application/vnd.ms-excel')) {
           this.importfxx(this.fileTemp)
@@ -243,7 +244,6 @@ export default {
     },
     InsertDataTable () {
       var that = this
-      this.tableData = null
       // console.log(JSON.stringify(that.tableData))
       if (that.tableData.length !== 0) {
         that.$.ajax({
@@ -275,6 +275,7 @@ export default {
     },
     GetDataTable () {
       this.tableData = null
+      this.fileListUpload = []
       var that = this
       that.$.ajax({
         type: 'GET',
