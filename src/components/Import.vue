@@ -19,9 +19,11 @@
     </el-upload>
     <el-button size="small" class="float" type="success" @click="InsertDataTable">保存到数据库</el-button>
     <el-button size="small" class="float" type="success" @click="GetDataTable">数据库获取所有数据</el-button>
+    <el-button size="small" class="float" type="danger" @click="OutTable">导出Excel</el-button>
   </el-row>
     <el-table
       :data="tableData"
+      id="out-table"
       @cell-click="open"
       :cell-class-name='getCellIndex'
       style="width: 100%">
@@ -29,63 +31,71 @@
         prop="datetime"
         max-width="200"
         column-key="date"
-        label="日期">
+        label="日期"
+        :formatter="dateFormat">
       </el-table-column>
       <el-table-column
-        prop="Shift"
+        prop="shift"
         label="班次"
         max-width="120">
       </el-table-column>
       <el-table-column
-        prop="Onduty"
+        prop="onduty"
         label="值班"
         max-width="120">
       </el-table-column>
       <el-table-column
-        prop="Site"
+        prop="site"
         label="场地"
         max-width="200">
       </el-table-column>
       <el-table-column
-        prop="Shipname"
+        prop="shipname"
         label="船名"
         max-width="200">
       </el-table-column>
       <el-table-column
-        prop="Consignor"
+        prop="consignor"
         label="货主"
         max-width="200">
       </el-table-column>
       <el-table-column
-        prop="Jobtype"
+        prop="jobtype"
         label="作业类型"
         max-width="200">
       </el-table-column>
       <el-table-column
-        prop="Team"
+        prop="team"
         label="班组"
         max-width="120">
       </el-table-column>
       <el-table-column
-        prop="Workload"
+        prop="workload"
         label="作业量"
         max-width="120">
       </el-table-column>
       <el-table-column
-        prop="PlanQty"
+        prop="planQty"
         label="计划量"
         max-width="200">
       </el-table-column>
       <el-table-column
-        prop="Remarks"
+        prop="remarks"
         label="备注"
         max-width="200">
       </el-table-column>
     </el-table>
 </div>
 </template>
-import { Message } from 'element-ui'
 <script>
+import moment from 'moment'
+// eslint-disable-next-line no-unused-vars
+import { Message } from 'element-ui'
+// eslint-disable-next-line no-unused-vars
+import FileSaver from 'file-saver'
+// eslint-disable-next-line no-unused-vars
+import XLSX from 'xlsx'
+
 export default {
   name: 'Import',
   data () {
@@ -173,16 +183,16 @@ export default {
             if (v['__EMPTY_1'] && v['__EMPTY_1'] !== '垛位号' && v['__EMPTY_1'] !== '作业内容' && v['__EMPTY_1'] !== '项目') {
               let obj = {
                 'datetime': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1),
-                'Site': v['__EMPTY_1'],
-                'Shipname': v['__EMPTY_2'] ? v['__EMPTY_2'] : '无',
-                'Consignor': v['__EMPTY_4'] ? v['__EMPTY_4'] : '无',
-                'Jobtype': v['__EMPTY_3'] + zuoye,
-                'Shift': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1) + '白班',
-                'Onduty': '李宁',
-                'Team': '一班',
-                'Workload': 0,
-                'PlanQty': 0,
-                'Remarks': '无'
+                'site': v['__EMPTY_1'],
+                'shipname': v['__EMPTY_2'] ? v['__EMPTY_2'] : '无',
+                'consignor': v['__EMPTY_4'] ? v['__EMPTY_4'] : '无',
+                'jobtype': v['__EMPTY_3'] + zuoye,
+                'shift': new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() - 1) + '白班',
+                'onduty': '李宁',
+                'team': '一班',
+                'workload': 0,
+                'planQty': 0,
+                'remarks': '无'
               }
               _this.tableData.push(obj)
             }
@@ -226,6 +236,11 @@ export default {
         })
       })
     },
+    dateFormat (row, column) {
+      const date = new Date(row[column.property])
+      if (date === undefined) { return '' }
+      return moment(date).format('YYYY-MM-DD')
+    },
     InsertDataTable () {
       var that = this
       // console.log(JSON.stringify(that.tableData))
@@ -258,17 +273,41 @@ export default {
       }
     },
     GetDataTable () {
-      this.tableData = []
+      this.tableData = null
       var that = this
       that.$.ajax({
-        type: 'POST',
+        type: 'GET',
         url: that.api.baseURL + 'Import/GetAll',
+        contentType: 'application/json; charset=utf-8',
         async: true,
-        data: that.tableData,
         success: function (response) {
-          alert(response.result.item)
+          that.tableData = response.result.items
         }
       })
+    },
+    OutTable () {
+      /* 从表生成工作簿对象 */
+      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      /* 获取二进制字符串作为输出 */
+      var wbout = XLSX.write(wb, {
+        bookType: 'xlsx',
+        bookSST: true,
+        type: 'array'
+      })
+      try {
+        FileSaver.saveAs(
+          // Blob 对象表示一个不可变、原始数据的类文件对象。
+          // Blob 表示的不一定是JavaScript原生格式的数据。
+          // File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+          // 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+          new Blob([wbout], { type: 'application/octet-stream' }),
+          // 设置导出文件名称
+          (new Date().getMonth() + 1) + '月份.xlsx'
+        )
+      } catch (e) {
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout
     }
   },
   mounted () {
