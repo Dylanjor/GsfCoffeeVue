@@ -243,6 +243,7 @@ export default {
     },
     InsertDataTable () {
       var that = this
+      this.tableData = null
       // console.log(JSON.stringify(that.tableData))
       if (that.tableData.length !== 0) {
         that.$.ajax({
