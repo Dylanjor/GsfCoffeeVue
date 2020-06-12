@@ -20,6 +20,7 @@
     <el-button size="small" class="float" type="success" @click="InsertDataTable">保存到数据库</el-button>
     <el-button size="small" class="float" type="success" @click="GetDataTable">数据库获取所有数据</el-button>
     <el-button size="small" class="float" type="danger" @click="OutTable">导出Excel</el-button>
+    <el-button size="small" class="float" type="info">数据类型:{{this.NOWTableType}}</el-button>
   </el-row>
     <el-table
       :data="tableData"
@@ -97,6 +98,7 @@ import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 
 export default {
+  inject: ['reload'],
   name: 'Import',
   data () {
     return {
@@ -104,7 +106,8 @@ export default {
       fileTemp: null,
       limitUpload: 1,
       tableList: [],
-      tableData: []
+      tableData: [],
+      NOWTableType: '无'
     }
   },
   methods: {
@@ -134,6 +137,7 @@ export default {
     handleRemove (file, fileList) {
       this.fileTemp = null
       this.tableData = []
+      this.NOWTableType = '无'
     },
     importfxx (obj) {
       // eslint-disable-next-line no-unused-vars
@@ -201,6 +205,7 @@ export default {
           })
         }
         reader.readAsArrayBuffer(f)
+        _this.NOWTableType = '导入表格'
       }
 
       if (rABS) {
@@ -258,6 +263,7 @@ export default {
                 type: 'success',
                 message: response.result
               })
+              that.reload()
             } else {
               that.$message({
                 type: 'error',
@@ -284,6 +290,7 @@ export default {
         async: true,
         success: function (response) {
           that.tableData = response.result.items
+          that.NOWTableType = '来自数据库'
         }
       })
     },
