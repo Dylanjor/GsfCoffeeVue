@@ -9,11 +9,16 @@ import axios from 'axios'
 import Vuex from 'Vuex'
 import $ from 'jquery'
 import configapi from './config/config'
+import quillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(Vuex)
+Vue.use(quillEditor)
 
 Vue.prototype.api = configapi
 Vue.prototype.$ = $
