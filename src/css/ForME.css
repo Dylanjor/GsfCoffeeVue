@@ -98,13 +98,20 @@
 .myQuillEditor{
     width: 95%;
 }
-.button-bottom{
-    margin-top: 60px;
-}
-.input{
+.DiaryView{
+    width: 98%;
+    height: 100%;
     margin-top: 20px;
-    margin-bottom: 20px;
-    width: 200px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.DiaryViewTop{
+    width: 100%;
+    height: 80px;
+    line-height: 75px;
+    border-bottom: 1px solid gainsboro;
+}
+.el-form-item{
+    display: inline-block;
 }
 @font-face{
     font-family: "Yangrendong";

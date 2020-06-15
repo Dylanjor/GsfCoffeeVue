@@ -27,8 +27,8 @@
             <i class="el-icon-sort-up "></i>{{item.typeName}}
           </el-link>
         </div>
-        <el-link>
-          <i class="el-icon-s-flag"></i>点击此处生崽
+        <el-link @click="showEdit = false">
+          <i class="el-icon-s-flag" style="margin-left:10px" ></i>点击此处生崽
         </el-link>
     </div>
       <el-row>
@@ -40,26 +40,47 @@
           </div>
           <div class="F-Bottom-Left-Title-t">
             <span v-for="item in DiaryContent" :key="item.id" class="F-Bottom-Left-Title-t2">
-              <el-link icon="el-icon-star-off" :underline="false" @click="GetDiaryContent(item)">{{item.title}}</el-link>
+              <el-link icon="el-icon-star-off" :underline="false" @click="GetDiaryContent(item),showEdit = true">{{item.title}}</el-link>
               <span class="F-Bottom-Left-Title-t2-span">{{item.dateTime}} {{item.mood}} {{item.person}}</span>
             </span>
           </div>
           </div>
         </el-col>
-        <el-col :span="17">
-          <el-link :underline="false">标题：</el-link><el-input v-model="form.title" placeholder="四字总结" class="input"></el-input>
-          <el-link :underline="false">心情：</el-link><el-input v-model="form.mood" placeholder="每天要开开心心" class="input"></el-input>
-          <el-link :underline="false">城市：</el-link><el-input v-model="form.address" placeholder='永远不会孤独的城市' class="input"></el-input>
-          <el-link :underline="false">天气：</el-link><el-input v-model="form.weather" placeholder="晴朗的天愉快的♥" class="input"></el-input>
-          <el-link :underline="false">小宝贝：</el-link><el-input v-model="form.person" placeholder="Who Are You" class="input"></el-input>
-            <quill-editor  ref="text" v-model="form.diarycontent" class="myQuillEditor" :options="editorOption" />
-            <el-button class="button-bottom" type="primary" @click="submit">提交</el-button>
+        <el-col :span="17" v-show="showEdit">
+          <div class = 'DiaryView'>
+            <div class="DiaryViewTop">
+              <el-link icon="el-icon-s-opportunity" :underline="false" style="font-weight:bold;font-size:20px;margin-left:20px;margin-right:20px">{{form.title}}</el-link>
+              <el-link icon="el-icon-user-solid" :underline="false" style="margin-right:10px">{{form.person}}</el-link>
+              <el-link icon="el-icon-map-location" :underline="false" style="margin-right:10px">{{form.address}}</el-link>
+              <el-link icon="el-icon-timer" :underline="false" style="margin-right:10px">{{form.dateTime}}</el-link>
+              <el-link icon="el-icon-chat-round" :underline="false" style="margin-right:10px">{{form.mood}}</el-link>
+              <el-link icon="el-icon-sunny" :underline="false" style="margin-right:10px">{{form.weather}}</el-link>
+            </div>
+            <div class="DiaryContent">
+              <quill-editor
+              v-model="form.diarycontent"
+              ref='content'
+              :options="editorOption"
+              @ready="onEditorFocus($event)">
+            </quill-editor>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="17" v-show="!showEdit">
+          <el-link :underline="false">标题：</el-link><el-input size="small"  v-model="newForm.title" placeholder="四字总结"  style="width:200px;margin-top:30px;margin-bottom:30px;"></el-input>
+          <el-link :underline="false">心情：</el-link><el-input size="small" prop="mood" v-model="newForm.mood" placeholder="每天要开开心心" style="width:200px"></el-input>
+          <el-link :underline="false">城市：</el-link><el-input size="small" prop="address" v-model="newForm.address" placeholder='永远不会孤独的城市' style="width:200px"></el-input>
+          <el-link :underline="false">天气：</el-link><el-input size="small" prop="weather" v-model="newForm.weather" placeholder="晴朗的天愉快的♥" style="width:200px"></el-input>
+          <el-link :underline="false">小宝贝：</el-link><el-input size="small" prop="person" v-model="newForm.person" placeholder="Who Are You" style="width:200px"></el-input>
+            <quill-editor  ref="text" prop="diarycontent" v-model="newForm.diarycontent" class="myQuillEditor" :options="editorOption" />
+            <el-button type="primary" @click="submit" style="margin-top:30px;width:100px">提交</el-button>
         </el-col>
       </el-row>
 </div>
 </template>
 <script>
 export default {
+  inject: ['reload'],
   name: 'ForME',
   data () {
     return {
@@ -78,12 +99,25 @@ export default {
         address: '',
         weather: '',
         person: '',
-        diarycontent: ''
+        diarycontent: '',
+        dateTime: ''
+      },
+      newForm: {
+        title: '',
+        mood: '',
+        address: '',
+        weather: '',
+        person: '',
+        diarycontent: '',
+        dateTime: '',
+        diaryType: 1
       },
       DiaryType: [],
       DiaryTyprTitle: '',
       DiaryContent: [],
-      editorOption: {}
+      editorOption: {},
+      showEdit: true,
+      nowType: 0
     }
   },
   methods: {
@@ -127,6 +161,7 @@ export default {
       }
     },
     DiaryTypeGetContent (typeName, Type) {
+      this.nowType = Type
       this.DiaryTyprTitle = typeName
       var that = this
       this.$axios({
@@ -141,8 +176,42 @@ export default {
     GetDiaryContent (item) {
       this.form = item
     },
+    onEditorFocus (event) {
+      event.enable(false)
+    }, // 获得焦点事件
+    getNowFormatDate () { // 获取当前时间
+      var date = new Date()
+      var seperator1 = '-'
+      var seperator2 = ':'
+      var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+      var strDate = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
+      return currentdate
+    },
     submit () {
-      console.log(this.$refs.text.value)
+      // console.log(this.$refs.text.value)
+      var that = this
+      that.newForm.dateTime = that.getNowFormatDate()
+      that.newForm.diaryType = that.nowType
+      if (!that.newForm.title || !that.newForm.mood || !that.newForm.person || !that.newForm.weather || !that.newForm.address || !that.newForm.diarycontent) {
+        that.$message({
+          type: 'error',
+          message: '小犊子填完整再提交'
+        })
+      } else {
+        this.$axios({
+          method: 'POST',
+          url: that.api.baseURL + 'ForMeClass/InsertDiary',
+          data: that.newForm,
+          contentType: 'application/json; charset=utf-8'
+        }).then((response) => { // 这里使用了ES6的语法
+          that.$message({
+            type: 'info',
+            message: '保存成功'
+          })
+          that.reload()
+        })
+      }
     },
     GetDiaryType () {
       var that = this
