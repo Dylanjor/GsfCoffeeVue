@@ -113,6 +113,18 @@
 .el-form-item{
     display: inline-block;
 }
+.F-Top-Click{
+    border-right: 1px solid gainsboro;
+    width: 200px;
+    height: 100%;
+    float: left;
+}
+.F-Top-Help{
+    width: 500px;
+    height: 100%;
+    border-right: 1px solid gainsboro;
+    float: left;
+}
 @font-face{
     font-family: "Yangrendong";
     src: url("../font/Zhushiti.ttf");

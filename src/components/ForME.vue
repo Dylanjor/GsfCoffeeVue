@@ -27,9 +27,33 @@
             <i class="el-icon-sort-up "></i>{{item.typeName}}
           </el-link>
         </div>
-        <el-link @click="showEdit = false">
-          <i class="el-icon-s-flag" style="margin-left:10px" ></i>点击此处生崽
-        </el-link>
+        <div class="F-Top-Click">
+          <el-link @click="showEdit = false">
+            <i class="el-icon-s-flag" style="margin-left:10px" ></i>点击此处生崽
+          </el-link>
+        </div>
+        <div class="F-Top-Help">
+          <el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写生活经历、感悟、体会、反思
+          </el-link>
+          <el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写工作经历、感悟、体会、反思
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写恋爱日记
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写心情日记
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写观察日记
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写吐槽日记
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>写自然日记
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>一句话，一段时光....
+          </el-link><el-link>
+            <i class="el-icon-caret-left" style="margin-left:10px" ></i>总之，记录最真的自己
+          </el-link>
+        </div>
     </div>
       <el-row>
         <el-col :span="7">
