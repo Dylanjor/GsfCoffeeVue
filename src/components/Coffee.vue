@@ -38,7 +38,7 @@
               <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
               <el-button type="text" @click="showForMe" v-show="sessionName === 'admin'">用户日记</el-button>
-              <el-button type="text" @click="showCommModity" v-show="sessionName === 'admin'">商品管理信息</el-button>
+              <el-button type="text" @click="showCommModity" v-show="sessionName === '代礼家'">商品管理信息(刷新有Bug)</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
               <el-button type="text" @click="showImport" v-show="sessionName === 'admin'">导入导出</el-button>
             </div>

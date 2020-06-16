@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="com">
   类别：
   <el-select v-model="SelectValue" placeholder="请选择类别" @change ='parmTableData'>
     <el-option
@@ -81,7 +81,7 @@ export default({
             lock: true,
             text: 'Loading...',
             background: 'rgba(0,0,0,0.1)',
-            target: document.querySelector('#app div')
+            target: document.querySelector('#app #com')
           })
           that.$.ajax({
             type: 'POST',

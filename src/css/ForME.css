@@ -110,9 +110,6 @@
     line-height: 75px;
     border-bottom: 1px solid gainsboro;
 }
-.el-form-item{
-    display: inline-block;
-}
 .F-Top-Click{
     border-right: 1px solid gainsboro;
     width: 200px;
