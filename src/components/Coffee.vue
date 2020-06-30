@@ -37,7 +37,7 @@
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
               <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
-              <el-button type="text" @click="showForMe" v-show="sessionName === 'admin'">用户日记</el-button>
+              <el-button type="text" @click="showForMe">用户日记</el-button>
               <el-button type="text" @click="showCommModity" v-show="sessionName === '代礼家'">商品管理信息(刷新有Bug)</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
               <el-button type="text" @click="showImport" v-show="sessionName === 'admin'">导入导出</el-button>
@@ -658,20 +658,6 @@ export default{
     clickTime (event) {
       this.clickTimeNum = event
     },
-    // 获取小标题下面的商品
-    GetCommByType: function (event) {
-      var that = this
-      this.$.ajax({
-        type: 'POST',
-        url: that.api.baseURL + 'Commodity/GetAllComm',
-        async: true,
-        data: {ProdSpec: event},
-        success: function (response) {
-          // alert(JSON.stringify(response.result.items))
-          return response.result.items
-        }
-      })
-    },
     // 获取小标题
     GetTop (Typename, id) {
       var that = this
@@ -680,8 +666,6 @@ export default{
         url: that.api.baseURL + 'ProdSpec/GetAllListByTypeTop?top=' + id,
         async: true,
         success: function (response) {
-          // alert(response.result.items[0].typeName)
-          // that.Top0 = response.result.items
           response.result.items.forEach(element => {
             var name = element.typeName
             var id = element.id
@@ -701,9 +685,19 @@ export default{
     // 初始化
     onload () {
       // 动态加载商品信息（饮品页面）
-      this.GetTop(this.TopCommYinPin, 1)
+      if (localStorage.getItem('AllCommsYinpin')) {
+        this.TopCommYinPin = localStorage.getItem('AllCommsYinpin')
+      } else {
+        this.GetTop(this.TopCommYinPin, 1)
+        localStorage.setItem('AllCommsYinpin', this.TopCommYinPin)
+      }
       // 动态加载商品信息（美食页面）
-      this.GetTop(this.TopCommMeiShi, 2)
+      if (localStorage.getItem('TopCommMeiShi')) {
+        this.TopCommMeiShi = localStorage.getItem('TopCommMeiShi')
+      } else {
+        this.GetTop(this.TopCommMeiShi, 2)
+        localStorage.setItem('TopCommMeiShi', this.TopCommMeiShi)
+      }
       // alert(localStorage.getItem('username'))
       if (localStorage.getItem('username')) {
         this.sessionNum = localStorage.getItem('usernum')

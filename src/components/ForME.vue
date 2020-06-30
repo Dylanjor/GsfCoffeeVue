@@ -30,11 +30,6 @@
             <i class="el-icon-sort-up "></i>{{item.typeName}}
           </el-link>
         </div>
-        <div class="F-Top-Click">
-          <el-link @click="showEdit = false">
-            <i class="el-icon-s-flag" style="margin-left:10px" ></i>点击此处生崽
-          </el-link>
-        </div>
         <div class="F-Top-Help">
           <el-link>
             <i class="el-icon-caret-left" style="margin-left:10px" ></i>写生活经历、感悟、体会、反思
@@ -55,6 +50,14 @@
             <i class="el-icon-caret-left" style="margin-left:10px" ></i>一句话，一段时光....
           </el-link><el-link>
             <i class="el-icon-caret-left" style="margin-left:10px" ></i>总之，记录最真的自己
+          </el-link>
+        </div>
+        <div class="F-Top-Click">
+          <el-link @click="showEdit = false" v-show="showEdit">
+            <i class="el-icon-s-flag" style="margin-left:10px" ></i>点击此处生崽
+          </el-link>
+          <el-link @click="showEdit = true" v-show="!showEdit">
+            <i class="el-icon-s-flag" style="margin-left:10px" ></i>崽子回去了
           </el-link>
         </div>
     </div>
