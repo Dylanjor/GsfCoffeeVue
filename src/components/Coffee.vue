@@ -177,7 +177,7 @@
                 <span class="demonstration">{{ fit.name }}</span>
                 <el-image
                   style="width: 150px; height: 150px"
-                  :src="fit.url"
+                  :src="coffeepic"
                   :fit="'contain'" @click="CommDialogVisible = true,CommId = fit.id,commUrl = fit.url,commMessage = fit.desc,CommUnitPrice = fit.sellingPrice,commName = fit.name"></el-image>
               </div>
             </div>
@@ -188,7 +188,7 @@
             <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font>{{item.commodityName}}</font>
               </li>
             </ul>
@@ -201,7 +201,7 @@
             <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font>{{item.commodityName}}</font>
               </li>
             </ul>
@@ -373,7 +373,7 @@
         :before-close="ShoppingClose"
         center>
         <div class="CommDilog">
-          <img :src="commUrl">
+          <img :src="coffeepic">
           <div class="CommDilog-Num">
             <span class="commMain">{{this.commMessage}}</span><br><br>
             <span class="commMain">单价:{{this.CommUnitPrice}}</span>
@@ -399,7 +399,7 @@
               <li v-for="item in shoppingxinxi" :key="'Shopping'+item.id" >
                 <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange(item.checkModel,item.totalCost , item.qty)"></el-checkbox>
                 <!-- <img :src="item.url"> -->
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font class="CommName">{{item.name}}</font>
                   <el-radio-group v-model="item.specification" size="mini" lable="规格" class="Commspe">
                     <el-radio-button label="大杯"></el-radio-button>
@@ -479,6 +479,7 @@ export default{
       menupic: require('../picture/Menu.png'),
       crosspic: require('../picture/Cross.png'),
       logopic: require('../picture/coffeelogo.png'),
+      coffeepic:require('../picture/Coffee.png'),
       listpic: [],
       sessionid: '',
       sessionName: '',
