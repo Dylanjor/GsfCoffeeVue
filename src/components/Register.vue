@@ -4,6 +4,7 @@
 </style>
 <template>
 <div>
+  <!-- 这是用户管理的界面 只能可以查看用户的购物车 -->
   <!-- 总的用户table -->
    <el-table
     :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"

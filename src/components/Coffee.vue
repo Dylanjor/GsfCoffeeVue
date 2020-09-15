@@ -38,6 +38,7 @@
               <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
+              <el-button type="text" @click="showQRCodeZ" v-show="sessionName"></el-button>
             </div>
           </transition>
         <!-- 菜单页 -->
