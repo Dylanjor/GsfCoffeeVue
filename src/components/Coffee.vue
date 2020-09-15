@@ -585,6 +585,7 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       // this.$router.push({ name: 'Register'})
     },
+    // 日记页面
     showForMe () {
       this.$router.push({name: 'ForME'})
     },
@@ -592,9 +593,11 @@ export default{
     showRegister () {
       this.$router.push({name: 'Register'})
     },
+    // 导入页面
     showImport () {
       this.$router.push({name: 'Import'})
     },
+    // 管理所有已有商品
     showCommModity () {
       this.$router.push({name: 'CommModity'})
     },
@@ -637,7 +640,7 @@ export default{
         }
       })
     },
-    // 跳转至管理商品页
+    // 跳转至新建商品页
     showComm () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
