@@ -225,6 +225,7 @@ public interface IGsfInitAppService: IApplicationService
   },
   "App": {
     "ServerRootAddress": "http://localhost:21021/",
+    //"ServerRootAddress": "http://106.15.75.186:8080",
     "ClientRootAddress": "http://localhost:4200/",
     "CorsOrigins": "http://localhost:4200,http://localhost:8080,http://localhost:8081,http://localhost:3000,http://106.15.75.186:8080"
   },

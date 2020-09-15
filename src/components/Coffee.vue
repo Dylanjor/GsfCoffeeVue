@@ -37,8 +37,14 @@
               <el-button type="text" @click="udpatedrawermothod">修改账户信息</el-button>
               <el-button type="text" @click="openShoppingCar">购物车</el-button>
               <el-button type="text" @click="showRegister" v-show="sessionName === 'admin'">用户管理信息</el-button>
+              <el-button type="text" @click="showForMe">用户日记</el-button>
+              <el-button type="text" @click="showCommModity" v-show="sessionName === '代礼家'">商品管理信息(刷新有Bug)</el-button>
               <el-button type="text" @click="showComm" v-show="sessionName === 'admin'">商品信息添加</el-button>
+<<<<<<< HEAD
               <el-button type="text" @click="showQRCodeZ" v-show="sessionName"></el-button>
+=======
+              <el-button type="text" @click="showImport" v-show="sessionName === 'admin'">导入导出</el-button>
+>>>>>>> 1b485a92762caa2ab0b6c964960aa376f4c24acd
             </div>
           </transition>
         <!-- 菜单页 -->
@@ -175,7 +181,7 @@
                 <span class="demonstration">{{ fit.name }}</span>
                 <el-image
                   style="width: 150px; height: 150px"
-                  :src="fit.url"
+                  :src="coffeepic"
                   :fit="'contain'" @click="CommDialogVisible = true,CommId = fit.id,commUrl = fit.url,commMessage = fit.desc,CommUnitPrice = fit.sellingPrice,commName = fit.name"></el-image>
               </div>
             </div>
@@ -186,7 +192,7 @@
             <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font>{{item.commodityName}}</font>
               </li>
             </ul>
@@ -199,7 +205,7 @@
             <span>{{items.TypeName}}</span>
             <ul class="cof-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
               <li v-for="item in items.List" :key="item.id" @click="CommDialogVisible = true,CommId = item.id,commMessage = item.desc,CommUnitPrice = item.sellingPrice,commUrl = item.commImage,commName = item.commodityName">
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font>{{item.commodityName}}</font>
               </li>
             </ul>
@@ -371,7 +377,7 @@
         :before-close="ShoppingClose"
         center>
         <div class="CommDilog">
-          <img :src="commUrl">
+          <img :src="coffeepic">
           <div class="CommDilog-Num">
             <span class="commMain">{{this.commMessage}}</span><br><br>
             <span class="commMain">单价:{{this.CommUnitPrice}}</span>
@@ -394,10 +400,10 @@
          <div class="gwcCommDilog" id="root">
             <div style="margin: 15px 0;"></div>
             <ul class="shopping-rightyinliaoul" style="border-bottom: 1px solid rgb(192,196,204);">
-              <li v-for="item in shoppingxinxi" :key="item.id" >
-                <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange"></el-checkbox>
+              <li v-for="item in shoppingxinxi" :key="'Shopping'+item.id" >
+                <el-checkbox class="shoppingchecked"  v-model="item.checkModel"  @change="sphCheckedChange(item.checkModel,item.totalCost , item.qty)"></el-checkbox>
                 <!-- <img :src="item.url"> -->
-                <img :src="item.commImage">
+                <img :src="coffeepic">
                 <font class="CommName">{{item.name}}</font>
                   <el-radio-group v-model="item.specification" size="mini" lable="规格" class="Commspe">
                     <el-radio-button label="大杯"></el-radio-button>
@@ -405,15 +411,14 @@
                     <el-radio-button label="小杯"></el-radio-button>
                   </el-radio-group>
                 <font>单价：{{item.totalCost}}</font>
-
-                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange" :min="0" size="mini" label="数量"></el-input-number>
-                <font>总：{{Totalprice(item.totalCost , item.qty)}}</font>
+                <el-input-number v-model="item.qty" class="shoppingnum" @change="sphandleChange(item.checkModel,item.totalCost , item.qty)" :min="0" size="mini" label="数量"></el-input-number>
+                <font>商品总价：{{Totalprice(item.totalCost , item.qty)}}</font>
               </li>
             </ul>
           </div>
       <div slot="footer" class="dialog-footer">
       </div>
-     <font class="shpzj">总计:{{allnum}}</font>
+     <font class="shpzj">总花费:{{allnum}}</font>
       <div slot="footer" class="dialog-footer">
         <el-button @click="shoppingFormVisible = false">取 消</el-button>
         <el-button @click="shoppingFormVisible = false" type="primary">购买</el-button>
@@ -478,6 +483,7 @@ export default{
       menupic: require('../picture/Menu.png'),
       crosspic: require('../picture/Cross.png'),
       logopic: require('../picture/coffeelogo.png'),
+      coffeepic:require('../picture/Coffee.png'),
       listpic: [],
       sessionid: '',
       sessionName: '',
@@ -491,6 +497,8 @@ export default{
       CommDialogVisible: false,
       Commnum: 1,
       Commspe: '中杯',
+      beforeUnload_time: 0,
+      gap_time: 0,
       form: {
         name: '',
         region: '青岛',
@@ -581,37 +589,62 @@ export default{
       // eslint-disable-next-line standard/object-curly-even-spacing
       // this.$router.push({ name: 'Register'})
     },
-    showRegister () {
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      this.$router.push({ name: 'Register'})
+    // 日记页面
+    showForMe () {
+      this.$router.push({name: 'ForME'})
     },
+    // 跳转至用户管理页
+    showRegister () {
+      this.$router.push({name: 'Register'})
+    },
+    // 导入页面
+    showImport () {
+      this.$router.push({name: 'Import'})
+    },
+    // 管理所有已有商品
+    showCommModity () {
+      this.$router.push({name: 'CommModity'})
+    },
+    // 打开购物车
     openShoppingCar () {
       var that = this
-      that.shoppingxinxi = []
+      // that.allnum = 0
       that.shoppingFormVisible = true
       this.$.ajax({
         type: 'GET',
-        url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
+        url: that.api.baseURL + 'ShoppingCart/GetShoppingByUserId?_UserId=' + parseInt(localStorage.getItem('id')),
         success: function (response) {
           // that.shoppingxinxi = response.result.items
-          response.result.items.forEach(element => {
-            // that.allnum += element.totalCost * element.qty
-            that.$.ajax({
-              type: 'GET',
-              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetCommByCommId?Id=' + element.commodityId,
-              success: function (response) {
-                var rep = response.result.items[0]
-                that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
-                that.allnum = 0
-                that.shoppingxinxi.forEach(element => {
-                  that.allnum += element.totalCost * element.qty
-                })
-              }
+          if (response.result.items.length === 0) {
+            that.$message({
+              type: 'info',
+              message: '购物车里空空如也'
             })
-          })
+          } else {
+            that.$message({
+              type: 'success',
+              message: '图片加载有些慢，请耐心等待'
+            })
+            that.shoppingxinxi = []
+            response.result.items.forEach(element => {
+              // that.allnum += element.totalCost * element.qty
+              that.$.ajax({
+                type: 'GET',
+                url: that.api.baseURL + 'Commodity/GetCommByCommId?Id=' + element.commodityId,
+                success: function (response) {
+                  var rep = response.result.items[0]
+                  that.shoppingxinxi.push({'id': element.id, 'commImage': rep.commImage, 'name': rep.commodityName, 'totalCost': element.totalCost, 'qty': element.qty, 'checkModel': false, 'specification': element.specification})
+                  // that.shoppingxinxi.forEach(element => {
+                  //   that.allnum += element.totalCost * element.qty
+                  // })
+                }
+              })
+            })
+          }
         }
       })
     },
+    // 跳转至新建商品页
     showComm () {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({ name: 'CommUser'})
@@ -624,43 +657,29 @@ export default{
       var that = this
       that.allnum = 0
       that.shoppingxinxi.forEach(element => {
-        that.allnum = that.allnum + (element.totalCost * element.qty)
+        if (element.checkModel === true) {
+          that.allnum = that.allnum + parseInt(element.qty) * parseInt(element.totalCost)
+        }
       })
     },
     // 点击时间流
     clickTime (event) {
       this.clickTimeNum = event
     },
-    // 获取小标题下面的商品
-    GetCommByType: function (event) {
-      // var that = this
-      this.$.ajax({
-        type: 'POST',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
-        async: true,
-        data: {ProdSpec: event},
-        success: function (response) {
-          // alert(JSON.stringify(response.result.items))
-          return response.result.items
-        }
-      })
-    },
     // 获取小标题
     GetTop (Typename, id) {
       var that = this
       that.$.ajax({
         type: 'GET',
-        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllListByTypeTop?top=' + id,
+        url: that.api.baseURL + 'ProdSpec/GetAllListByTypeTop?top=' + id,
         async: true,
         success: function (response) {
-          // alert(response.result.items[0].typeName)
-          // that.Top0 = response.result.items
           response.result.items.forEach(element => {
             var name = element.typeName
             var id = element.id
             that.$.ajax({
               type: 'POST',
-              url: 'http://106.15.75.186:8080/api/services/app/Commodity/GetAllComm',
+              url: that.api.baseURL + 'Commodity/GetAllComm',
               data: {ProdSpec: id},
               async: true,
               success: function (responseNext) {
@@ -674,9 +693,19 @@ export default{
     // 初始化
     onload () {
       // 动态加载商品信息（饮品页面）
-      this.GetTop(this.TopCommYinPin, 1)
+      if (localStorage.getItem('AllCommsYinpin')) {
+        this.TopCommYinPin = localStorage.getItem('AllCommsYinpin')
+      } else {
+        this.GetTop(this.TopCommYinPin, 1)
+        localStorage.setItem('AllCommsYinpin', this.TopCommYinPin)
+      }
       // 动态加载商品信息（美食页面）
-      this.GetTop(this.TopCommMeiShi, 2)
+      if (localStorage.getItem('TopCommMeiShi')) {
+        this.TopCommMeiShi = localStorage.getItem('TopCommMeiShi')
+      } else {
+        this.GetTop(this.TopCommMeiShi, 2)
+        localStorage.setItem('TopCommMeiShi', this.TopCommMeiShi)
+      }
       // alert(localStorage.getItem('username'))
       if (localStorage.getItem('username')) {
         this.sessionNum = localStorage.getItem('usernum')
@@ -757,7 +786,7 @@ export default{
         if (valid) {
           this.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Register',
+            url: that.api.baseURL + 'GsfInit/Register',
             data: JSON.stringify(registerParams),
             async: true,
             contentType: 'application/json',
@@ -769,7 +798,7 @@ export default{
                   // eslint-disable-next-line no-unused-vars
                   that.$.ajax({
                     type: 'GET',
-                    url: 'http://106.15.75.186:8080/api/services/app/GsfInit/GetByid?id=' + parseInt(response.result),
+                    url: that.api.baseURL + 'GsfInit/GetByid?id=' + parseInt(response.result),
                     async: true,
                     success: function (response) {
                       that.$message({
@@ -852,7 +881,7 @@ export default{
           })
           this.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Login',
+            url: that.api.baseURL + 'GsfInit/Login',
             async: true,
             data: params,
             success: function (response) {
@@ -940,7 +969,7 @@ export default{
       var that = this
       this.$.ajax({
         type: 'Get',
-        url: 'http://106.15.75.186:8080/api/services/app/GsfInit/UpdateLogin?Num=' + that.sessionNum,
+        url: that.api.baseURL + 'GsfInit/UpdateLogin?Num=' + that.sessionNum,
         async: true,
         success: function (response) {
           var i = response.result.items
@@ -989,7 +1018,7 @@ export default{
           }
           that.$.ajax({
             type: 'POST',
-            url: 'http://106.15.75.186:8080/api/services/app/GsfInit/Updateasync',
+            url: that.api.baseURL + 'GsfInit/Updateasync',
             async: true,
             data: JSON.stringify(udpatedatapost),
             contentType: 'application/json',
@@ -1040,7 +1069,7 @@ export default{
         var that = this
         this.$.ajax({
           type: 'POST',
-          url: 'http://106.15.75.186:8080/api/services/app/ShoppingCart/UpdateShoppingQty',
+          url: that.api.baseURL + 'ShoppingCart/UpdateShoppingQty',
           async: true,
           data: JSON.stringify(shoppingCartTable),
           contentType: 'application/json',
@@ -1055,16 +1084,24 @@ export default{
     },
     // 购物车页面全选
     spCheckAllChange (val) {
+      var that = this
+      if (val === true) {
+        this.shoppingxinxi.map((item, i) => {
+          that.allnum = that.allnum + parseInt(item.qty) * parseInt(item.totalCost)
+        })
+      } else {
+        this.allnum = 0
+      }
       this.shoppingxinxi.map((item, i) => {
         item.checkModel = val
       })
     },
-    sphCheckedChange (val) {
-      for (let i = 0, l = this.shoppingxinxi.length; i < l; i++) {
-        if (this.shoppingxinxi[i].checkModel !== val) {
-          this.shoppingcheckAll = false
-          return
-        }
+    // 购物车界面中的选框点击方法
+    sphCheckedChange (checkModel, qty, price) {
+      if (checkModel === true) {
+        this.allnum = this.allnum + parseInt(qty) * parseInt(price)
+      } else {
+        this.allnum = this.allnum - parseInt(qty) * parseInt(price)
       }
     },
     _isMobile () {
@@ -1082,6 +1119,18 @@ export default{
     } else {
       // alert("pc端");
       // this.$router.replace('/pc_index');
+    }
+  },
+  mounted () {
+    // 关闭浏览器清楚缓存
+    window.onunload = function () {
+      this.gap_time = new Date().getTime() - this.beforeUnload_time
+      if (this.gap_time <= 5) {
+        localStorage.clear()
+      }
+    }
+    window.onbeforeunload = function () {
+      this.beforeUnload_time = new Date().getTime()
     }
   }
 }

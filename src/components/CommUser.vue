@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     onSubmit () {
+      var that = this
       var CommParams = {
         commodityName: this.form.name,
         commImage: this.imageUrl,
@@ -85,7 +86,7 @@ export default {
       }
       this.$.ajax({
         type: 'post',
-        url: 'http://106.15.75.186:8080/api/services/app/Commodity/insertComm',
+        url: that.api.baseURL + 'Commodity/insertComm',
         data: JSON.stringify(CommParams),
         contentType: 'application/json',
         success: function () {
@@ -127,7 +128,7 @@ export default {
       var that = this
       this.$.ajax({
         type: 'post',
-        url: 'http://106.15.75.186:8080/api/services/app/ProdSpec/GetAllList',
+        url: that.api.baseURL + 'ProdSpec/GetAllList',
         contentType: 'application/json',
         success: function (response) {
         //   alert(response.result.items[0].typeName)

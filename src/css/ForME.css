@@ -1,0 +1,129 @@
+#F-Top{
+    width: 98%;
+    height: 150px;
+    border: 1px solid gainsboro;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin: auto;
+}
+#F-Top-Left{
+    width: 220px;
+    height: 100%;
+    line-height: 150px;
+    float: left;
+    border-right: 1px solid gainsboro;
+}
+#F-Top-Left-Second span{
+    display: inline-block;
+    margin-left: 10px;
+}
+#F-Top-Main{
+    height: 100%;
+    float: left;
+    line-height: 25px;
+    min-width: 20px;
+    max-width: 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid gainsboro;
+}
+.Clock{
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    margin-left: 3px;
+    font-family: Yangrendong;
+    padding-left: 2px;
+    padding-right: 2px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+}
+#F-Top-Left-Second{
+    width: 300px;
+    height: 100%;
+    float: left;
+    line-height: 25px;
+    font-size: 13px;
+    padding-left: 10px;
+    border-right: 1px solid gainsboro;
+}
+.F-Bottom-Left-Title{
+    width: 400px;
+    height: 700px;
+    margin-left: 3%;
+    margin-top: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.F-Bottom-Left-Title-t::-webkit-scrollbar{
+  width: 6px;
+}
+.F-Bottom-Left-Title-t::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    background-color: #DCDFE6;
+    height: 30px;
+  }
+.F-Bottom-Left-Title-t1{
+    z-index: 1000;
+    height: 40px;
+    width: 400px;
+    font-size: 14px;
+    color:gray;
+    line-height: 40px;
+    text-align: center;
+    background-color: #F2F6FC;
+}
+.F-Bottom-Left-Title-t{
+    height: 660px;
+    width: 400px;
+    overflow-y: scroll;
+}
+.F-Bottom-Left-Title .F-Bottom-Left-Title-t2{
+    display: inline-block;
+    padding-top: 5px;
+    font-size: 14px;
+    color:gray;
+    text-indent: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    min-height: 60px;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.F-Bottom-Left-Title .F-Bottom-Left-Title-t2 .F-Bottom-Left-Title-t2-span{
+    display: inline-block;
+    width: 100%;
+    height: 10px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.myQuillEditor{
+    width: 95%;
+}
+.DiaryView{
+    width: 98%;
+    height: 100%;
+    margin-top: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.DiaryViewTop{
+    width: 100%;
+    height: 80px;
+    line-height: 75px;
+    border-bottom: 1px solid gainsboro;
+}
+.F-Top-Click{
+    border-right: 1px solid gainsboro;
+    width: 200px;
+    text-align: center;
+    height: 100%;
+    float: left;
+}
+.F-Top-Help{
+    width: 500px;
+    height: 100%;
+    border-right: 1px solid gainsboro;
+    float: left;
+}
+@font-face{
+    font-family: "Yangrendong";
+    src: url("../font/Zhushiti.ttf");
+  }
