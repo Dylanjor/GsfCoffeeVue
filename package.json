@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "FileReader": "^0.10.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "element-ui": "^2.13.0",
     "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
